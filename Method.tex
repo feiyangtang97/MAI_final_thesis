@@ -30,12 +30,12 @@ According to captions and corresponding image labels, we can extract the corresp
 
 \subsection{Ground Truth}
 
-For this specific task, like we mentioned before, we used our manually annotated ground truth datasets. Each artwork has an updated \verb|xml| file which contains handcrafted image features and textural attributions. Here we show an example ground truth annotation in Figure \ref{fig:sampledata}.
+For this specific task, like we mentioned before, we used our manually annotated ground truth datasets. Each artwork has an updated \verb|xml| file which contains handcrafted image features and textural attributes. Here we show an example ground truth annotation in Figure \ref{fig:sampledata}.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.6\textwidth]{sampledata.pdf}
-\caption{Sample Artwork with Ground Truth Textual Attributes}
+\includegraphics[width=0.8\textwidth]{sampledata.pdf}
+\caption{Sample Artwork with Ground Truth Features}
 \label{fig:sampledata}
 \end{figure}
 
@@ -43,9 +43,43 @@ From Figure \ref{fig:sampledata} we are look at an Egyptian artwork with a cat s
 
 \subsection{Evaluation Metrics}
 
-Recall is one of the most commonly used metric in the field of information retrieval. Here in this research project, we evaluate performance of sentence retrieval (image query) and image retrieval (sentence query) by recall at $K$ ($R@K$). This is defined as the fraction of queries for which the correct item is retrieved in the closest $K$ points to the query. Details of training and the bottom-up attention implementation are explained in Appendix \ref{app:n}.
+Recall is one of the most commonly used metric in the field of information retrieval. Here in this research project, we evaluate performance of sentence retrieval (image query) and image retrieval (sentence query) by recall at K (R@K). This is defined as the fraction of queries for which the correct item is retrieved in the closest K points to the query. Details of training and the bottom-up attention implementation are explained in Appendix \ref{app:n}.
 
 \subsection{Results}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{lcccccc}
+                                                                                                  & \multicolumn{3}{c}{Sentence Retrieval}                                       & \multicolumn{3}{c}{Image Retrieval}                                          \\ \hline
+Method                                                                                            & \multicolumn{1}{l}{R@1} & \multicolumn{1}{l}{R@5} & \multicolumn{1}{l}{R@10} & \multicolumn{1}{l}{R@1} & \multicolumn{1}{l}{R@5} & \multicolumn{1}{l}{R@10} \\ \hline
+Faster R-CNN, ResNet                                                                              & \multicolumn{6}{c}{Ancient Chinese art alignment dataset}                                                                                                  \\ \hline
+SCAN t-i LSE ($\lambda_1$ = 9, $\lambda_2$ = 6)                                                                     & 0.1                     & 0.4                     & 0.8                      & 0.1                     & 0.2                     & 0.6                      \\
+SCAN t-i AVG ($\lambda_1$ = 9)                                                                             & 0.1                     & 0.1                     & 0.2                      & 0.1                     & 0.2                     & 0.2                      \\
+SCAN i-t LSE ($\lambda_1$ = 4, $\lambda_2$ = 20)                                                                    & 0.1                     & 0.2                     & 0.4                      & 0.1                     & 0.1                     & 0.3                      \\
+SCAN i-t AVG ($\lambda_1$ = 4)                                                                             & 0.0                     & 0.2                     & 0.5                      & 0.1                     & 0.2                     & 0.3                      \\ \hline
+\begin{tabular}[c]{@{}l@{}}SCAN t-i LSE + i-t AVG\\ (with fragmented image and text)\end{tabular} & \textbf{0.2}            & \textbf{1.2}            & \textbf{2.4}             & \textbf{0.2}            & \textbf{1.0}            & \textbf{2.4}            
+\end{tabular}
+\caption{Result of Fragmented SCAN on Chinese Artwork Dataset}
+\label{table:resultfragmentedCN}
+\end{table}
+
+%%%%%%%%
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{lcccccc}
+                                                                                                  & \multicolumn{3}{c}{Sentence Retrieval}                                       & \multicolumn{3}{c}{Image Retrieval}                                          \\ \hline
+Method                                                                                            & \multicolumn{1}{l}{R@1} & \multicolumn{1}{l}{R@5} & \multicolumn{1}{l}{R@10} & \multicolumn{1}{l}{R@1} & \multicolumn{1}{l}{R@5} & \multicolumn{1}{l}{R@10} \\ \hline
+Faster R-CNN, ResNet                                                                              & \multicolumn{6}{c}{Ancient Egyptian art alignment dataset}                                                                                                  \\ \hline
+SCAN t-i LSE ($\lambda_1$ = 9, $\lambda_2$ = 6)                                                                     & 0.1                     & 0.4                     & 0.8                      & 0.1                     & 0.2                     & 0.6                      \\
+SCAN t-i AVG ($\lambda_1$ = 9)                                                                             & 0.1                     & 0.1                     & 0.2                      & 0.1                     & 0.2                     & 0.2                      \\
+SCAN i-t LSE ($\lambda_1$ = 4, $\lambda_2$ = 20)                                                                    & 0.1                     & 0.2                     & 0.4                      & 0.1                     & 0.1                     & 0.3                      \\
+SCAN i-t AVG ($\lambda_1$ = 4)                                                                             & 0.0                     & 0.2                     & 0.5                      & 0.1                     & 0.2                     & 0.3                      \\ \hline
+\begin{tabular}[c]{@{}l@{}}SCAN t-i LSE + i-t AVG\\ (with fragmented image and text)\end{tabular} & \textbf{0.7}            & \textbf{3.7}            & \textbf{8.1}             & \textbf{0.7}            & \textbf{3.7}            & \textbf{9.6}            
+\end{tabular}
+\caption{Result of Fragmented SCAN on Egyptian Artwork Dataset}
+\label{table:resultfragmentedEG}
+\end{table}
 
 \section{Future Works}
 Besides focusing on the fragment level image/sentence retrieval, it would also be beneficial to consider adopting a new image representation. 
