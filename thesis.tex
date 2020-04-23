@@ -1,0 +1,162 @@
+\documentclass[master=mai,masteroption=bda]{kulemt}
+\setup{title={Fine-grained Image-text Alignment for Artworks},
+  author={Feiyang Tang},
+  promotor={Prof.\,dr.\,ir.\ Marie-Francine Moens},
+  assessor={Ir.\,Kn. Owsmuch\and K. Nowsrest},
+  assistant={Ir.\ Shurong~Sheng}}
+% The following \setup may be removed entirely if no filing card is wanted
+%\setup{filingcard,
+%  translatedtitle=,
+%  udc=621.3,
+%  shortabstract={Here comes a very short abstract, containing no %more than 500
+%    words. \LaTeX\ commands can be used here. Blank lines (or %the command
+%    \texttt{\string\pa r}) are not allowed!
+%    \endgraf \lipsum[2]}}
+% Uncomment the next line for generating the cover page
+%\setup{coverpageonly}
+% Uncomment the next \setup to generate only the first pages (e.g., if you
+% are a Word user.
+%\setup{frontpagesonly}
+
+% Choose the main text font (e.g., Latin Modern)
+\setup{font=lm}
+
+% If you want to include other LaTeX packages, do it here. 
+
+% Finally the hyperref package is used for pdf files.
+% This can be commented out for printed versions.
+\usepackage[pdfusetitle,colorlinks,plainpages=false]{hyperref}
+\usepackage{caption}
+
+%%%%%%%
+% The lipsum package is used to generate random text.
+% You never need this in a real master's thesis text!
+\IfFileExists{lipsum.sty}%
+ {\usepackage{lipsum}\setlipsumdefault{11-13}}%
+ {\newcommand{\lipsum}[1][11-13]{\par And some text: lipsum ##1.\par}}
+%%%%%%%
+\usepackage{epigraph}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+    linkcolor=black,
+    filecolor=black,      
+    urlcolor=blue,
+}
+%\includeonly{chap-n}
+\begin{document}
+
+\begin{preface}
+I would first like to thank my promoter Prof. Marie-Francine Moens for giving me this precious opportunity to conduct this intriguing research under the LIIR laboratory in KU Leuven. Many thanks to my daily advisor Shurong Sheng. The door to her office was always open whenever I ran into a trouble spot or had a question about my research or writing. She consistently allowed this thesis to be my own work, but steered me in the right the direction whenever she thought I needed it.
+
+I would also like to acknowledge Prof.xxx of the xxxx as the assessor of this thesis, and I am truly gratefully indebted to his/her for his/her very valuable comments on this thesis.
+
+Finally, I must express my very profound gratitude to my parents and to my friends Lieven, Jinjiu, Nanxu and Shuxian for providing me with unfailing support and continuous encouragement throughout this year and through the process of researching and writing this thesis. This accomplishment would not have been possible without them. Thank you.
+
+\end{preface}
+
+\tableofcontents*
+
+\begin{abstract}
+Most studies on multimodal information retrieval conduct the process on the image or sentence level, often used training set and models based on natural images. However, current research has shown that we need to move beyond the traditional coarse-grained multimodal information retrieval model in order to effectively annotating artworks to automatically describe artwork image or subimage with its textual attributes. Recently, there is an interest on finding all potential alignments between the image area and the word at the same time using cross attention, thereby calculating the similarity of the text. This work has been proved its ability to excel and surpass other techniques in the task of image-text alignment. Nevertheless, one limitation is that these works do not consider those images which may have different representations and subtle features, e.g. artworks. Achieving image-text alignment in a find-grained level requires us to develop efficient and effective mechanism to address the subtle and detailed features in artworks image and sentence fragments. In our research we will concentrate on fragment level image and sentence retrieval. We present a comprehensive framework for aligning fine-grained image-text from artworks. This supports annotating artworks in an automatic mode and provide descriptions between image or subimage and textual attributes as precise as possible.
+
+\end{abstract}
+
+% A list of figures and tables is optional
+%\listoffigures
+%\listoftables
+% If you only have a few figures and tables you can use the following instead
+\listoffiguresandtables
+% The list of symbols is also optional.
+% This list must be created manually, e.g., as follows:
+\chapter{List of Abbreviations}
+\section*{Abbreviations}
+\begin{flushleft}
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabularx}{\textwidth}{@{}p{12mm}X@{}}
+    ILSVRC & ImageNet Large Scale Visual Recognition Challenge \\
+    FDDB   & Face Detection Data Set and Benchmark \\
+    LFW   & London Fashion Week Data \\
+    RCNN  & Region Convolutional Neural Network \\
+    SS   & Seletive Search algorithm \\
+    RPN & Region Proposal Network \\
+    YOLO & You Only Look Once algorithm \\
+    SOTA & State of the Art (the best) \\
+    CNN & Convolutional Neural Networks \\
+    VGG & Very Deep Convolutional Networks for Large-Scale Visual Recognition \\
+    SCAN & Stacked Cross Attention \\
+  \end{tabularx}
+\end{flushleft}
+%\section*{Symbols}
+%\begin{flushleft}
+%  \renewcommand{\arraystretch}{1.1}
+%  \begin{tabularx}{\textwidth}{@{}p{12mm}X@{}}
+%    42    & ``The Answer to the Ultimate Question of Life, the Universe,
+%            and Everything'' according to \cite{h2g2} \\
+%    $c$   & Speed of light \\
+%    $E$   & Energy \\
+%    $m$   & Mass \\
+%    $\pi$ & The number pi \\
+%  \end{tabularx}
+%\end{flushleft}
+
+% Now comes the main text
+\mainmatter
+
+\include{intro}
+\include{RelatedWorks}
+\include{SCAN}
+% ... and so on until
+\include{Method}
+%\include{Evaluation}
+\include{conclusion}
+
+% If you have appendices:
+\appendixpage*          % if wanted
+\appendix
+\include{app-A}
+% ... and so on until
+\include{app-n}
+
+\backmatter
+% The bibliography comes after the appendices.
+% You can replace the standard "abbrv" bibliography style by another one.
+\bibliographystyle{abbrv}
+\bibliography{references}
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

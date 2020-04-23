@@ -1,0 +1,193 @@
+\chapter{Python Implementations}
+\label{app:A}
+This appendix provides some \verb|Python| source code for the implementation mentioned in Section \ref{cha:Method}.
+
+\section{Implementation Structure}
+In this section, we will go through the structure of my implementation using structured tables. This will give the audience and future researchers a brief idea on how the process looks like.
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\multicolumn{1}{|c|}{Source Code File} & \multicolumn{1}{c|}{Description}  \\ \hline
+\verb|egyptian_convert.py|             & \begin{tabular}[c]{@{}l@{}}Contains \verb|xml| parser and \verb|json| parser. \\ This generates caption for each picture, \\ extract features base on the corresponding \\ caption and also generate features for each \\ image by using parsed \verb|xml| file\end{tabular} \\ \hline
+\verb|preprocess.ipynb|                 & \begin{tabular}[c]{@{}l@{}}Combines the features extracted from \\ botton-up attention (Egyptian)\end{tabular}                                                                                                                                          \\ \hline
+\verb|chinese_artworks_convert.ipynb| & \begin{tabular}[c]{@{}l@{}}Combines the features extracted from \\ botton-up attention (Chinese)\end{tabular}                                                                                                                                           \\ \hline
+\end{tabular}
+\label{table:preprocesspython}
+\caption{Python Source Code Files for Preprocessing}
+\end{table}
+
+
+%%%%%%%%%%%%%%
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\multicolumn{1}{|c|}{Source Code File} & \multicolumn{1}{c|}{Description}                                                                                                                             \\ \hline
+\verb|data.py|                                & \begin{tabular}[c]{@{}l@{}}Class \verb|PrecompDataset| is where we changed\\ the path of extracted phrases and also where\\ to change process methods.\end{tabular} \\ \hline
+\verb|model.py|                               & Provides SCAN model based on VSE++.                                                                                                                           \\ \hline
+\verb|train.py|                               & \begin{tabular}[c]{@{}l@{}}Provides training process using settings in\\ \verb|model.py|.\end{tabular}                                                               \\ \hline
+\end{tabular}
+\label{table:trainpython}
+\caption{Python Source Code Files for Training}
+\end{table}
+
+
+
+%%%%%%%%%%%%%%%
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\multicolumn{1}{|c|}{Source Code File} & \multicolumn{1}{c|}{Description}                                                                                          \\ \hline
+\verb|evaluation.py|                          & \begin{tabular}[c]{@{}l@{}}Provides testing process using the fragment\\ level annotations and ground truth.\end{tabular} \\ \hline
+\verb|demo.ipynb|                             & Provides a demo for testing process.                                                                                      \\ \hline
+\end{tabular}
+\label{table:testpython}
+\caption{Python Source Code Files for Testing}
+\end{table}
+
+%%%%%%%%%%%%%%
+
+\section{Python Snippets}
+In this section, we briefly display the preprocessing part of our implementation which is also crucial to the entire project as an efficient and accuracy extraction from \verb|xml| files can make the training and testing process easier and more smooth.
+
+Here we focus on two specific files, one is \verb|egyptian_convert.py| which is able to parse \verb|xml| and \verb|json| files. Another one is \verb|preprocess.ipynb| which combines features and vocabularies for each distinct artwork.
+
+
+\subsection{json/xml parser: egyptian\_convert.py}
+
+\begin{lstlisting}[language=Python]
+import xml.etree.ElementTree as ET
+import os
+import numpy as np
+from tqdm import tqdm
+import json
+
+# this module used to generate caption for each picture and extract features base on the corresponding caption
+
+# parse the xml and get the text for relevant element
+
+def get_text(path):
+    tree = ET.parse(path)
+    root = tree.getroot()
+    file_name = root[1].text
+    res = []
+    for object in tree.findall("object"):
+        res.append(object[0].text)
+    return file_name,res
+
+# generate features for each image by using parsed xml file
+
+def xml_parser(path,features_path,save_path):
+    list_dir = os.listdir(path)
+    features = []
+    not_list = []
+    for image in tqdm(list_dir):
+        file_path = os.path.join(features_path, image.split('.')[0] + '.npy')
+        feature = np.load(file_path, allow_pickle=True).tolist()["features"]
+        print(feature)
+        feature = np.array(feature)
+        features.append(feature[:10, :])
+    features = np.stack(features)
+    np.save(save_path, features)
+    
+def json_parser(path):
+
+    # load the json files extract the sentence and corresponding picture name.
+    
+    with open(path,"r") as file:
+        data = json.load(file)
+        for image in data["images"]:
+            try:
+                file_name = image["filename"]+".txt"
+                sentence = image["sentences"]
+                sentence = sentence[0]["raw"]
+            except:
+                continue
+            # save the sentence in relevant files
+            with open(os.path.join("../data/phrase_train", file_name),"w") as f:
+                f.write(sentence)
+                
+\end{lstlisting}
+
+\subsection{Feature and vocabulary combination: preprocess.ipynb}
+\begin{lstlisting}[language=Python]
+import torchvision
+import torch
+import json
+import cv2
+import os.path as osp
+from PIL import Image
+from tqdm import tqdm_notebook
+import numpy as np
+import nltk
+from collections import Counter
+
+# combine the features extracted from botton-up attention
+
+content = json.load(open(osp.join(dataset_name, 'caption_data.json')))
+
+images = {
+    'train': [],
+    'test': [],
+    'val': []
+}
+
+for image in content['images']:
+    filepath = image['filepath']
+    if len(image['sentences']) == 0:
+        continue
+    images[filepath].append(image)
+    
+for phase in images.keys():
+    features = []
+    for image in tqdm_notebook(images[phase]):
+        file_path = osp.join(dataset_name, 'features', image['filename'].split('.')[0] + '.npy')
+        print(file_path)
+        feature = np.load(file_path)
+        features.append(feature[:10, :])
+    features = np.stack(features)
+    np.save(osp.join(dataset_name, phase), features)
+
+from vocab import Vocabulary, serialize_vocab
+from collections import Counter
+import phrasemachine
+
+threshold = 4
+counter = {}
+for phase in images.keys():
+    captions = [x['sentences'][0]['raw'] for x in images[phase]]
+    for caption in captions:
+        temp = list(phrasemachine.get_phrases(caption)["counts"].keys())
+        for key in temp:
+            if key not in counter.keys():
+                counter[key] = 1
+            else:
+                counter[key] += 1
+# Discard if the occurrence of the word is less than min_word_cnt.
+words = [word for word, cnt in counter.items() if cnt >= threshold]
+
+# create a vocab wrapper and add some special tokens
+vocab = Vocabulary()
+vocab.add_word('<pad>')
+vocab.add_word('<start>')
+vocab.add_word('<end>')
+vocab.add_word('<unk>')
+
+# Add words to the vocabulary.
+for i, word in enumerate(words):
+    vocab.add_word(word)
+serialize_vocab(vocab, osp.join(dataset_name, 'vocab.json'))
+
+with open(osp.join(dataset_name, 'data.json'), 'w') as f:
+    json.dump(images, f)
+\end{lstlisting}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "thesis"
+%%% End: 
