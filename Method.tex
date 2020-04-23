@@ -15,7 +15,8 @@ As one single artwork can often have more than one annotation existed in its cor
 According to captions and corresponding image labels, we can extract the corresponding image names. This extraction process is done using \verb|egyptian_convert.py| in Appendix \ref{app:A}, the captions for each image will have a corresponding \verb|txt| file created. For texting data, these \verb|txt| files are saved in \verb|phrase| directory and their corresponding image features in \verb|numpy| array format are saved under \verb|features| directory. Likewise, training phrases and image features are treated in the same way. These obtained \verb|txt| caption data will then be processed to extract noun phrases to achieve the retrieval in fragment level, results are saved in \verb|json| format. Our training and testing tasks will be based on these noun phrases and extracted image features.
 
 \section{Fragment Retrieval}
-\subsection{Item 1}
+
+\subsection{Overall Architecture}
 
 \begin{figure}[h!]
 \centering
@@ -24,9 +25,12 @@ According to captions and corresponding image labels, we can extract the corresp
 \label{fig:mainarch}
 \end{figure}
 
-\subsection{Item 2}
 
 \section{Experiments}
+
+\subsection{Ground Truth}
+
+For this specific task, like we mentioned before, we used our manually annotated ground truth datasets. Each artwork has an updated \verb|xml| file which contains handcrafted image features and textural attributions. Here we show an example ground truth annotation in Figure \ref{fig:sampledata}.
 
 \begin{figure}[h!]
 \centering
@@ -34,6 +38,14 @@ According to captions and corresponding image labels, we can extract the corresp
 \caption{Sample Artwork with Ground Truth Textual Attributes}
 \label{fig:sampledata}
 \end{figure}
+
+From Figure \ref{fig:sampledata} we are look at an Egyptian artwork with a cat sculpture. For all object that exist in the artwork, those are, ``\textit{head of a	cat statuette carved in	brown, with	a pair of standing ears}'' and ``\textit{four dark brown coloured thin shaped legs of a cat sitting in a relaxed posture}'', each of them will have corresponding detailed location, pose, and truncated information attached. 
+
+\subsection{Evaluation Metrics}
+
+Recall is one of the most commonly used metric in the field of information retrieval. Here in this research project, we evaluate performance of sentence retrieval (image query) and image retrieval (sentence query) by recall at $K$ ($R@K$). This is defined as the fraction of queries for which the correct item is retrieved in the closest $K$ points to the query. Details of training and the bottom-up attention implementation are explained in Appendix \ref{app:n}.
+
+\subsection{Results}
 
 \section{Future Works}
 Besides focusing on the fragment level image/sentence retrieval, it would also be beneficial to consider adopting a new image representation. 
