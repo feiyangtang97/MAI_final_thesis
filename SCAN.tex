@@ -74,7 +74,7 @@ The process is shown below in Figure \ref{fig:scan1}.
 \label{fig:scan1}
 \end{figure}
 
-First, use Bottom-up attention \cite{bottomup} to extract multiple proposals into features for the image, then map to the same dimensions as the sentence features, and use bi-direction GRU to extract features for the sentence.
+First, use bottom-up attention \cite{bottomup} to extract multiple proposals into features for the image, then map to the same dimensions as the sentence features, and use bi-direction GRU to extract features for the sentence.
 
 Stage 1: calculate the attention representation $a_{i}^{t}$ of all words for each region $i$, and add them together to obtain the sentence representation $a_{i}^{t}$, the formula is as follows:
 

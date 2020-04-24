@@ -262,6 +262,7 @@ Figure \ref{fig:fastrcnn} above shows the architecture of Fast R-CNN. A feature 
 This structure of Fast R-CNN is exactly the prototype of the meta-structure adopted by the mainstream 2-stage method for detection tasks. Fast R-CNN \cite{fastrcnn} unifies Proposal, Feature Extractor, Object Classification and Localisation in a whole structure, and improves the efficiency of feature utilisation through shared convolution calculations, which is the most contributing content.
 
 \subsubsection{Faster R-CNN}
+\label{sec:fasterrcnn}
 Faster R-CNN \cite{fasterrcnn} is the foundation work of the 2-stage method. The proposed RPN network replaces the Selective Search algorithm so that the detection task can be completed end-to-end by the neural network. Roughly speaking, Faster R-CNN is a combination of RPN plus Fast R-CNN, sharing the characteristics of convolution calculation with RCNN makes the calculation brought by RPN relatively small, so Faster R-CNN can run at 5fps on a single GPU and reaches SOTA in terms of accuracy.
 
 The main contribution of Faster R-CNN \cite{fasterrcnn} is the proposal of Regional Proposal Networks to replace the previous SS algorithm. RPN network models the task of Proposal to the problem of binary classification: whether it is an object. Figure \ref{fig:fasterrcnn} below illustrate the basic structure of Faster R-CNN \cite{fasterrcnn}.
