@@ -1,12 +1,12 @@
 \chapter{Coarse-grained Cross Modal Retrieval}
 \label{cha:scan}
-In Chapter \ref{cha:relatedworks} we discussed several models proposed to solve image-text alignment task. However, they all have drawbacks in terms of different aspects. In this chapter I will explain the \textbf{S}tacked \textbf{C}ross \textbf{A}ttentio\textbf{n} Model (SCAN) \cite{scan} as our baseline performing coarse-grained cross modal retrieval. Followed by discussing how it surpasses other models and why we choose to adopt it as our baseline to solve the problem later in the task of fine-grained cross modal retrieval for artworks.
+In Chapter \ref{cha:relatedworks}, we discussed several models proposed to solve the image-text alignment task. However, they all have drawbacks in terms of different aspects. In this chapter I will explain the \textbf{S}tacked \textbf{C}ross \textbf{A}ttentio\textbf{n} Model (SCAN) \cite{scan} as our baseline performing coarse-grained cross-modal retrieval. Followed by discussing how it surpasses other models and why we choose to adopt it as our baseline to solve the problem later in the task of fine-grained cross-modal retrieval for artworks.
 
-The structure of this chapter is as follows. Section 3.1 gives introduction and motivation of SCAN. Section 3.2 explains the structure and methodologies used in SCAN, also how all its components iterates with each other. Section 3.3 briefly discusses the strengths of adopted model for coarse-grained cross modal retrieval. Section 3.4 illustrates the preliminary experimental results on our artwork datasets and the achievement of SCAN. Section 3.5 summarises this section.
+The structure of this chapter is as follows. Section 3.1 gives an introduction and motivation of SCAN. Section 3.2 explains the structure and methodologies used in SCAN, also how all its components iterates with each other. Section 3.3 briefly discusses the strengths of the adopted model for coarse-grained cross-modal retrieval. Section 3.4 illustrates the preliminary experimental results on our artwork datasets and the achievement of SCAN. Section 3.5 summarises this section.
 
 \section{Motivation}
 
-There are several models proposed recently to solve the problem of cross modal retrieval and many have achieved excellent accomplishments. However, Lee, et al. \cite{scan} mentioned some current existing drawbacks of mainstream image-text alignment models, such as:
+There are several models proposed recently to solve the problem of cross-modal retrieval, and many have achieved excellent accomplishments. However, Lee, et al. \cite{scan} mentioned some current existing drawbacks of mainstream image-text alignment models, such as:
 
 \begin{itemize}
     \item Attention mechanism is not considered at all, and the entire image and sentence pair are aggregated together, e.g. VSE++ \cite{vse}.
@@ -21,9 +21,9 @@ Also, the paper used some of the currently available optimisation methods, such 
 We will explain the structure of SCAN model in the next sections.
 
 \section{Image Feature Extraction}
-Before we perform any cross modal retrieval and alignment between image and text, we need to have firstly extract features from images. There are many models we have discussed before in Section \ref{cha:relatedworks}, here we used one of the mentioned models called Faster R-CNN. 
+Before we perform any cross-modal retrieval and alignment between image and text, we need to have firstly extract features from images. There are many models we have discussed before in Section \ref{cha:relatedworks}, here we used one of the mentioned models called Faster R-CNN. 
 
-Anderson, et al. \cite{bottomup} proposes a top-down and bottom-up attention model method, which is applied to the related issues of visual scene understanding and visual question answering system. This is based on the bottom-up attention model (usually Faster R-CNN) is used to extract the region of interest in the image. 
+Anderson, et al. \cite{bottomup} proposes a top-down and bottom-up attention model method, which is applied to the related issues of visual scene understanding and prominent question answering system. This is based on the bottom-up attention model (usually Faster R-CNN) is used to extract the region of interest in the image. 
 
 Although this work \cite{bottomup} does not mention the Encoder-Decoder framework, which is the most widely used in the current research, the task of the bottom-up attention model is to obtain the image interest area. Extracting image features is similar to feature encoding the image to achieve the encoding stage Task; and the top-down attention model is used to learn to adjust the feature weights, realise the ``timely attention'' of image content, and generate descriptions word by word, equivalent to the decoding stage.
 
@@ -37,7 +37,7 @@ Although this work \cite{bottomup} does not mention the Encoder-Decoder framewor
 \label{fig:fasterrcnnbottomup}
 \end{figure}
 
-It can be seen from the Figure \ref{fig:fasterrcnnbottomup} that using CNN requires more features than R-CNN, and many features are often useless. The target detection method of R-CNN first obtains the interest area for the image, and then applies the target detector to each interest area, so that the image category can be accurately obtained; the CNN method requires the input of the entire image and is used for large sample classification Of networks are often complex and computationally intensive. In addition, Faster R-CNN improves on previous generations of R-CNN methods, and realises the ability to recognise all objects with only one input, which greatly improves processing efficiency.
+It can be seen from the Figure \ref{fig:fasterrcnnbottomup} that using CNN requires more features than R-CNN, and many features are often useless. The target detection method of R-CNN first obtains the interest area for the image, and then applies the target detector to each interest area, so that the image category can be accurately obtained; the CNN method requires the input of the entire image and is used for broad sample classification Of networks are often complex and computationally intensive. In addition, Faster R-CNN improves on previous generations of R-CNN methods and realises the ability to recognise all objects with only one input, which significantly improves processing efficiency.
 
 \subsection{Bottom-Up Attention Model}
 
@@ -142,14 +142,14 @@ For computational efficiency, rather than summing over all the negative samples,
 
 \subsection{Image and Text Feature Representation}
 
-\subsubsection{Image}Bottom-up attention technique \cite{bottomup}, which is a method of target detection, is obtained on the basis of faster-RCNN. Faster R-CNN first obtains the area of interest for the image, and then applies a target detector to each area of interest, so that the image features can be accurately obtained.
+\subsubsection{Image}Bottom-up attention technique \cite{bottomup}, which is a method of target detection, is obtained based on faster-RCNN. Faster R-CNN first obtains the area of interest for the image, and then applies a target detector to each area of interest, so that the image features can be accurately obtained.
 
 In this paper, the flow for image feature representation is: faster-RCNN, Residual NN (Resnet)101 $\Rightarrow$ 2,048 dimensional features $\Rightarrow$ fully-connected layer transform to $h$-dimensional $\Rightarrow$ get feature set $v$.
 
-\subsubsection{Text}A RNN (recurrent neural networks) is used. In this paper, the flow for text feature representation is: word $\Rightarrow$ one-hot vector showing index of the word in vocab $\Rightarrow$ embed to 300 dimensional vector $\Rightarrow$ bidirectional GRU map to $h$ dimensions word feature.
+\subsubsection{Text}A RNN (recurrent neural networks) is used. In this paper, the flow for text feature representation is: word $\Rightarrow$ one-hot vector showing an index of the word in vocab $\Rightarrow$ embed to 300-dimensional vector $\Rightarrow$ bidirectional GRU map to $h$ dimensions word feature.
 
 \section{Contribution}
-Lee, et al. \cite{scan} uses the proposed \textbf{S}tacked \textbf{C}ross \textbf{A}ttentio\textbf{n} (SCAN) to find all potential alignments between the image area and the words, thereby calculating the similarity between the graphics and the text. Existing methods perform fixed-step attention inference, so that only a limited semantic alignment can be found at a time, and SCAN can find all possible semantic alignments at the same time. Since the number of semantic alignments varies with different images and sentences, the corresponding relationship inferred by the Stacked Cross Attention method is more comprehensive, thereby making the image-text matching more interpretable.
+Lee, et al. \cite{scan} uses the proposed \textbf{S}tacked \textbf{C}ross \textbf{A}ttentio\textbf{n} (SCAN) to find all potential alignments between the image area and the words, thereby calculating the similarity between the graphics and the text. Existing methods perform fixed-step attention inference so that only a limited semantic alignment can be found at a time, and SCAN can find all possible semantic alignments at the same time. Since the number of semantic alignments varies with different images and sentences, the corresponding relationship inferred by the Stacked Cross Attention method is more comprehensive, thereby making the image-text matching more interpretable.
 
 
 \section{Preliminary Results}
@@ -161,7 +161,7 @@ For experiment settings, we tested on a Ubuntu machine with Intel Xeon Processor
 
 \begin{itemize}
     \item We used faster R-CNN model and ResNet-101 model pre-trained by \textit{Anderson et al.} on \verb|Visual Genomes| dataset, performs detection of salient regions as bottom-up attention to extract features from images. 
-    \item We captured 36 Region of Interests (ROIs) for each image after average pooling and extracted 2,048 dimensional features vector.
+    \item We captured 36 Region of Interests (ROIs) for each image after average pooling and extracted 2,048-dimensional features vector.
     \item We used L2 normalisation (Euclidean distance) into 1,024 joint embedding spaces (same for GRU), these will be used as image feature vectors.
 \end{itemize}
 
@@ -188,8 +188,6 @@ SCAN t-i LSE + i-t AVG & 3.3         & 20.4        & 36.1       & 8.0        & 2
 \caption{Result of SCAN on Artwork Datasets}
 \label{table:resultscan}
 \end{table}
-
-
 
 
 \section{Summary}
