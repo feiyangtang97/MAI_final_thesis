@@ -92,18 +92,34 @@ SCAN i-t AVG ($\lambda_1$ = 4)                                                  
                                                                                                   & \multicolumn{3}{c}{Sentence Retrieval}                                       & \multicolumn{3}{c}{Image Retrieval}                                          \\ \hline
 Method                                                                                            & \multicolumn{1}{l}{R@1} & \multicolumn{1}{l}{R@5} & \multicolumn{1}{l}{R@10} & \multicolumn{1}{l}{R@1} & \multicolumn{1}{l}{R@5} & \multicolumn{1}{l}{R@10} \\ \hline
 Faster R-CNN, ResNet                                                                              & \multicolumn{6}{c}{Ancient Egyptian art alignment dataset}                                                                                                  \\ \hline
-SCAN t-i LSE ($\lambda_1$ = 9, $\lambda_2$ = 6)                                                                     & 0.1                     & 0.4                     & 0.8                      & 0.1                     & 0.2                     & 0.6                      \\
-SCAN t-i AVG ($\lambda_1$ = 9)                                                                             & 0.1                     & 0.1                     & 0.2                      & 0.1                     & 0.2                     & 0.2                      \\
-SCAN i-t LSE ($\lambda_1$ = 4, $\lambda_2$ = 20)                                                                    & 0.1                     & 0.2                     & 0.4                      & 0.1                     & 0.1                     & 0.3                      \\
-SCAN i-t AVG ($\lambda_1$ = 4)                                                                             & 0.0                     & 0.2                     & 0.5                      & 0.1                     & 0.2                     & 0.3                      \\ \hline
-\begin{tabular}[c]{@{}l@{}}SCAN t-i LSE + i-t AVG\\ (with fragmented image and text)\end{tabular} & \textbf{0.7}            & \textbf{3.7}            & \textbf{8.1}             & \textbf{0.7}            & \textbf{3.7}            & \textbf{9.6}            
+SCAN t-i LSE ($\lambda_1$ = 9, $\lambda_2$ = 6)                                                                     & 0.3                     & 3.4                     & 6.8                      & 0.4                     & 3.2                     & 7.6                      \\
+SCAN t-i AVG ($\lambda_1$ = 9)                                                                             & 0.4                     & 3.8                     & 5.2                      & 0.2                     & 3.2                     & 7.2                      \\
+SCAN i-t LSE ($\lambda_1$ = 4, $\lambda_2$ = 20)                                                                    & 0.3                     & 3.2                     & 5.4                      & 0.2                     & 2.9                     & 6.3                      \\
+SCAN i-t AVG ($\lambda_1$ = 4)                                                                             & 0.3                     & 3.7                     & 6.5                      & 0.3                     & 3.5                     & 8.3                      \\ \hline
+\begin{tabular}[c]{@{}l@{}}SCAN t-i LSE + i-t AVG\\ (with fragmented image and text)\end{tabular} & \textbf{0.7}            & \textbf{3.7}            & \textbf{8.1}             & \textbf{0.7}            & \textbf{3.8}            & \textbf{9.6}            
 \end{tabular}
 \caption{Result of Fragmented SCAN on Egyptian Artwork Dataset}
 \label{table:resultfragmentedEG}
 \end{table}
 
-\subsection{Retrieval Result Examples}
+\subsection{Cross-modal Retrieval Result Examples}
 
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{i2t.pdf}
+\caption{Text retrieval for given image queries}
+\label{fig:i2t}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{t2i.pdf}
+\caption{Image retrieval for given text queries
+}
+\label{fig:t2i}
+\end{figure}
 
 \section{Future Works}
 Besides focusing on the fragment level image/sentence retrieval, it would also be beneficial to consider adopting a new image representation. 
