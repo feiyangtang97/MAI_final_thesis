@@ -102,21 +102,26 @@ SCAN i-t AVG ($\lambda_1$ = 4)                                                  
 \label{table:resultfragmentedEG}
 \end{table}
 
-\subsection{Cross-modal Retrieval Result Examples}
+We noticed that the recalls for sentence and image retrieval on both Chinese and Egyptian artwork datasets are not satisfactorily high. However, there are still some good retrieval cases which we will demonstrate in the following section.
 
+\subsection{Cross-modal Retrieval Result Examples}
+Here we illustrate four typically successful cross-modal retrieval samples of our model. One for each dataset under text retrieval and image retrieval. 
+
+Figure \ref{fig:i2t} shows the text retrieval results from given image queries. The left Egyptian sculpture achieved really well captions, the major features such as standing and walking pose, dark brown colour and the man himself were accurately captured. However, as some of the Chinese artworks have significantly different representations and much more fine-grained details, the best case here we had is the following vase. Our textual captions are able to describe its dominant colour and those obvious golden strokes. However, the specific shapes such as flower patterns, thick mouth and big belly challenged the model.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{i2t.pdf}
-\caption{Text retrieval for given image queries}
+\caption{Result of Text Retrieval for Given Image Queries}
 \label{fig:i2t}
 \end{figure}
 
+Next, Figure \ref{fig:t2i} illustrates the image retrieval results from given text queries. The left Chinese art text query is fairly descriptive and detailed, features like ``bridge'' and ``six cross-patterned circles'' helped our model to pick the right image from other similar ones. The right Egyptian art 
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{t2i.pdf}
-\caption{Image retrieval for given text queries
+\caption{Result of Image Retrieval for Given Text Queries
 }
 \label{fig:t2i}
 \end{figure}
