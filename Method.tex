@@ -1,9 +1,9 @@
 \chapter{Fine-grained Cross Modal Retrieval}
 \label{cha:Method}
 
-In Chapter \ref{cha:scan}, we explained in detail on the structure and principle behind our coarse-grained cross-modal retrieval model. According to the result from running artworks datasets on the baseline model, there are aspects that we can focus on to make improvements. In this chapter, we will present our improved model of fine-grained cross-modal retrieval.
+In Chapter \ref{cha:scan}, we explained in detail on the structure and principle behind our coarse-grained cross-modal retrieval model. As we discussed, there are aspects that we can focus on to make improvements, especially on how to focus on the fine-grained features of artworks. In this chapter, we will present our improved model of fine-grained cross-modal retrieval.
 
-The structure of this chapter is as follows. Section 4.1 gives a brief introduction on our plans for modifying the baseline model into a fragment level. Section 4.2 provides an explanation on the processed artwork datasets and why the pre-processing is necessary for our model. Section 4.3 proposes our improved fine-grained cross modal retrieval model on fragment level instead of focusing on a whole image or sentence. Section 4.4 shows results of our presented model running on our annotated artworks datasets. Section 4.5 points out some existing shortcomings of our methodology and potential fields to be focused on in the future. Section 4.6 concludes this section.
+The structure of this chapter is as follows. Section 4.1 gives a brief introduction on our plans for modifying the baseline model into a fragment level. Section 4.2 explains the processed artwork datasets and why the pre-processing is necessary for our model. Section 4.3 proposes our improved fine-grained cross modal retrieval model on fragment level instead of focusing on a whole image or sentence. Section 4.4 shows the results of our presented model running on our annotated artworks datasets. Section 4.5 points out some existing shortcomings of our methodology and potential fields to be focused on in the future. Section 4.6 concludes this section.
 
 
 \section{Fragment Retrieval}
@@ -48,6 +48,22 @@ For full sentence captions as text input, as we mentioned in Section \ref{sec:da
 After we learnt image and text representation in a common space, we can use SCAN to attend image to text and attend text to image, in order to get a better alignment in between. After computed mutual attention between image and text, we can start our follow-up part, which is cross-modal retrieval. We can use our learnt common space representation to calculate similarity scores between image and text; meanwhile, calculate ranked precision and recall for testing.
 
 \section{Experiments}
+
+For experiment settings, we used the same settings and exvironment as mentioned in Chapter \ref{cha:scan}: Ubuntu machine with Intel Xeon Processor E5-1620 (10M Cache, 3.60 GHz) CPU and a GeForce GTX TITAN X GPU. 
+
+\subsubsection{Settings for image representation}
+
+\begin{itemize}
+    \item Instead of using the weights pre-trained by \textit{Anderson et al.} on \verb|Visual Genomes| dataset like in Chapter \ref{cha:scan}, here we retrained our faster R-CNN model and ResNet-101 model and performed detection of salient regions as bottom-up attention to extract features from images. 
+    \item We captured 36 Region of Interests (ROIs) for each image after average pooling and extracted 2,048-dimensional features vector.
+    \item We used L2 normalisation (Euclidean distance) into 1,024 joint embedding spaces (same for GRU), these will be used as image feature vectors.
+\end{itemize}
+
+\subsubsection{Settings for text representation}
+
+\begin{itemize}
+    \item We obtained 300 dimensional word embedding as input to GRU then use embedding matrix to map it into 1,024 joint embedding spaces.
+\end{itemize}
 
 \subsection{Ground Truth}
 
@@ -102,12 +118,14 @@ SCAN i-t AVG ($\lambda_1$ = 4)                                                  
 \label{table:resultfragmentedEG}
 \end{table}
 
+Table \ref{table:resultfragmentedCN} and \ref{table:resultfragmentedEG} present the quantitative results on Chinese and Egyptian artwork datasets where all formulations of our proposed method outperform recent approaches in all measures. Here we denote t-i as image retrieval by text and i-t as text retrieval by image, AVG as average pooling and LSE as LogSumExp pooling. Like most of the SCAN based models, we combined t-i and i-t models by averaging their predicted similarity scores. The best result of model ensembles is achieved by combining t-i AVG and i-t LSE, 1.2 on sentence retrieval (R@5) and 1.0 on image retrieval (R@5) relatively on Chinese artwork dataset; 3.7 on sentence retrieval (R@5) and 3.8 on image retrieval (R@5) relatively on Chinese artwork dataset.
+
 We noticed that the recalls for sentence and image retrieval on both Chinese and Egyptian artwork datasets are not satisfactorily high. However, there are still some good retrieval cases which we will demonstrate in the following section.
 
 \subsection{Cross-modal Retrieval Result Examples}
 Here we illustrate four typically successful cross-modal retrieval samples of our model. One for each dataset under text retrieval and image retrieval. 
 
-Figure \ref{fig:i2t} shows the text retrieval results from given image queries. The left Egyptian sculpture achieved really well captions, the major features such as standing and walking pose, dark brown colour and the man himself were accurately captured. However, as some of the Chinese artworks have significantly different representations and much more fine-grained details, the best case here we had is the following vase. Our textual captions are able to describe its dominant colour and those obvious golden strokes. However, the specific shapes such as flower patterns, thick mouth and big belly challenged the model.
+Figure \ref{fig:i2t} shows the text retrieval results from given image queries. The left Egyptian sculpture achieved well captions, the major features such as standing and walking pose, dark brown colour and the man himself were accurately captured. However, as some of the Chinese artworks have significantly different representations and much more fine-grained details, the best case here we had is the following vase. Our textual captions are able to describe its dominant colour and those obvious golden strokes. However, the specific shapes such as flower patterns, thick mouth and big belly challenged the model.
 
 \begin{figure}[h!]
 \centering
@@ -115,8 +133,6 @@ Figure \ref{fig:i2t} shows the text retrieval results from given image queries. 
 \caption{Result of Text Retrieval for Given Image Queries}
 \label{fig:i2t}
 \end{figure}
-
-Next, Figure \ref{fig:t2i} illustrates the image retrieval results from given text queries. The left Chinese art text query is fairly descriptive and detailed, features like ``bridge'' and ``six cross-patterned circles'' helped our model to pick the right image from other similar ones. The right Egyptian art text query
 
 \begin{figure}[h!]
 \centering
@@ -126,11 +142,62 @@ Next, Figure \ref{fig:t2i} illustrates the image retrieval results from given te
 \label{fig:t2i}
 \end{figure}
 
+Next, Figure \ref{fig:t2i} illustrates the image retrieval results from given text queries. The left Chinese art text query is fairly descriptive and detailed, features like ``bridge'' and ``six cross-patterned circles'' helped our model to pick the right image from other similar ones. The right Egyptian art text queries are fairly easier than the Chinese one as most of the similar artworks differ in shapes and major gestures such as obvious feature ``broken arms raised to the sky''. This potentially helped the model to achieve better results on Egyptian artwork dataset than the Chinese one.
+
+\subsection{Summary of Evaluation}
+
+Generally speaking, Egyptian artworks surpassed Chinese artworks on cross-modal retrieval tasks - extra fine-grained features in Chinese artworks which complicates the process of distinguishing features. Furthermore, low recall results are to be expected. One of the crucial requirements for image-text alignment is accurate feature extraction. However, in our case, we used the bottom-up attention mechanism \cite{bottomup}, which was designed and trained on real-world images. We all know that artworks usually have widely different representations and requires unique and specific treatment on feature extraction. Nevertheless, we did not have more time to redesign our feature extraction algorithm to make it more adaptable to artwork representations. In the next section, we discuss some recently published methodologies on representing artworks, which should be beneficial to improve the current fine-grained cross-modal retrieval model. 
+
 \section{Future Works}
-Besides focusing on the fragment level image/sentence retrieval, it would also be beneficial to consider adopting a new image representation. 
 
-Recently, some works \cite{TranslatingArtworks,parttowhole,Art2Real} have proposed new frameworks for artwork feature extraction and made prominent progress in the field. 
+Recently, some works \cite{TranslatingArtworks,parttowhole,Art2Real,tan2017artgan,shen2019discovering} have proposed new frameworks for artwork feature extraction and made good progress in the field. 
 
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{MTMRoverview.pdf}
+\caption{Overview of MTMR Representation Framework\cite{parttowhole}}
+\label{fig:mtmroverview}
+\end{figure}
+
+
+Ma el al. \cite{parttowhole} introduced a new methodology for artwork representation in 2017: MTMR (multitask and multi-range). MTMR extracts from the fisher vector based on scale-invariant feature transformation (SIFT) from the painting:
+
+\begin{itemize}
+    \item Local, regional and global features
+    \item Multiclass area coding structure
+    \item Multitask learning framework
+\end{itemize}
+
+Figure \ref{fig:mtmroverview} illustrates the overall architecture of the MTMR representation framework. The above, middle and bottom represent different levels of feature extraction using SIFT-based fisher vector: local, regional and global, respectively. Inside each level, there are multiclass area coding and multitask learning structures. These obtained features in different levels will be finally passed to the random forest model as an ensemble mechanism to generate a final result.
+
+Figure \ref{fig:mtmrmulti} shows the detailed structure of how multitask learning works in the MTMR framework. The right grey box contains several different tasks which are split to process in parallel. There is a residual network inside the green box which consists of fully connected layers and convolutional layers for artwork image feature extraction.
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{MTMRmultitask.pdf}
+\caption{MTMR's Multitask Learning Structure\cite{parttowhole}}
+\label{fig:mtmrmulti}
+\end{figure}
+
+
+Besides the MTMR framework, in 2019, Shen et al. \cite{shen2019discovering} tried to find almost repetitive patterns from a large number of artworks. 
+
+Due to the differences in artistic media (oil paintings, pastel paintings, sketches, etc.) and the inherent deviations in the reproduction process, this goal is more difficult to mine than standard examples. The critical technology is to use self-supervised learning to fine-tune standard depth features on specific art collections to adapt them to this task. Correctly, use spatial consistency between adjacent feature matches as a supervised fine-tuning signal. The adjusted features enable more accurate matching (not affected by differences in style) and can be used with standard pattern discovery methods based on geometric verification to identify repeating patterns in the dataset.
+
+Figure \ref{fig:featurelearning} demonstrates the feature learning process proposed. First candidate correspondences need to be obtained, which come from matching the proposal regions in red boxes with the original complete dataset. Next, these correspondences are checked by comparing features from validation regions (in blue). Finally, only positive results from previous step will be extracted and kept. 
+
+The method is evaluated on multiple different datasets and showed significant qualitative findings. In terms of quantitative evaluation, the researchers marked 273 approximately repeating details in the dataset of 1587 works of art by Lao Jan Bruegel and his studio. In addition to works of art, the researchers also showed improvements in the positioning of the algorithm on the Oxford5K photo dataset and historical photo positioning on the LTLL (Large Time Lags Location) dataset.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{featurelearningartwork.pdf}
+\caption{Feature Learning Strategy\cite{shen2019discovering}}
+\label{fig:featurelearning}
+\end{figure}
+
+We believe that adopting a comprehensive framework like MTMR \cite{parttowhole} along with a fine-grained feature matching and extraction process mentioned in Shen et al.'s research \cite{shen2019discovering} will significantly help improve the fine-grained cross modal retrieval model.
 
 \section{Conclusion}
 

@@ -275,19 +275,22 @@ Faster R-CNN completed the ``deep'' part of the inspection tasks using RPN netwo
 Natural Language Processing, shortly NLP, is a process of computer accepting input in the form of natural language and performing a series of operations such as processing and calculation internally by human-defined algorithms to simulate human understanding of natural language and returning the user's expected result. Just like machinery freed human hands, the purpose of natural language processing is to use a computer instead of a human to process large-scale natural language information. It is an interdisciplinary field of artificial intelligence, computer science, and information engineering, involving statistics, linguistics, and more.
 
 \subsection{Preliminaries}
-Machine learning allows computers to efficiently perform specified tasks through patterns and reasoning, rather than explicit instructions. Bayesian probability models, logistic regression, decision trees, Support Vector Machines, topic models, Hidden Markov models, etc. are all standard traditional machine learning algorithms used in NLP research. Deep learning is a machine learning method based on feature learning. It transforms the original data into higher-level, more abstract feature representations through non-linear but straightforward modules. Through enough combinations of transformations, very complex functions can also be used. Learn. In many years of experiments, people have discovered two critical mechanisms of cognition: abstraction and iteration. From the original signal, do low-level abstraction, gradually iterate to high-level abstraction, and abstract higher-level patterns in iteration. How to understand it visually? It will be easier to understand in the field of machine vision. Deep learning sequentially extracts edge features, simple shape features such as the contour of the mouth, and higher-level shape features such as the face shape through a multi-layer neural network. In the field of natural language processing, it is not so Intuitively; we can learn the grammatical and semantic features of text information through deep learning models. It can be said that deep learning represents the progress of natural language processing research from machine learning to cognitive computing.
+Machine learning allows computers to efficiently perform specified tasks through patterns and reasoning, rather than explicit instructions. Bayesian probability models, logistic regression, decision trees, Support Vector Machines, Hidden Markov models, etc. are all standard traditional machine learning algorithms used in NLP research. Deep learning is a machine learning method based on feature learning. It transforms the original data into higher-level, more abstract feature representations through non-linear but straightforward modules. Through enough combinations of transformations, very complex functions can also be used. 
+
+In many years of experiments, people have discovered two critical mechanisms of cognition: abstraction and iteration. From the original signal, firstly perform low-level abstraction, gradually iterate to high-level abstraction, and finally abstract higher-level patterns during iterations. In terms of deep learning, it sequentially extracts edge features, simple shape features such as the contour of the mouth, and higher-level shape features such as the face shape through a multi-layer neural network. 
+
+In the field of natural language processing, it is not as intuitively as computer vision; we can learn the grammatical and semantic features of text information through deep learning models. we can also conclude that deep learning represents the progress of natural language processing research from machine learning to cognitive computing.
 
 \subsection{Language Models}
-To talk about adopting deep learning on NLP, we must start with the language model. The primary research of natural language processing is human-machine language interaction. Machines can understand algorithms to reflect human language. The core is the statistical language models. A language model (LM for short) is a probability distribution of a sequence of words. Through language models, the possibility of a string of text can be quantitatively assessed. For a piece of text of length n, each word in the text has the process of predicting the word through the above, and the probability product of all words can be used to evaluate the possibility of the existence of the text. In practice, if the text is long, the estimation of $P (w_i | context (w_i))$ will be difficult, so there is a simplified version: N-gram model. In the N-gram model, the conditional probability of the current word is estimated by calculating the first N words of the current word. For N-gram models. Commonly used are unigram, bigram, and trigram. The larger N is, the more sparse the data is, the less accurate the estimation result is. In order to solve the problem of data sparseness when the N-gram model estimates the probability, researchers try to use neural networks to study the language model.
+To talk about adopting deep learning on NLP, we must start with the language model. The primary research of natural language processing is human-machine language interaction. Machines can understand algorithms to reflect human language. The core is the statistical language models. A language model (LM for short) is a probability distribution of a sequence of words. Through language models, the possibility of a string of text can be quantitatively assessed. For a piece of text of length n, each word in the text has the process of predicting the word through the above, and the probability product of all words can be used to evaluate the possibility of the existence of the text. In practice, if the text is long, the estimation of $P (w_i | context (w_i))$ will be difficult, so there is a simplified version: N-gram model. 
 
-As early as 2000, researchers have proposed the idea of using neural networks to study language models. The classic representative is the NNLM proposed by Bengio et al. \cite{nnlm} in 2003, but the effect is not significant. The study of deep learning for NLP has been under exploration. Stage. Until 2011, Collobert et al. \cite{nlpscratch} used a simple deep learning model to obtain SOTA scores in NLP tasks such as named entity recognition NER, semantic role tagging SRL, part-of-speech tagging POS-tagging, and more and more research methods based on deep learning have gained more and more. In 2013, the word vector fires represented by Word2Vec and Glove, more research explored how to improve the ability of language models from the perspective of word vectors, and focused on intra-word semantics and contextual semantics. In addition, research-based on deep learning has experienced feature extractors such as CNN, RNN, Transformer, etc. Researchers have tried to optimize the ability of language models using various mechanisms, including methods of pre-training combined with fine-tuning of downstream tasks. Recently the most eye-catching EMLo, GPT and BERT models are excellent representatives of this pre-training method, which frequently refreshes SOTA.
+In the N-gram model, the conditional probability of the current word is estimated by calculating the first N words of the current word. For N-gram models. Commonly used are unigram, bigram, and trigram. The larger N is, the more sparse the data is, the less accurate the estimation result is. In order to solve the problem of data sparseness when the N-gram model estimates the probability, researchers try to use neural networks to study the language model.
 
-\subsection{Basic Embedding Models}
+As early as 2000, researchers have proposed the idea of using neural networks to study language models. The classic representative is the NNLM proposed by Bengio et al. \cite{nnlm} in 2003, but the effect is not significant. The study of deep learning for NLP has been under exploration. Stage. Until 2011, Collobert et al. \cite{nlpscratch} used a simple deep learning model to obtain SOTA scores in NLP tasks such as named entity recognition NER, semantic role tagging SRL, part-of-speech tagging POS-tagging, and more and more research methods based on deep learning have gained more and more. In 2013, the word vector fires represented by Word2Vec and Glove, more research explored how to improve the ability of language models from the perspective of word vectors, and focused on intra-word semantics and contextual semantics. In addition, research-based on deep learning has experienced feature extractors such as CNN, RNN, Transformer, etc. Researchers have tried to optimise the ability of language models using various mechanisms, including methods of pre-training combined with fine-tuning of downstream tasks. Recently the most eye-catching EMLo, GPT and BERT models are excellent representatives of this pre-training method, which frequently refreshes SOTA.
+
+\subsection{Basic NNLM}
 
 NNLM is a very classic neural network language model. Although it has no significant effect compared to traditional machine learning, everyone talks about the exploration of the direction of deep learning in NLP, and always remembers to mention the veteran. The concept of distributed representation has long been proposed by researchers and applied to deep learning models. Word2vec uses CBOW and Skip-gram, training models. The unexpected semantic combination effect has made word vectors widely popular. FastText does not have any particular breakthroughs in language models, but the optimisation of the model makes the deep learning model training on large-scale data very fast or even seconds, and the effect of text classification is comparable to models such as RNN, which has a place in industrial applications.
-
-
-\subsubsection{NNLM}
 
 In 2003, Bengio et al. \cite{nnlm} proposed a neural network-based language model NNLM. The model simultaneously learns the distributed representation of words, and based on the distributed representation of words, learns the probability function of word sequences. Probability is used to represent sentences, and models can produce exponentially similar sentences. The author believes that the language model trained in this way has a strong generalisation ability. For sentences that have not appeared in the training corpus, the model can learn from similar sentences composed of similar words that have been seen.
 
@@ -298,11 +301,11 @@ In 2003, Bengio et al. \cite{nnlm} proposed a neural network-based language mode
 \label{fig:nnlm}
 \end{figure}
 
-Like Figure \ref{fig:nnlm} illustrated above, the objective function of model training is the joint probability of a word sequence of length n, which is decomposed into two parts: one is the feature map. Through the mapping matrix $C$, each word in the dictionary $V$ can be mapped into a feature vector $C(i)\in R_m$; the second is to calculate the conditional probability distribution. Through the function $g$, the input word vector sequence $C\left(w_{t-1}\right), \cdots, C\left(w_{t-n+1}\right)$ is converted into a probability distribution $y\in R|V|$. The output of $g$ is a vector, and the $i$-th element represents the probability that the $n$-th word of the word sequence is $V_i$. The network output layer uses a softmax function.
+Like Figure \ref{fig:nnlm} illustrated above, the objective function of model training is the joint probability of a word sequence of length n, which is decomposed into two parts: one is the feature map. Through the mapping matrix $C$, each word in the dictionary $V$ can be mapped into a feature vector $C(i)\in R_m$; the second is to calculate the conditional probability distribution. Through the function $g$, the input word vector sequence $C\left(w_{t-1}\right), \cdots, C\left(w_{t-n+1}\right)$ is converted into a probability distribution $y\in R|V|$. The output of $g$ is a vector, and the $i$-th element represents the probability that the $n$-th word of the word sequence is $V_i$. The network output layer uses a \verb|softmax| function.
 
 
 \section{Image-text Alignment}
-Image and text matching and image QA are the frontiers of image and text multimodal fusion. The former needs to map images and text to the same semantic space, and then judge their similarity by distance; the latter needs to find suitable answers in all candidate sets, and its core idea is to make images The position of Attention changes with the problem.
+Image and text matching and image question answering are the frontiers of image and text multi modal fusion. The former needs to map images and texts to the same semantic space, and then judge their similarity by distance; the latter needs to find suitable answers in all candidate sets.
 
 \subsection{Convolutional Neural Network Architectures for Matching Natural Language Sentences}
 
@@ -311,9 +314,9 @@ This paper \cite{hu2015convolutional} is a common method for text processing use
 The core idea is to apply the convolution operation to text. The problem to be solved in this article is the matching between Text.
 
 \subsubsection{Text Convolutional}
-First of all, talk about the convolution operation of the text: After the discrete text information is Embedding, the continuous features of the text will be obtained, that is, a word can be represented by a vector. At this time, it is very similar to an image. A word is equivalent to one pixel in an image, and a sentence is composed of several such words. In a specific implementation, the feature dimension of Embedding can be equivalent to the number of channels in the image, so that the words are connected end to end, and an image with a length of 1 × N (the number of text words) is finally formed. At this time, the text is checked using 1d convolution Information can be processed to implement a convolutional network of text.
+First of all, we explain the convolution operation of the text. After the discrete text information: embedding is done, the continuous features of the text will be obtained, that is, a word can be represented by a vector. At this time, it is very similar to process an image. A word is equivalent to one pixel in an image, and a sentence is composed of several such words. In a specific implementation, the feature dimension of Embedding can be equivalent to the number of channels in the image, so that the words are connected end to end, and an image with a length of $1\times N$ (the number of text words) is finally formed. At this time, a convolutional network of text can be implemented.
 
-Images can be resized to the same size by linear difference or other difference methods, but the text does not have this operation, so the convolution of the text generally uses a Gated Convolutional Layer, that is, Say, for sentences of insufficient length, it is forced to 0, as shown below in Figure \ref{fig:cnnamnls1}:
+Images can be resized to the same size by linear transformation methods, but text cannot, so the convolution of the text generally uses a Gated Convolutional Layer, that is, for sentences of insufficient length, it is forced to zero, as shown below in Figure \ref{fig:cnnamnls1}:
 
 \begin{figure}[h!]
 \centering
@@ -325,7 +328,7 @@ Images can be resized to the same size by linear difference or other difference 
 Another point to note is that Maxpooling will be selected as the pooling method for general text so that local features can be maximised accordingly.
 
 \subsubsection{Architecture}
-This paper proposes two network structures. One is the matching post-fusion technology, that is, to obtain their vector representation through CNN in two texts to be matched, and then perform stitching and add several layers of full connections to predict the final match.
+This paper proposed two network structures. One is the matching post-fusion technology, that is, to obtain their vector representation through CNN in two texts to be matched, and then perform stitching and add several layers of full connections to predict the final match.
 
 The network structure of Arc-I is shown in the Figure \ref{fig:cnnamnls2}:
 
@@ -336,7 +339,7 @@ The network structure of Arc-I is shown in the Figure \ref{fig:cnnamnls2}:
 \label{fig:cnnamnls2}
 \end{figure}
 
-It can be seen from the figure that its feature processing method of encoding belongs to the post-fusion of features, and is very naive. In such a network model, he did not consider the correlation between different sentences and the order of words, that is, he mapped the two sentences into a semantic space involuntarily. In order to solve this problem, the author wrote a second method:
+It can be seen from the figure that its feature processing method of encoding belongs to the post-fusion of features, and is very naive. In such a network model, the author did not consider the correlation between different sentences and the order of words, that is, the model mapped the two sentences into a semantic space involuntarily. In order to solve this problem, the author developed a second method:
 
 The network structure of Arc-II is shown in the Figure \ref{fig:cnnamnls3}:
 
@@ -347,13 +350,13 @@ The network structure of Arc-II is shown in the Figure \ref{fig:cnnamnls3}:
 \label{fig:cnnamnls3}
 \end{figure}
 
-The author combined all the word positions of the two sentences, and each position was expressed by the following formula:
+This model combined all the word positions of the two sentences, and each position was expressed by the following formula:
 
 $$
 \hat{\mathbf{z}}_{i, j}^{(0)}=\left[\mathbf{x}_{i: i+k_{1}-1}^{\top}, \quad \mathbf{y}_{j: j+k_{1}-1}^{\top}\right]^{\top}
 $$
 
-$x$ and $y$ respectively represent the sentence to be matched. According to the above formula, the two sentences will form a square \verb|FM1|. Each position of \verb|FM1| is composed of $2k_1$ vectors. That is, he is actually a 4-dimensional structure \verb|[#Sentence × #Sentence × 6 × #Embd_size]|. A one-dimensional convolution using the latter two dimensions will form a three-dimensional feature map of \verb|layer-2|.
+$x$ and $y$ respectively represent the sentence to be matched. According to the above formula, the two sentences will form a square \verb|FM1|. Each position of \verb|FM1| is composed of $2k_1$ vectors. That is, this is actually a 4-dimensional structure \verb|[#Sentence * #Sentence * 6 * #Embd_size]|. A one-dimensional convolution using the latter two dimensions will form a three-dimensional feature map of \verb|layer-2|.
 
 Then the network structure behind is the common model in the image.
 
@@ -365,9 +368,9 @@ Then the network structure behind is the common model in the image.
 
 \subsection{m-CNNs}
 
-This work \cite{ma2015multimodal} needs to solve the problem of image and text matching. There is not much innovation in image features, that is, features extracted by CNN networks. Different from his previous work, he fuses image features with text features and directly inputs them to the convolutional network for matching. He also pays attention to text information with different granularities.
+This work \cite{ma2015multimodal} needs to solve the problem of image and text matching. There is not much innovation in image features, that is, features extracted by CNN networks. Different from his previous work, it fuses image features with text features and directly inputs them to the convolutional network for matching. m-CNNs also pays attention to text information with different granularities.
 
-The way authors deal with features is by directly concatenating the features.
+The way m-CNNs deals with features is by directly concatenating the features.
 
 \subsubsection{Word-level Matching CNN}
 The finest-grained matching problem. The network structure is as follows:
@@ -400,7 +403,7 @@ $$
 \vec{\nu}_{p h}^{i} \stackrel{\text { def }}{=} \nu_{p h}^{i}\left\|\nu_{p h}^{i+1}\right\| \cdots\left\|\nu_{p h}^{i+k_{r p}-1}\right\| \nu_{i m}
 $$
 
-Phrase-level Matching CNN is similar to word, except that the position is different. The author uses two different granularity phrases in the text, one is 2 words and one is 4 words.
+Phrase-level matching CNN is similar to word, except that the position is different. The author uses two different granularity phrases in the text, one is two words and one is four words.
 
 A very useful concept in this is the receptive field, which means that a neuron is calculated from a few words. This concept is the same as the concept of the receptive field in an image.
 
@@ -414,16 +417,16 @@ For sentence level matching, the network structure is as follows:
 \label{fig:mccns3}
 \end{figure}
 
-Sentence level matching is to use the last feature for stitching.
+Sentence level matching used the last feature for stitching.
 
-From the result, it can be seen that the final Ensemble effect is the best, but the performance of the single model is average.
+From the result, it can be seen that the final ensemble effect is the best, but the performance of the single model is about average.
 
 \subsection{Dual-Path Convolutional Image-Text Embedding}
 
 The problem to be solved in this work \cite{zheng2017dualpath} is also the problem of image and text matching. Unlike the previous two works, it does not use front fusion (generally, the effect of front fusion is better than post fusion). But some interesting ideas were introduced.
 
 \subsubsection{Architecture}
-The biggest feature of this network structure is the introduction of Residual in Text's encoder, which solves the problem of matching images and texts after fusion.
+The merit of this network structure is the introduction of residual in text's encoder, which solves the problem of matching images and texts after fusion.
 
 \begin{figure}[h!]
 \centering
@@ -437,17 +440,17 @@ Instance loss was widely discussed in the loss function. The so-called instance 
 
 The idea is to adapt the algorithm to the data, that is, to convert the matching problem into a classification problem.
 
-This kind of transformation risk is quite large because our Query is diverse; we can never exhaust all Query and Image pairs, so the basic idea is to make a Multi-Task.
+This kind of transformation risk is quite large because our query is diverse; we can never exhaust all query and image pairs, so the basic idea is to achieve it on a multitasking basis.
 
-Before talking about Multi-Task loss, let's talk about Ranking Loss first.
+Before explain multitask loss, we firstly focus on the ranking loss.
 
-The general definition of Ranking Loss is as follows:
+The general definition of ranking loss is as follows:
 
 $$
 l\left(x_{n}, y_{p o s}, y_{n e g}\right)=\max \left(0, \mu-S\left(x_{n}, y_{p o s}\right)+S\left(x_{n}, y_{n e g}\right)\right)
 $$
 
-$S$ is the similarity calculation function, and $\mu$ is the minimum margin in which the similarity needs to be guaranteed. Such Ranking Loss only considers the loss of $x$ as the matching object, but does not consider $y$. Since $x$ and $y$ are a pair, a two-way loss is required.
+$S$ is the similarity calculation function, and $\mu$ is the minimum margin in which the similarity needs to be guaranteed. Such ranking loss only considers the loss of $x$ as the matching object, but does not consider $y$. Since $x$ and $y$ are a pair, a two-way loss is required.
 
 Based on this problem, the author proposes the following Ranking loss loss function:
 
@@ -466,28 +469,29 @@ $$
 where $\lambda_{1}, \lambda_{2}, \lambda_{3}$ are predefined weights for different losses.
 
 \subsubsection{Some Interesting Tricks}
-This work contains many interesting tricks, or not called tricks. It should be said that the experience of training models is better.
+This work contains many interesting tricks to achieve better results which we will point out as follows.
 
 \begin{enumerate}
     \item Embedding models initialised with \verb|word2vec| are better than random initialisation.
-    \item Sentence jittering, the author randomly adds a certain amount of zero padding to the beginning and end of the sentence.
-    \item Instance Loss finally shares a same weight parameter to ensure that the information of two different modalities is mapped to the same space.
+    \item Sentence jittering, the model randomly adds a certain amount of zero padding to the beginning and end of the sentence.
+    \item Instance loss finally shares a same weight parameter to ensure that the information of two different modalities is mapped to the same space.
 \end{enumerate}
 
-Two Stage training is also the highlight of this article:
+Two stage training is also the highlight of this article:
 
 \begin{itemize}
-    \item Stage-I. At this stage, the author first trains Text's Residual network, and fixes the Ranking Loss and image CNN models, so that the CNN of Text can be trained. The author did this because the network of Text was randomly initialised. If adding Ranking Loss because the image and text are definitely not in the same semantic space at the beginning, I am afraid that this loss will be brought into the network of Text. Fixing the image CNN is because you don't want the gradient of the image and the gradient of the text to interfere with each other.
-    \item Stage-II, when Text's CNN training converges, adding Ranking Loss and image CNN to the model, and training end-to-end together, the final result is the best.
+    \item Stage-I. At this stage, text residual network is firstly trained. Then it fixes the ranking loss and image in CNN models, so that the CNN of text can be trained. The reason of doing this is the network of text was randomly initialised. To add ranking loss because the image and text are definitely not in the same semantic space at the beginning, we are worried that this loss will be brought into the network of text. Fixing the image CNN because we do not want the gradient of the image and the gradient of the text to interfere with each other.
+    
+    \item Stage-II, when text's CNN training converges, adding ranking loss and image CNN to the model, and training end-to-end together, the final result is the best.
 \end{itemize}
 
 \subsection{DANs}
 
-The main point of this work \cite{dan} is to introduce the Attention mechanism into the network model. The starting point is relatively obvious: the ultimate problem of graphic and text matching is the matching problem of the entire Text and the entire Image, but this problem is more challenging to solve, so a basic idea This problem is split. Text is composed of different words, and Image is composed of different regions. If you can match the words of Text to the regions of Image, this problem will become simpler.
+The main research contribution of DAN \cite{dan} is to introduce attention mechanism into neural network model. The starting point is relatively obvious: the ultimate problem of image and text matching is the matching problem between the entire text and the entire Image, however, this problem is more challenging to solve, so a basic solution is to split the tasks. Text is composed of different words, while image is composed of different regions. If we can match the words of text to the regions of image, this problem will become simpler.
 
-The basic idea is to use the Attention mechanism to match text words with image regions in the network automatically. The author cites two types of Attention mechanisms: Visual Attention and Text Attention.
+The basic idea is to use the attention mechanism to match text words with image regions in the network automatically. The author cites two types of attention mechanisms: visual attention and text attention.
 
-Both types of Attention use the previous state and determine the "position" of Attention for the next state.
+Both types of attention used the previous state and determine the ``position'' of attention for the next state.
 
 \subsubsection{Visual Attention}
 The formula for visual attention is:
@@ -522,7 +526,7 @@ The step size $\mathbf{K}$ of the two Attentions is a super parameter, and the a
 
 \subsubsection{Visual and Textual Representation}
 
-The visual features use the features of the second layer of Resnet or VGG, and the text features use the features of bidirectional RNN (LSTM). The visual features are shown in the following figure:
+The visual features use the features of the second layer of Resnet or VGG, and the text features use the features of bidirectional RNN (LSTM). The visual features are shown in the following Figure \ref{dan1}:
 
 \begin{figure}[h!]
 \centering
@@ -533,13 +537,13 @@ The visual features use the features of the second layer of Resnet or VGG, and t
 
 \subsubsection{VQA and Image-Text Matching}
 
-The author solves two different problems. The two different problems both use the previous Attention mechanism. However, the different methods of using Attention are different.
+This research solved two different problems which both used the previous attention mechanism. However, the methods of applying attention are different.
 
 \paragraph{Visual Question and Answer}
 
-In the VQA data set, all the answers are one word, so in essence, this problem is a classification problem, that is, you need to know which one of the Answer sets the Question is in the end.
+In the VQA dataset, all the answers are one single word, so in essence, this problem is a classification problem, that is, we need to know which one of the answer sets the question is in the end.
 
-Its network structure diagram is as follows:
+The network structure diagram is displayed as follows in Figure \ref{fig:dan2}:
 
 \begin{figure}[h!]
 \centering
@@ -550,7 +554,7 @@ Its network structure diagram is as follows:
 
 As can be seen from the figure, it uses the last memory vector for classification.
 
-The Memory Vectory calculation formula is as follows:
+The memory vector calculation formula is as follows:
 
 $$
 \mathbf{m}^{(k)}=\mathbf{m}^{(k-1)}+\mathbf{v}^{(k)} \odot \mathbf{u}^{(k)}
@@ -569,12 +573,12 @@ $$
 \mathbf{u}^{(0)}=\frac{1}{T} \sum_{t} \mathbf{u}_{t}
 $$
 
-Because it is an image question answering task, it is necessary to fuse the text features with the image features at each Attention step, and finally output them. According to the last fused features, a softmax classifier is sufficient.
+Because it is an image question answering task, it is necessary to fuse the text features with the image features at each Attention step, and finally output them. According to the last fused features, a \verb|softmax| classifier is sufficient.
 
 \paragraph{Image-Text Matching}
-The biggest difference between the graphic and text matching problem and VQA is that he is solving a Rank problem, so he needs to compare the distance between the two features, so he cannot share the same Memory Vector.
+The biggest difference between the image and text matching problem and VQA is solving a ranking problem, so we needs to compare the distance between the two features, so we cannot share the same memory vector.
 
-Corresponding Image and Text have their own Memory Vector, their calculation formula is as follows:
+Corresponding image and text have their own memory vector, their calculation formula is as follows:
 
 $$
 \begin{array}{l}
@@ -583,7 +587,7 @@ $$
 \end{array}
 $$
 
-Its network structure is as follows:
+The network structure is shown as follows in Figure \ref{dan3}:
 
 \begin{figure}[h!]
 \centering
@@ -594,19 +598,23 @@ Its network structure is as follows:
 
 In the final experiment, the author used the same Ranking Loss as in the previous work. One difference is that each step of Attention will generate a matching vector. What is done here is to add all $S$.
 
-\subsection{Summary}
-Throughout these papers, all models are dealing with graphic and text fusion, that is, multi-modal fusion. One of his most basic starting points is that the encoder models for text and images must be good enough, which is the first one, convolution in the article (it seems that RNN can also be used).
+\subsection{Summary of Image-Text Alignment Related Works}
+Throughout these papers, all models are dealing with graphic and text fusion, that is, multi-modal fusion. One of his most basic starting points is that the encoder models for text and images must be good enough, which is the first one, convolution in the article (it seems that Recurrent neural network can also be used).
 
-With an excellent encoder, the next thing to do is the fusion of features. Currently, there are two ways to fuse features, one is pre-fusion, and the other is post-fusion. Pre-fusion inputs image information and text information to a network for further encoder, and finally uses the task-related network; post-fusion is to directly concate the features from the image text encoder and then input to the task-related network. Generally speaking, Pre-converged networks are better than post-converged.
+With an excellent encoder, the next thing to do is the fusion of features. Currently, there are two ways to fuse features, one is pre-fusion, and the other is post-fusion. Pre-fusion inputs image information and text information to a network for further encoder, and finally uses the task-related network; post-fusion is to directly concate the features from the image text encoder and then input to the task-related network. Generally speaking, pre-converged networks are better than post-converged.
 
 Graphic matching is a matching problem of all sentences and all images. It may be relatively tricky to solve this problem directly, so sometimes it is necessary to split these data into components. 
 
 The other is that there are many tricks in the model training. Sometimes or most of the time, it is not because our idea is not good enough, but because we have insufficient experience in training the model, so we tell us that we must be patient in training the model. The road is right, you can keep going, and it will have good results.
 
-\section{Conclusion}
-The final section of the chapter gives an overview of the essential results
-of this chapter. This implies that the introductory chapter and the
-concluding chapter don't need a conclusion.
+\section{Conclusion of Literature}
+
+There are many research focusing on the field of object detection and image-text alignment. We reviewed the research problem and studies their proposed solutions and methodologies. 
+
+In object detection, the major problem is to extract featured object out from images. Convolutional neural network (CNN) \cite{cnn1} was firstly proposed and became the basis of most of the preceding improved models in the field. There are classic deep learning models like VGG \cite{vgg16} and RCNN \cite{rcnn}, followed by more recently improved ones like Fast RCNN \cite{fastrcnn} and Faster RCNN \cite{fasterrcnn}. These deep learning models significantly helped solve the task of object detection and they can achieve promising results.
+
+For image-text alignment, the primary focus is how to map both image and text to the same semantic space. There are CNN models which was able to apply the convolution operation to text such as m-CNN. Recently, models like DAN focus on applying attention mechanism on neural networks to align different image regions to different text tokens, which greatly improved the quality of image-text alignment. 
+
 
 
 

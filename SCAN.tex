@@ -189,11 +189,11 @@ SCAN t-i LSE + i-t AVG & 3.3         & 20.4        & 36.1       & 8.0        & 2
 \label{table:resultscan}
 \end{table}
 
+The results are beyond satisfactory as shown; however, as in this stage, we only used the features obtained using bottom-up attention \cite{bottomup} to train and test, the result may be misleading. As bottom-up attention model was trained on natural images, which means the features we obtained for training and testing set may be irrelevant to those contained in artworks. Noted using entire artwork image and sentence caption to feed SCAN may also lose detailed information in artworks, which will be further discussed in the next chapter.
 
-\section{Summary}
-The final section of the chapter gives an overview of the important results of this chapter. This implies that the introductory chapter and the concluding chapter don't need a conclusion.
+\section{Conclusion}
+Automated image-text mutual annotation would benefit transforming traditional library artwork collection to digital. In this section, we adopted a well-known cross modal retrieval model Stacked Attention as our baseline and evaluated our Egyptian and Chinese artwork datasets on it. Considering the unique representation of artworks, in the next chapter, we will modify SCAN to achieve the cross modal retrieval in a fine-grained level.
 
-\lipsum[66]
 
 %%% Local Variables: 
 %%% mode: latex
