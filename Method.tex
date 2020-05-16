@@ -125,19 +125,34 @@ Figure \ref{fig:i2t} shows the text retrieval results from given image queries. 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{i2t.pdf}
-\caption{Result of Text Retrieval for Given Image Queries}
+\caption{Good Example of Text Retrieval for Given Image Queries}
 \label{fig:i2t}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{t2i.pdf}
-\caption{Result of Image Retrieval for Given Text Queries
+\caption{Good Example of Image Retrieval for Given Text Queries
 }
 \label{fig:t2i}
 \end{figure}
 
 Next, Figure \ref{fig:t2i} illustrates the image retrieval results from given text queries. The left Chinese art text query is fairly descriptive and detailed, features like ``bridge'' and ``six cross-patterned circles'' helped our model to pick the right image from other similar ones. The right Egyptian art text queries are fairly easier than the Chinese one as most of the similar artworks differ in shapes and major gestures such as obvious feature ``broken arms raised to the sky''. This potentially helped the model to achieve better results on Egyptian artwork dataset than the Chinese one.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{badi2t.pdf}
+\caption{Failed Example of Text Retrieval for Given Image Queries}
+\label{fig:badi2t}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{badt2i.pdf}
+\caption{Failed of Image Retrieval for Given Text Queries
+}
+\label{fig:badt2i}
+\end{figure}
 
 \subsection{Discussion}
 
@@ -243,7 +258,7 @@ Due to the differences in artistic media (oil paintings, pastel paintings, sketc
 
 Figure \ref{fig:featurelearning} demonstrates the feature learning process proposed. First candidate correspondences need to be obtained, which come from matching the proposal regions in red boxes with the original complete dataset. Next, these correspondences are checked by comparing features from validation regions (in blue). Finally, only positive results from previous step will be extracted and kept. 
 
-The method is evaluated on multiple different datasets and showed significant qualitative findings. In terms of quantitative evaluation, the researchers marked 273 approximately repeating details in the dataset of 1.587 works of art by Lao Jan Bruegel and his studio. In addition to works of art, the researchers also showed improvements in the positioning of the algorithm on the Oxford5K photo dataset \cite{Philbin07} and historical photo positioning on the LTLL (Large Time Lags Location) dataset \cite{Fernando2015CVIU}.
+The method is evaluated on multiple different datasets and showed significant qualitative findings. In terms of quantitative evaluation, the researchers marked 273 approximately repeating details in the dataset of 1,587 works of art by Lao Jan Bruegel and his studio. In addition to works of art, the researchers also showed improvements in the positioning of the algorithm on the Oxford5K photo dataset \cite{Philbin07} and historical photo positioning on the LTLL (Large Time Lags Location) dataset \cite{Fernando2015CVIU}.
 
 \begin{figure}[h!]
 \centering
