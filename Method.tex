@@ -84,41 +84,36 @@ Recall is one of the most commonly used metrics in the field of information retr
 
 \subsection{Results}
 
-\begin{table}[h!]
-\centering
-\begin{tabular}{lcccccc}
-                                                                                                  & \multicolumn{3}{c}{Sentence Retrieval}                                       & \multicolumn{3}{c}{Image Retrieval}                                          \\ \hline
-Method                                                                                            & \multicolumn{1}{l}{R@1} & \multicolumn{1}{l}{R@5} & \multicolumn{1}{l}{R@10} & \multicolumn{1}{l}{R@1} & \multicolumn{1}{l}{R@5} & \multicolumn{1}{l}{R@10} \\ \hline
-Faster R-CNN, ResNet                                                                              & \multicolumn{6}{c}{Ancient Chinese art alignment dataset}                                                                                                  \\ \hline
-SCAN t-i LSE ($\lambda_1$ = 9, $\lambda_2$ = 6)                                                                     & 0.1                     & 0.4                     & 0.8                      & 0.1                     & 0.2                     & 0.6                      \\
-SCAN t-i AVG ($\lambda_1$ = 9)                                                                             & 0.1                     & 0.1                     & 0.2                      & 0.1                     & 0.2                     & 0.2                      \\
-SCAN i-t LSE ($\lambda_1$ = 4, $\lambda_2$ = 20)                                                                    & 0.1                     & 0.2                     & 0.4                      & 0.1                     & 0.1                     & 0.3                      \\
-SCAN i-t AVG ($\lambda_1$ = 4)                                                                             & 0.0                     & 0.2                     & 0.5                      & 0.1                     & 0.2                     & 0.3                      \\ \hline
-\begin{tabular}[c]{@{}l@{}}SCAN t-i LSE + i-t AVG\\ (with fragmented image and text)\end{tabular} & \textbf{0.2}            & \textbf{1.2}            & \textbf{2.4}             & \textbf{0.2}            & \textbf{1.0}            & \textbf{2.4}            
-\end{tabular}
-\caption{Result of Fragmented SCAN on Chinese Artwork Dataset}
-\label{table:resultfragmentedCN}
-\end{table}
-
 %%%%%%%%
 
 \begin{table}[h!]
 \centering
 \begin{tabular}{lcccccc}
-                                                                                                  & \multicolumn{3}{c}{Sentence Retrieval}                                       & \multicolumn{3}{c}{Image Retrieval}                                          \\ \hline
-Method                                                                                            & \multicolumn{1}{l}{R@1} & \multicolumn{1}{l}{R@5} & \multicolumn{1}{l}{R@10} & \multicolumn{1}{l}{R@1} & \multicolumn{1}{l}{R@5} & \multicolumn{1}{l}{R@10} \\ \hline
-Faster R-CNN, ResNet                                                                              & \multicolumn{6}{c}{Ancient Egyptian art alignment dataset}                                                                                                  \\ \hline
-SCAN t-i LSE ($\lambda_1$ = 9, $\lambda_2$ = 6)                                                                     & 0.3                     & 3.4                     & 6.8                      & 0.4                     & 3.2                     & 7.6                      \\
-SCAN t-i AVG ($\lambda_1$ = 9)                                                                             & 0.4                     & 3.8                     & 5.2                      & 0.2                     & 3.2                     & 7.2                      \\
-SCAN i-t LSE ($\lambda_1$ = 4, $\lambda_2$ = 20)                                                                    & 0.3                     & 3.2                     & 5.4                      & 0.2                     & 2.9                     & 6.3                      \\
-SCAN i-t AVG ($\lambda_1$ = 4)                                                                             & 0.3                     & 3.7                     & 6.5                      & 0.3                     & 3.5                     & 8.3                      \\ \hline
-\begin{tabular}[c]{@{}l@{}}SCAN t-i LSE + i-t AVG\\ (with fragmented image and text)\end{tabular} & \textbf{0.7}            & \textbf{3.7}            & \textbf{8.1}             & \textbf{0.7}            & \textbf{3.8}            & \textbf{9.6}            
+\hline
+\hline
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{Sentence Retrieval} & \multicolumn{3}{c}{Image Retrieval} \\ \hline\hline
+\multicolumn{7}{r}{Egyptian Artwork Alignment Dataset}                                              \\ \hline
+Method               & R@1         & R@5         & R@10       & R@1        & R@5        & R@10      \\ \hline
+t-i LSE              & 9.5        & 14.2        & 20.1       & 6.3       & 9.1       & 15.2      \\ \hline
+t-i AVG              & 9.7        & 14.6        & 20.3       & 6.8       & 9.5       & 15.8      \\ \hline
+i-t LSE              & \textbf{13.5}        & \textbf{20.9}        & 28.4       & \textbf{9.9}       & 15.6       & 22.0      \\ \hline
+i-t AVG              & 13.4        & 20.5        & \textbf{28.6}       & 9.7       & \textbf{15.8}       & \textbf{22.8}      \\ \hline
+One-directional GRU  & 16.3        & 18.7        & 24.5       & 8.1       & 13.9       & 19.4      \\ \hline\hline
+\multicolumn{7}{r}{Chinese Artwork Alignment Dataset}                                               \\ \hline
+Method               & R@1         & R@5         & R@10       & R@1        & R@5        & R@10      \\ \hline
+t-i LSE              & 4.7         & 9.2        & 17.5       & 1.9        & 8.6       & 14.9      \\ \hline
+t-i AVG              & 5.1         & 9.4        & 17.9       & 2.2        & 8.9       & 15.2      \\ \hline
+i-t LSE              & 5.8         & 11.5        & 20.9       & \textbf{4.7}        & 11.8       & 18.6      \\ \hline
+i-t AVG              & \textbf{6.4}         & \textbf{11.6}        & \textbf{21.2}       & 4.4        & \textbf{12.1}       & \textbf{18.7}      \\ \hline
+One-directional GRU  & 1.3         & 10.8        & 20.1       & 3.5        & 10.1       & 16.8      \\ \hline
 \end{tabular}
-\caption{Result of Fragmented SCAN on Egyptian Artwork Dataset}
-\label{table:resultfragmentedEG}
+\caption{Result of Fragmented SCAN on Chinese/Egyptian Artwork Dataset}
+\label{table:resultfragmented}
 \end{table}
 
-Table \ref{table:resultfragmentedCN} and \ref{table:resultfragmentedEG} present the quantitative results on Chinese and Egyptian artwork datasets where all formulations of our proposed method outperform recent approaches in all measures. Here we denote t-i as image retrieval by text and i-t as text retrieval by image, AVG as average pooling and LSE as LogSumExp pooling. Like most of the SCAN based models, we combined t-i and i-t models by averaging their predicted similarity scores. The best result of model ensembles is achieved by combining t-i AVG and i-t LSE, 1.2 on sentence retrieval (R@5) and 1.0 on image retrieval (R@5) relatively on Chinese artwork dataset; 3.7 on sentence retrieval (R@5) and 3.8 on image retrieval (R@5) relatively on Chinese artwork dataset.
+
+
+Table \ref{table:resultfragmented} present the quantitative results on Chinese and Egyptian artwork datasets where all formulations of our proposed method outperform recent approaches in all measures. Here we denote t-i as image retrieval by text and i-t as text retrieval by image, AVG as average pooling and LSE as LogSumExp pooling. Like most of the SCAN based models, we combined t-i and i-t models by averaging their predicted similarity scores. The best result of model ensembles is achieved by combining t-i AVG and i-t LSE, 1.2 on sentence retrieval (R@5) and 1.0 on image retrieval (R@5) relatively on Chinese artwork dataset; 3.7 on sentence retrieval (R@5) and 3.8 on image retrieval (R@5) relatively on Chinese artwork dataset.
 
 We noticed that the recalls for sentence and image retrieval on both Chinese and Egyptian artwork datasets are not satisfactorily high. However, there are still some good retrieval cases which we will demonstrate in the following section.
 
@@ -144,11 +139,68 @@ Figure \ref{fig:i2t} shows the text retrieval results from given image queries. 
 
 Next, Figure \ref{fig:t2i} illustrates the image retrieval results from given text queries. The left Chinese art text query is fairly descriptive and detailed, features like ``bridge'' and ``six cross-patterned circles'' helped our model to pick the right image from other similar ones. The right Egyptian art text queries are fairly easier than the Chinese one as most of the similar artworks differ in shapes and major gestures such as obvious feature ``broken arms raised to the sky''. This potentially helped the model to achieve better results on Egyptian artwork dataset than the Chinese one.
 
-\subsection{Summary of Evaluation}
+\subsection{Discussion}
 
-Generally speaking, Egyptian artworks surpassed Chinese artworks on cross-modal retrieval tasks - extra fine-grained features in Chinese artworks which complicates the process of distinguishing features. Furthermore, low recall results are to be expected. One of the crucial requirements for image-text alignment is accurate feature extraction. However, in our case, we used the bottom-up attention mechanism \cite{bottomup}, which was designed and trained on real-world images. We all know that artworks usually have widely different representations and requires unique and specific treatment on feature extraction. Nevertheless, we did not have more time to redesign our feature extraction algorithm to make it more adaptable to artwork representations. In the next section, we discuss some recently published methodologies on representing artworks, which should be beneficial to improve the current fine-grained cross-modal retrieval model. 
+Generally speaking, Egyptian artworks surpassed Chinese artworks on cross-modal retrieval tasks - extra fine-grained features in Chinese artworks which complicates the process of distinguishing features. Furthermore, low recall results are to be expected. One of the crucial requirements for image-text alignment is accurate feature extraction. However, in our case, we used the bottom-up attention mechanism \cite{bottomup}, which was designed and trained on real-world images. We all know that artworks usually have widely different representations and requires unique and specific treatment on feature extraction. Nevertheless, we did not have more time to redesign our feature extraction algorithm to make it more adaptable to artwork representations. In the next section, we discuss some recently published methodologies on representing artworks, which may be beneficial to improve the current fine-grained cross-modal retrieval model. 
 
-\section{Future Works}
+\section{Future Directions}
+In this section, we point out some cutting-edge researches on the field of image-text alignment that are related to our methodology as future directions for further improvements. We are going to discuss in two main directions: the way to align image and text and the way to extract image features (representations).
+
+\subsection{Similarity or Fusion?}
+
+Generally speak, the processing of image-text matching problems can be divided into ``similarity'' and ``classification''. ``Similarity'' is to use the traditional methods such as cosine similarity or dot product to calculate the similarity between image and text in the same embedding space to judge whether it matches or not. The representative methods are SCAN \cite{scan} and VSRN \cite{VSRN}. The ``classification'' method is to use the neural network to fit a function that is better than the cosine similarity, to determine that whether the input image and text feature are match or not. This input comes from two modes and the output The neural network design for a certain result is generally called ``fusion'', which is more common in VQA, and the representative method is MTFN \cite{MTFN}.
+
+Now let's discuss the pros and cons of traditional similarity calculation and fusion by starting from analysing this problem from a theoretical perspective.
+
+First, we look at a general bilinear fusion method proposed in MUTAN \cite{benyounes2017mutan}:
+
+$$
+\text {score}=\sigma\left(\left(x_{\text {img}} \odot x_{\text {txt}}\right) \mathbf{W}\right), x \in \mathcal{R}^{1 \times d}, \mathbf{W} \in \mathcal{R}^{d \times 1}
+$$
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{MUTAN.pdf}
+\caption{Bilinear Fusion in MUTAN \cite{benyounes2017mutan}}
+\label{fig:i2t}
+\end{figure}
+
+Where $x$ represents extracted feature and $\mathbf{W}$ is a learn-able matrix. It is simply to reduce the dimensions after taking the product of the two features, and then output the matching probability through the \verb|sigmoid| function. This is also the basic method used in MTFN \cite{MTFN}, which is referred to as bilinear fusion in the following.
+
+Here we use the simplest and most traditional similarity calculation method: dot product here to compare with bilinear fusion:
+
+$$
+\text {score}=\sigma\left(x_{\text {img}} x_{t x t}^{\mathrm{T}}\right)
+$$
+
+Observing the above two formulas, we can find that bilinear fusion is not much different from the dot product. The dot product is to multiply the corresponding position elements of the two vectors and sum all the elements, while the bilinear fusion is first get dot product of the corresponding position elements, then get product of $\mathbf{W}$. This is equivalent to the weighted sum of the elements, that is, when $\mathbf{W}$ is an all-one matrix, bilinear fusion degenerates into a dot product.
+
+From this point of view, bilinear fusion can be understood as weighting different positions when doing dot product when $\mathbf{W}$ is a weight matrix. Weighting helps but there are two problems:
+
+\begin{itemize}
+    \item Optimisation. Can we guarantee a $\mathbf{W}$ better than the all-one matrix?
+    \item Design issues. The dimension of the weight matrix is $d\times1$, that is, in the inference, for the element product of any pair of graphic features, the weight of each element position is identical, which is obviously unreasonable.
+\end{itemize}
+
+In many experiments, it has not been shown that fusion must perform better than dot product, and dot product is obviously simpler and faster than fusion.
+
+
+\subsubsection{Early Fusion}
+VQA has seen many improvements to fusion this year, one of which is early fusion. The reason why early fusion is early is that compared to the bilinear fusion mentioned above, it put the multi-modal features into the neural network earlier (there is only one linear layer behind bilinear fusion at the end of the entire model) . B2T2 [4] compared early fusion and late fusion on the visual commonsense dataset, and concluded that early fusion is better. (However, it can be seen from the figure below that this comparison is somewhat unfair, at least early fusion has more detection information)
+
+It should be noted that early fusion is mentioned in many papers, but the structural design is different, such as RAMEN [5].
+
+Obviously early fusion has given more work to the neural network, and its performance on VQA is also relatively comparable, but I have not seen any work that emphasizes early fusion completely exceeds late fusion represented by bilinear fusion (personally thought B2T2 [4] The special data set cannot explain the problem). However, at least some aspects have shaken the dominance of bilinear, and these early fusion methods are slightly rough and have the potential to be better designed. I also look forward to more articles that break the paradigm.
+
+Returning to image-text matching, if the idea of RAMEN [5] early fusion is introduced into the research, considerable progress may be made.
+
+\subsection{Better Representation Learning?}
+
+It seems that the most important factor affecting the matching task is also the characteristics learned by the network, and the calculation of similarity is not so important to a certain extent. VSRN [2] also proved this point side by side, they introduced a lot of components to learn features, and then used the simplest dot product to achieve the current performance of sota.
+
+When it comes to learning features, one must say representation learning. 2019 is a year of rapid development of representation learning. The leaderboard of Visual Commonsense Reasoning (VCR) is already full of large-scale pretrain models, ViBERT [7], VideoBERT [8], UNITE [6] and Kaiming ’s MoCo [ 9].
+
+Representation learning actually embodies its importance in earlier work. The 2017 COCO image caption champion Bottom-Up and Top-Down [10] used by our baseline has indirectly accomplished many image-text alignment tasks. Afterwards, VQA, image-text matching, and caption all began to use [10] to extract features, which improved the baseline by a large amount, which shows that a better representation learning model is very important.
 
 Recently, some works \cite{TranslatingArtworks,parttowhole,Art2Real,tan2017artgan,shen2019discovering} have proposed new frameworks for artwork feature extraction and made good progress in the field. 
 
