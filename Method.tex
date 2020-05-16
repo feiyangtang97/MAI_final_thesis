@@ -54,7 +54,7 @@ For experiment settings, we used the same settings and exvironment as mentioned 
 \subsubsection{Settings for image representation}
 
 \begin{itemize}
-    \item Instead of using the weights pre-trained by \textit{Anderson et al.} on \verb|Visual Genomes| dataset like in Chapter \ref{cha:scan}, here we retrained our faster R-CNN model and ResNet-101 model and performed detection of salient regions as bottom-up attention to extract features from images. 
+    \item To save intense labour on retraining model for feature extraction task, we kept the weights pre-trained by \textit{Anderson et al.} on \verb|Visual Genomes| dataset like in Chapter \ref{cha:scan}for faster R-CNN model and ResNet-101 model and performed detection of salient regions as bottom-up attention to extract features from images. 
     \item We captured 36 Region of Interests (ROIs) for each image after average pooling and extracted 2,048-dimensional features vector.
     \item We used L2 normalisation (Euclidean distance) into 1,024 joint embedding spaces (same for GRU), these will be used as image feature vectors.
 \end{itemize}
@@ -194,7 +194,7 @@ There are many improvements to fusion this year, one of the most widely discusse
 \label{fig:fusionb2t2}
 \end{figure}
 
-It should be noted that early fusion is mentioned in many papers, but the structural design is slightly different, such as RAMEN \cite{ramen}.
+It should be noted that early fusion is mentioned in many papers, but the structural designs were slightly different, such as RAMEN \cite{ramen}.
 
 Obviously early fusion has contributed a lot to this aspect, and its performance on VQA is also relatively comparable, but we have not seen enough strong evidence that early fusion completely exceeds late fusion represented by bilinear fusion. However, at least some aspects have shaken the dominance of bilinear, and these early fusion methods are slightly coarse and have the potential to be better designed. We can expect some future works to break this paradigm.
 
@@ -243,7 +243,7 @@ Due to the differences in artistic media (oil paintings, pastel paintings, sketc
 
 Figure \ref{fig:featurelearning} demonstrates the feature learning process proposed. First candidate correspondences need to be obtained, which come from matching the proposal regions in red boxes with the original complete dataset. Next, these correspondences are checked by comparing features from validation regions (in blue). Finally, only positive results from previous step will be extracted and kept. 
 
-The method is evaluated on multiple different datasets and showed significant qualitative findings. In terms of quantitative evaluation, the researchers marked 273 approximately repeating details in the dataset of 1587 works of art by Lao Jan Bruegel and his studio. In addition to works of art, the researchers also showed improvements in the positioning of the algorithm on the Oxford5K photo dataset and historical photo positioning on the LTLL (Large Time Lags Location) dataset.
+The method is evaluated on multiple different datasets and showed significant qualitative findings. In terms of quantitative evaluation, the researchers marked 273 approximately repeating details in the dataset of 1.587 works of art by Lao Jan Bruegel and his studio. In addition to works of art, the researchers also showed improvements in the positioning of the algorithm on the Oxford5K photo dataset \cite{Philbin07} and historical photo positioning on the LTLL (Large Time Lags Location) dataset \cite{Fernando2015CVIU}.
 
 \begin{figure}[h!]
 \centering
@@ -252,7 +252,7 @@ The method is evaluated on multiple different datasets and showed significant qu
 \label{fig:featurelearning}
 \end{figure}
 
-We believe that adopting a comprehensive framework like MTMR \cite{parttowhole} along with a fine-grained feature matching and extraction process mentioned in Shen et al.'s research \cite{shen2019discovering} will significantly help improve the fine-grained cross modal retrieval model.
+We believe that a multitasking framework focusing on different levels of features like MTMR \cite{parttowhole} along with a fine-grained feature matching strategies mentioned in Shen et al.'s research \cite{shen2019discovering} will significantly help improve the fine-grained cross modal retrieval model.
 
 \section{Conclusion}
 

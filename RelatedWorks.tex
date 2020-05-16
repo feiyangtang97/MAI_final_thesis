@@ -270,42 +270,9 @@ The first step is to generate anchor boxes with various size and aspect ratio on
 
 Faster R-CNN completed the ``deep'' part of the inspection tasks using RPN network. The idea of using a sliding window to generate anchor box is also widely adopted such as in YOLO v2, etc. 
 
-\section{Natural Language Processing}
-
-Natural Language Processing, shortly NLP, is a process of computer accepting input in the form of natural language and performing a series of operations such as processing and calculation internally by human-defined algorithms to simulate human understanding of natural language and returning the user's expected result. Just like machinery freed human hands, the purpose of natural language processing is to use a computer instead of a human to process large-scale natural language information. It is an interdisciplinary field of artificial intelligence, computer science, and information engineering, involving statistics, linguistics, and more.
-
-\subsection{Preliminaries}
-Machine learning allows computers to efficiently perform specified tasks through patterns and reasoning, rather than explicit instructions. Bayesian probability models, logistic regression, decision trees, Support Vector Machines, Hidden Markov models, etc. are all standard traditional machine learning algorithms used in NLP research. Deep learning is a machine learning method based on feature learning. It transforms the original data into higher-level, more abstract feature representations through non-linear but straightforward modules. Through enough combinations of transformations, very complex functions can also be used. 
-
-In many years of experiments, people have discovered two critical mechanisms of cognition: abstraction and iteration. From the original signal, firstly perform low-level abstraction, gradually iterate to high-level abstraction, and finally abstract higher-level patterns during iterations. In terms of deep learning, it sequentially extracts edge features, simple shape features such as the contour of the mouth, and higher-level shape features such as the face shape through a multi-layer neural network. 
-
-In the field of natural language processing, it is not as intuitively as computer vision; we can learn the grammatical and semantic features of text information through deep learning models. we can also conclude that deep learning represents the progress of natural language processing research from machine learning to cognitive computing.
-
-\subsection{Language Models}
-To talk about adopting deep learning on NLP, we must start with the language model. The primary research of natural language processing is human-machine language interaction. Machines can understand algorithms to reflect human language. The core is the statistical language models. A language model (LM for short) is a probability distribution of a sequence of words. Through language models, the possibility of a string of text can be quantitatively assessed. For a piece of text of length n, each word in the text has the process of predicting the word through the above, and the probability product of all words can be used to evaluate the possibility of the existence of the text. In practice, if the text is long, the estimation of $P (w_i | context (w_i))$ will be difficult, so there is a simplified version: N-gram model. 
-
-In the N-gram model, the conditional probability of the current word is estimated by calculating the first N words of the current word. For N-gram models. Commonly used are unigram, bigram, and trigram. The larger N is, the more sparse the data is, the less accurate the estimation result is. In order to solve the problem of data sparseness when the N-gram model estimates the probability, researchers try to use neural networks to study the language model.
-
-As early as 2000, researchers have proposed the idea of using neural networks to study language models. The classic representative is the NNLM proposed by Bengio et al. \cite{nnlm} in 2003, but the effect is not significant. The study of deep learning for NLP has been under exploration. Stage. Until 2011, Collobert et al. \cite{nlpscratch} used a simple deep learning model to obtain SOTA scores in NLP tasks such as named entity recognition NER, semantic role tagging SRL, part-of-speech tagging POS-tagging, and more and more research methods based on deep learning have gained more and more. In 2013, the word vector fires represented by Word2Vec and Glove, more research explored how to improve the ability of language models from the perspective of word vectors, and focused on intra-word semantics and contextual semantics. In addition, research-based on deep learning has experienced feature extractors such as CNN, RNN, Transformer, etc. Researchers have tried to optimise the ability of language models using various mechanisms, including methods of pre-training combined with fine-tuning of downstream tasks. Recently the most eye-catching EMLo, GPT and BERT models are excellent representatives of this pre-training method, which frequently refreshes SOTA.
-
-\subsection{Basic NNLM}
-
-NNLM is a very classic neural network language model. Although it has no significant effect compared to traditional machine learning, everyone talks about the exploration of the direction of deep learning in NLP, and always remembers to mention the veteran. The concept of distributed representation has long been proposed by researchers and applied to deep learning models. Word2vec uses CBOW and Skip-gram, training models. The unexpected semantic combination effect has made word vectors widely popular. FastText does not have any particular breakthroughs in language models, but the optimisation of the model makes the deep learning model training on large-scale data very fast or even seconds, and the effect of text classification is comparable to models such as RNN, which has a place in industrial applications.
-
-In 2003, Bengio et al. \cite{nnlm} proposed a neural network-based language model NNLM. The model simultaneously learns the distributed representation of words, and based on the distributed representation of words, learns the probability function of word sequences. Probability is used to represent sentences, and models can produce exponentially similar sentences. The author believes that the language model trained in this way has a strong generalisation ability. For sentences that have not appeared in the training corpus, the model can learn from similar sentences composed of similar words that have been seen.
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=.8\textwidth]{nnlm.pdf}
-\caption{Neural architecture of NNLM \cite{nnlm}}
-\label{fig:nnlm}
-\end{figure}
-
-Like Figure \ref{fig:nnlm} illustrated above, the objective function of model training is the joint probability of a word sequence of length n, which is decomposed into two parts: one is the feature map. Through the mapping matrix $C$, each word in the dictionary $V$ can be mapped into a feature vector $C(i)\in R_m$; the second is to calculate the conditional probability distribution. Through the function $g$, the input word vector sequence $C\left(w_{t-1}\right), \cdots, C\left(w_{t-n+1}\right)$ is converted into a probability distribution $y\in R|V|$. The output of $g$ is a vector, and the $i$-th element represents the probability that the $n$-th word of the word sequence is $V_i$. The network output layer uses a \verb|softmax| function.
-
 
 \section{Image-text Alignment}
-Image and text matching and image question answering are the frontiers of image and text multi modal fusion. The former needs to map images and texts to the same semantic space, and then judge their similarity by distance; the latter needs to find suitable answers in all candidate sets.
+Image-text matching and visual question answering (VQA) are the frontiers of image and text multi modal fusion. The former needs to map images and texts to the same semantic space, and then judge their similarity by distance; the latter needs to find suitable answers in all candidate sets.
 
 \subsection{Convolutional Neural Network Architectures for Matching Natural Language Sentences}
 
