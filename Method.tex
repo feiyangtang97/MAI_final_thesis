@@ -162,7 +162,7 @@ $$
 \centering
 \includegraphics[width=\textwidth]{MUTAN.pdf}
 \caption{Bilinear Fusion in MUTAN \cite{benyounes2017mutan}}
-\label{fig:i2t}
+\label{fig:mutan}
 \end{figure}
 
 Where $x$ represents extracted feature and $\mathbf{W}$ is a learn-able matrix. It is simply to reduce the dimensions after taking the product of the two features, and then output the matching probability through the \verb|sigmoid| function. This is also the basic method used in MTFN \cite{MTFN}, which is referred to as bilinear fusion in the following.
@@ -184,25 +184,29 @@ From this point of view, bilinear fusion can be understood as weighting differen
 
 In many experiments, it has not been shown that fusion must perform better than dot product, and dot product is obviously simpler and faster than fusion.
 
-
 \subsubsection{Early Fusion}
-VQA has seen many improvements to fusion this year, one of which is early fusion. The reason why early fusion is early is that compared to the bilinear fusion mentioned above, it put the multi-modal features into the neural network earlier (there is only one linear layer behind bilinear fusion at the end of the entire model) . B2T2 [4] compared early fusion and late fusion on the visual commonsense dataset, and concluded that early fusion is better. (However, it can be seen from the figure below that this comparison is somewhat unfair, at least early fusion has more detection information)
+There are many improvements to fusion this year, one of the most widely discussed is early fusion. ``Early'' means that comparing to the bilinear fusion mentioned above, it put the multi-modal features into the neural network earlier while there is only one linear layer in bilinear fusion which locates at the end of the entire model. B2T2 \cite{B2T2} compared early fusion and late fusion on the Visual Commonsense Reasoning (VCR) dataset \cite{zellers2019vcr}, and concluded that early fusion usually works better. However, it can be seen from the Figure \ref{fig:fusionb2t2} shown below that this comparison can be somewhat unfair, but at least early fusion added more detection information.
 
-It should be noted that early fusion is mentioned in many papers, but the structural design is different, such as RAMEN [5].
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{fusion.pdf}
+\caption{Late Fusion (left) \& Early Fusion (right) in B2T2 \cite{B2T2}}
+\label{fig:fusionb2t2}
+\end{figure}
 
-Obviously early fusion has given more work to the neural network, and its performance on VQA is also relatively comparable, but I have not seen any work that emphasizes early fusion completely exceeds late fusion represented by bilinear fusion (personally thought B2T2 [4] The special data set cannot explain the problem). However, at least some aspects have shaken the dominance of bilinear, and these early fusion methods are slightly rough and have the potential to be better designed. I also look forward to more articles that break the paradigm.
+It should be noted that early fusion is mentioned in many papers, but the structural design is slightly different, such as RAMEN \cite{ramen}.
 
-Returning to image-text matching, if the idea of RAMEN [5] early fusion is introduced into the research, considerable progress may be made.
+Obviously early fusion has contributed a lot to this aspect, and its performance on VQA is also relatively comparable, but we have not seen enough strong evidence that early fusion completely exceeds late fusion represented by bilinear fusion. However, at least some aspects have shaken the dominance of bilinear, and these early fusion methods are slightly coarse and have the potential to be better designed. We can expect some future works to break this paradigm.
+
+Back to image-text matching, if the idea of RAMEN \cite{ramen} early fusion is introduced into the research, considerable progress may be made.
 
 \subsection{Better Representation Learning?}
 
-It seems that the most important factor affecting the matching task is also the characteristics learned by the network, and the calculation of similarity is not so important to a certain extent. VSRN [2] also proved this point side by side, they introduced a lot of components to learn features, and then used the simplest dot product to achieve the current performance of sota.
+It seems that the most important factor affecting the matching task is actually the characteristics/feature learnt by the network, and the calculation of similarity is not as important to a certain extent. VSRN \cite{VSRN} also proved this point by introducing a lot of components to learn features, and then used the simplest dot product to achieve the current SOTA performance.
 
-When it comes to learning features, one must say representation learning. 2019 is a year of rapid development of representation learning. The leaderboard of Visual Commonsense Reasoning (VCR) is already full of large-scale pretrain models, ViBERT [7], VideoBERT [8], UNITE [6] and Kaiming ’s MoCo [ 9].
+Representation learning actually embodies its importance in earlier work. The bottom-up and top-down \cite{bottomup} attention mechanism used by our baseline has indirectly accomplished many image-text alignment researches. Afterwards, VQA, image-text matching, and image caption all started to use \cite{bottomup} to extract features, which improved the baseline by a large amount and shows that a better representation learning model is crucial.
 
-Representation learning actually embodies its importance in earlier work. The 2017 COCO image caption champion Bottom-Up and Top-Down [10] used by our baseline has indirectly accomplished many image-text alignment tasks. Afterwards, VQA, image-text matching, and caption all began to use [10] to extract features, which improved the baseline by a large amount, which shows that a better representation learning model is very important.
-
-Recently, some works \cite{TranslatingArtworks,parttowhole,Art2Real,tan2017artgan,shen2019discovering} have proposed new frameworks for artwork feature extraction and made good progress in the field. 
+2019 has been a year of rapid development of representation learning. The leader-board of VCR \cite{zellers2019vcr} has many popular large-scale pretrained models such as ViBERT \cite{lu2019vilbert}, VideoBERT \cite{sun2019videobert}, UNITE \cite{chen2019uniter} and MoCo \cite{he2019momentum}. Considering the special category of image data we focus on - artworks, here we put more attention on those specialised in artwork feature extraction. Recently, some works \cite{TranslatingArtworks,parttowhole,Art2Real,tan2017artgan,shen2019discovering} have proposed new methodologies for artwork feature extraction and contributed a lot in the field. 
 
 
 \begin{figure}[h!]
@@ -232,7 +236,6 @@ Figure \ref{fig:mtmrmulti} shows the detailed structure of how multitask learnin
 \caption{MTMR's Multitask Learning Structure\cite{parttowhole}}
 \label{fig:mtmrmulti}
 \end{figure}
-
 
 Besides the MTMR framework, in 2019, Shen et al. \cite{shen2019discovering} tried to find almost repetitive patterns from a large number of artworks. 
 
