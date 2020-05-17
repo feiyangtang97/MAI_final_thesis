@@ -3,11 +3,11 @@
 
 In Chapter \ref{cha:scan}, we explained in detail on the structure and principle behind our coarse-grained cross-modal retrieval model. As we discussed, there are aspects that we can focus on to make improvements, especially on how to focus on the fine-grained features of artworks. In this chapter, we will present our improved model of fine-grained cross-modal retrieval.
 
-The structure of this chapter is as follows. Section 4.1 gives a brief introduction on our plans for modifying the baseline model into a fragment level. Section 4.2 explains the processed artwork datasets and why the pre-processing is necessary for our model. Section 4.3 proposes our improved fine-grained cross modal retrieval model on fragment level instead of focusing on a whole image or sentence. Section 4.4 shows the results of our presented model running on our annotated artworks datasets. Section 4.5 points out some existing shortcomings of our methodology and potential fields to be focused on in the future. Section 4.6 concludes this section.
+The structure of this chapter is as follows. Section 4.1 gives a brief introduction on our plans for modifying the baseline model into a fragment level. Section 4.2 explains the processed artwork datasets and why the pre-processing is necessary for our model. Section 4.3 proposes our improved fine-grained cross-modal retrieval model on fragment level instead of focusing on a whole image or sentence. Section 4.4 shows the results of our presented model running on our annotated artworks datasets. Section 4.5 points out some existing shortcomings of our methodology and potential fields to be focused on in the future. Section 4.6 concludes this section.
 
 
 \section{Fragment Retrieval}
-In this chapter, we are trying to solve the cross-modal retrieval task in a fine-grained level, which means we shall not limit our retrieval on the image or sentence level but a fragment level. We performed some changes on the baseline model in Chapter \ref{cha:scan}:
+In this chapter, we are trying to solve the cross-modal retrieval task at a fine-grained level, which means we shall not limit our retrieval on the image or sentence level but a fragment level. We performed some changes in the baseline model in Chapter \ref{cha:scan}:
 
 \begin{itemize}
     \item Instead of attending between image fragments with each token in sentence captions, here we extract noun phrases from sentence captions to perform mutual attention with image fragments.
@@ -20,7 +20,7 @@ Next, we present our datasets used in this chapter.
 \label{sec:dataprep}
 As we mentioned in Section \ref{cha:intro}, the datasets used in this thesis are from the Rijksmuseum Challenge by Mensink et al. \cite{MensinkICMIR2014}. The raw datasets were downloaded from the webpage dedicated to the Rijksmuseum Challenge. For each artwork, two files were available: a high-resolution \verb|jpeg| image file and an accompanying \verb|xml| file including the metadata.
 
-Python scripts (see Appendix \ref{app:A}) were written to parse the \verb|xml| files. Instead of using the raw captions, here the textual attributes we use are already processed into phrases. The technique here used is from Handler et al. \cite{nounphrase}, it extracts noun phrases from captions in raw \verb|xml| files which potentially helped us improve the accuracy as in most cases noun phrases contains more relevant information of artworks.  
+Python scripts (see Appendix \ref{app:A}) were written to parse the \verb|xml| files. Instead of using the raw captions, here the textual attributes we use are already processed into phrases. The technique here used is from Handler et al. \cite{nounphrase}, it extracts noun phrases from captions in raw \verb|xml| files which potentially helped us improve the accuracy as in most cases noun phrases contain more relevant information of artworks.  
 
 As one single artwork can often have more than one annotation existed in its corresponding \verb|xml| file, it is essential to extract all related annotations out and also combine them into one record for training and testing purpose, which saves computational power and simplifies the model input. 
 
@@ -32,7 +32,7 @@ Our training tasks will be based on these noun phrases and extracted image fragm
 
 \section{Overall Architecture}
 
-The architecture of the fine-grained cross-modal retrieval model is depicted in Figure \ref{fig:mainarch}. This model takes full artwork images and full sentence captions as input. The full artwork image input is a (224, 224) sized colour high-resolution picture and the full sentence caption comes from the Rijksmuseum dataset \cite{MensinkICMIR2014} which contains several descriptions of artworks.
+The architecture of the fine-grained cross-modal retrieval model is depicted in Figure \ref{fig:mainarch}. This model takes full artwork images and full sentence captions as input. The full artwork image input is a (224, 224) sized high-resolution colour picture and the full sentence caption comes from the Rijksmuseum dataset \cite{MensinkICMIR2014} which contains several descriptions of artworks.
 
 The model has two pipelines processing image and text input from start, for image input, we first detect salient regions as bottom-up attention \cite{bottomup} to extract features from images using faster R-CNN \cite{fasterrcnn} and ResNet-101 \cite{resnet} (mentioned in Section \ref{sec:fasterrcnn}). These obtained image fragments and their representations will be passed into a fully-connected layer, in order to transform them into a joint embedding space with the same dimension of text (i.e. the dimension of GRU explanation in next paragraph).
 
@@ -45,11 +45,11 @@ For full sentence captions as text input, as we mentioned in Section \ref{sec:da
 \label{fig:mainarch}
 \end{figure}
 
-After we learnt image and text representation in a common space, we can use SCAN to attend image to text and attend text to image, in order to get a better alignment in between. After computed mutual attention between image and text, we can start our follow-up part, which is cross-modal retrieval. We can use our learnt common space representation to calculate similarity scores between image and text; meanwhile, calculate ranked precision and recall for testing.
+After we learnt image and text representation in a common space, we can use SCAN to attend image to text and attend text to image, in order to get better alignment in between. After computed mutual attention between image and text, we can start our follow-up part, which is cross-modal retrieval. We can use our learnt common space representation to calculate similarity scores between image and text; meanwhile, calculate ranked precision and recall for testing.
 
 \section{Experiments}
 
-For experiment settings, we used the same settings and exvironment as mentioned in Chapter \ref{cha:scan}: Ubuntu machine with Intel Xeon Processor E5-1620 (10M Cache, 3.60 GHz) CPU and a GeForce GTX TITAN X GPU. 
+For experiment settings, we used the same settings and environment as mentioned in Chapter \ref{cha:scan}: Ubuntu machine with Intel Xeon Processor E5-1620 (10M Cache, 3.60 GHz) CPU and a GeForce GTX TITAN X GPU. 
 
 \subsubsection{Settings for image representation}
 
@@ -62,7 +62,7 @@ For experiment settings, we used the same settings and exvironment as mentioned 
 \subsubsection{Settings for text representation}
 
 \begin{itemize}
-    \item We obtained 300 dimensional word embedding as input to GRU then use embedding matrix to map it into 1,024 joint embedding spaces.
+    \item We obtained 300-dimensional word embedding as input to GRU then use embedding matrix to map it into 1,024 joint embedding spaces.
 \end{itemize}
 
 \subsection{Ground Truth}
@@ -113,60 +113,75 @@ One-directional GRU + i-t AVG  & 5.3         & 10.8        & 20.1       & 3.5   
 
 Table \ref{table:resultfragmented} present the quantitative results on Chinese and Egyptian artwork datasets where all formulations of our proposed method outperform recent approaches in all measures. Here we denote t-i as Text-Image formulation by text and i-t as Image-Text formulation, AVG as average pooling and LSE as LogSumExp pooling. Like most of the SCAN based models, we tested four different methods by different combinations of formulations and pooling methods. In addition, to check the necessity of bidirectional GRU, we also include a test under one-directional GRU with i-t AVG.
 
-i-t usually surpasses t-i on both pooling methods and it is obvious that using bidirectional GRU improves image annotation R@1 by 2.9 in Egyptian artworks and 1.1 in Chinese artworks, 1.6 and 1.2 for image search. The best result of model are 13.5 on sentence retrieval (R@1) and 9.9 on image retrieval (R@5) relatively on Egyptian artwork dataset; 6.4 on sentence retrieval (R@1) and 4.7 on image retrieval (R@1) relatively on Chinese artwork dataset.
+i-t usually surpasses t-i on both pooling methods, and it is evident that using bidirectional GRU improves image annotation R@1 by 2.9 in Egyptian artworks and 1.1 in Chinese artworks, 1.6 and 1.2 for image search. The best result of the model are 13.5 on sentence retrieval (R@1) and 9.9 on image retrieval (R@5) relatively on Egyptian artwork dataset; 6.4 on sentence retrieval (R@1) and 4.7 on image retrieval (R@1) relatively on Chinese artwork dataset.
 
-We noticed that the recalls for sentence and image retrieval on both Chinese and Egyptian artwork datasets are not satisfactorily high. To better understand and evaluate our model, we will demonstrate several successful and failed cross-modal retrieval examples in the next section for comparative analysis.
+We noticed that the recalls for sentence and image retrieval on both Chinese and Egyptian artwork datasets are not satisfactorily high. To better understand and evaluate our model, we will demonstrate several successful and unsuccessful cross-modal retrieval examples in the next section for comparative analysis.
 
-\subsection{Cross-modal Retrieval Result Examples}
-Here we illustrate four typically successful and failed cross-modal retrieval samples of our model. One for each dataset under sentence retrieval and image retrieval. 
+\subsection{Cross-modal Retrieval Examples}
+Here we illustrate four typically successful and unsuccessful cross-modal retrieval samples of our model: one for each dataset under sentence retrieval and image retrieval. 
 
-Figure \ref{fig:i2t} shows the text retrieval results from given image queries. The left Egyptian sculpture achieved well captions, the major features such as standing and walking pose, dark brown colour and the man himself were accurately captured. However, as some of the Chinese artworks have significantly different representations and much more fine-grained details, the best case here we had is the following vase. Our textual captions are able to describe its dominant colour and those obvious golden strokes. However, the specific shapes such as flower patterns, thick mouth and big belly challenged the model.
+\subsubsection{Successful Examples}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{i2t.pdf}
-\caption{Good Example of Text Retrieval for Given Image Queries}
+\caption{Successful Example of Text Retrieval for Given Image Queries}
 \label{fig:i2t}
 \end{figure}
+
+Figure \ref{fig:i2t} shows two good text retrieval examples from given image queries. The left Egyptian sculpture achieved great captions, the significant features such as standing and walking pose, dark brown colour and the man himself were accurately captured. Comparing to those personification figures in Egyptian artworks, our Chinese artwork dataset has more abstract presentations, and some tiny details can be extremely subtle and hard to distinguish from the background. For instance, this blue vase on the right has a distinctive shape - fat belly, narrow neck and a foot ring. Our model was able to catch a few features such as the colour, category and even the golden patterns. However, when it comes to more fine-grained characteristics such as foot ring and flower patterns, in this case, the process becomes more challenging.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{t2i.pdf}
-\caption{Good Example of Image Retrieval for Given Text Queries
+\caption{Successful Example of Image Retrieval for Given Text Queries
 }
 \label{fig:t2i}
 \end{figure}
 
-Next, Figure \ref{fig:t2i} illustrates the image retrieval results from given text queries. The left Chinese art text query is fairly descriptive and detailed, features like ``bridge'' and ``six cross-patterned circles'' helped our model to pick the right image from other similar ones. The right Egyptian art text queries are fairly easier than the Chinese one as most of the similar artworks differ in shapes and major gestures such as obvious feature ``broken arms raised to the sky''. This potentially helped the model to achieve better results on Egyptian artwork dataset than the Chinese one.
+Next, Figure \ref{fig:t2i} illustrates example image retrieval results from given text queries. The top Chinese art text query is fairly descriptive and detailed, features like ``bridge'' and ``six cross-patterned circles'' helped our model to pick the right image from other similar ones. The bottom Egyptian art text queries are fairly easier than the Chinese one as most of the similar artworks differ in shapes and major gestures such as obvious feature ``broken arms raised to the sky''. This potentially helped the model to achieve better results on Egyptian artwork dataset than the Chinese one.
+
+
+\subsubsection{Unsuccessful Examples}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{badi2t.pdf}
-\caption{Failed Example of Text Retrieval for Given Image Queries}
+\caption{Unsuccessful Example of Text Retrieval for Given Image Queries}
 \label{fig:badi2t}
 \end{figure}
+
+Here Figure \ref{fig:badi2t} displays unsuccessful example text retrieval results from image queries. Our model was not able to identify the left Egyptian pig amulet. It has a tricky shape, and its rare, unique light-blue colour also made it more difficult for the model to retrieve the correct textual descriptions. The similar situation happened in the right Chinese artwork. Our training dataset does not have enough data on jars in this shape, and its complicated patterns increased the degree of difficulty of retrieval task. For instance, its ``kraak'' and ``European motifs'' painting does not appear much in other artworks with the result that our model identified the centre pattern as another more popular one ``qilin''.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{badt2i.pdf}
-\caption{Failed of Image Retrieval for Given Text Queries
-}
+\caption{Unsuccessful of Image Retrieval for Given Text Queries}
 \label{fig:badt2i}
 \end{figure}
 
+Finally, Figure \ref{fig:badt2i} demonstrates another two unsuccessful example of image retrieval results from text queries. Similar to the text retrieval case we discussed above, the two samples here also have considerably infrequent features. The model usually can pick up the features such as shape and colour, also frequently appeared local characteristics, however, for rare and specific local features such as ``depression'', ``tubular neck'' and ``wide lipped mouth'', the model may get puzzled, which lead to inaccurate and unsatisfactory results.
+
 \subsection{Discussion}
 
-Generally speaking, Egyptian artworks surpassed Chinese artworks on cross-modal retrieval tasks - extra fine-grained features in Chinese artworks which complicates the process of distinguishing features. Furthermore, low recall results are to be expected. One of the crucial requirements for image-text alignment is accurate feature extraction. However, in our case, we used the bottom-up attention mechanism \cite{bottomup}, which was designed and trained on real-world images. We all know that artworks usually have widely different representations and requires unique and specific treatment on feature extraction. Nevertheless, we did not have more time to redesign our feature extraction algorithm to make it more adaptable to artwork representations. In the next section, we discuss some recently published methodologies on representing artworks, which may be beneficial to improve the current fine-grained cross-modal retrieval model. 
+Generally speaking, Egyptian artworks surpassed Chinese artworks on cross-modal retrieval tasks - extra fine-grained and varied features in Chinese artworks complicates the process of distinguishing features. Furthermore, adequate but not excellent recalls are expected. There are two possible causes:
+
+\begin{itemize}
+    \item Our training dataset cannot guarantee a balance of features. For example, there are only 6,000 training images for Chinese artworks, and many of them contain diverse shapes and details. Insufficient training features may influence the ability of model, therefore, cause inaccurate retrieval results.
+    \item One of the crucial requirements for image-text alignment is accurate and proper feature extraction. However, in our case, we used the bottom-up attention mechanism \cite{bottomup}, which was designed and trained on real-world images (\verb|VisualGenome|). We all know that artworks usually have widely different representations and requires unique and specific treatment on feature extraction.
+\end{itemize}
+
+Nevertheless, we did not have more time to redesign our feature extraction algorithm to make it more adaptable to artwork representations. To improve our model for better fine-grained cross-modal retrieval results, in the next section, we dig into some recent research on the aspect of image-text alignment. 
 
 \section{Future Directions}
 In this section, we point out some cutting-edge researches on the field of image-text alignment that are related to our methodology as future directions for further improvements. We are going to discuss in two main directions: the way to align image and text and the way to extract image features (representations).
 
 \subsection{Similarity or Fusion?}
-Here we investigated recent research in the field of VGA, the problems of VQA and image-text matching have a lot in common. For example, both accept image and text features as input and then encode. If matching is treated as a binary classification problem, the only difference is that the output of VQA is of multiple classes, while matching is of binary classes.
+Here we investigated recent research in the field of VQA, the problems of VQA and image-text matching have a lot in common. For example, both accept image and text features as input and then encode. If matching is treated as a binary classification problem, the only difference is that the output of VQA is of multiple classes, while matching is of binary classes.
 
-Generally speak, the processing of image-text matching problems can be divided into ``similarity'' and ``classification''. ``Similarity'' is to use the traditional methods such as cosine similarity or dot product to calculate the similarity between image and text in the same embedding space to judge whether it matches or not. The representative methods are SCAN \cite{scan} and VSRN \cite{VSRN}. The ``classification'' method is to use the neural network to fit a function that is better than the cosine similarity, to determine that whether the input image and text feature are match or not. This input comes from two modes and the output The neural network design for a certain result is generally called ``fusion'', which is more common in VQA, and the representative method is MTFN \cite{MTFN}.
+Generally speaking, the processing of image-text matching problems can be divided into ``similarity'' and ``classification''. ``Similarity'' is to use the traditional methods such as cosine similarity or dot product to calculate the similarity between image and text in the same embedding space to judge whether it matches or not. The representative methods are SCAN \cite{scan} and VSRN \cite{VSRN}. The ``classification'' method is to use the neural network to fit a function that is better than the cosine similarity, to determine whether the input image and text feature are a match or not. This input comes from two modes and the output The neural network design for a particular result is generally called ``fusion'', which is more common in VQA, and the representative method is MTFN \cite{MTFN}.
 
-Now let's discuss the pros and cons of traditional similarity calculation and fusion by starting from analysing this problem from a theoretical perspective.
+Now let us discuss the pros and cons of traditional similarity calculation and fusion by starting from analysing this problem from a theoretical perspective.
 
 First, we look at a general bilinear fusion method proposed in MUTAN \cite{benyounes2017mutan}:
 
@@ -181,7 +196,7 @@ $$
 \label{fig:mutan}
 \end{figure}
 
-Where $x$ represents extracted feature and $\mathbf{W}$ is a learn-able matrix. It is simply to reduce the dimensions after taking the product of the two features, and then output the matching probability through the \verb|sigmoid| function. This is also the basic method used in MTFN \cite{MTFN}, which is referred to as bilinear fusion in the following.
+Where $x$ represents extracted feature and $\mathbf{W}$ is a learn-able matrix. It is merely to reduce the dimensions after taking the product of the two features and then output the matching probability through the \verb|sigmoid| function. This is also the primary method used in MTFN \cite{MTFN}, which is referred to as bilinear fusion in the following.
 
 Here we use the simplest and most traditional similarity calculation method: dot product here to compare with bilinear fusion:
 
@@ -189,19 +204,19 @@ $$
 \text {score}=\sigma\left(x_{\text {img}} x_{t x t}^{\mathrm{T}}\right)
 $$
 
-Observing the above two formulas, we can find that bilinear fusion is not much different from the dot product. The dot product is to multiply the corresponding position elements of the two vectors and sum all the elements, while the bilinear fusion is first get dot product of the corresponding position elements, then get product of $\mathbf{W}$. This is equivalent to the weighted sum of the elements, that is, when $\mathbf{W}$ is an all-one matrix, bilinear fusion degenerates into a dot product.
+Observing the above two formulas, we can find that bilinear fusion is not much different from the dot product. The dot product is to multiply the corresponding position elements of the two vectors and sum all the elements, while the bilinear fusion is first getting dot product of the corresponding position elements, then get the product of $\mathbf{W}$. This is equivalent to the weighted sum of the elements, that is, when $\mathbf{W}$ is an all-one matrix, bilinear fusion degenerates into a dot product.
 
-From this point of view, bilinear fusion can be understood as weighting different positions when doing dot product when $\mathbf{W}$ is a weight matrix. Weighting helps but there are two problems:
+From this point of view, bilinear fusion can be understood as weighting different positions when doing dot product when $\mathbf{W}$ is a weight matrix. Weighting helps, but there are two problems:
 
 \begin{itemize}
     \item Optimisation. Can we guarantee a $\mathbf{W}$ better than the all-one matrix?
-    \item Design issues. The dimension of the weight matrix is $d\times1$, that is, in the inference, for the element product of any pair of graphic features, the weight of each element position is identical, which is obviously unreasonable.
+    \item Design issues. The dimension of the weight matrix is $d\times1$, that is, in the inference, for the element product of any pair of graphic features, the weight of each element position is identical, which is unreasonable.
 \end{itemize}
 
-In many experiments, it has not been shown that fusion must perform better than dot product, and dot product is obviously simpler and faster than fusion.
+In many experiments, it has not been shown that fusion must perform better than dot product, and dot product is obviously more straightforward and faster than fusion.
 
 \subsubsection{Early Fusion}
-There are many improvements to fusion this year, one of the most widely discussed is early fusion. ``Early'' means that comparing to the bilinear fusion mentioned above, it put the multi-modal features into the neural network earlier while there is only one linear layer in bilinear fusion which locates at the end of the entire model. B2T2 \cite{B2T2} compared early fusion and late fusion on the Visual Commonsense Reasoning (VCR) dataset \cite{zellers2019vcr}, and concluded that early fusion usually works better. However, it can be seen from the Figure \ref{fig:fusionb2t2} shown below that this comparison can be somewhat unfair, but at least early fusion added more detection information.
+There are many improvements to fusion this year, one of the most widely discussed is early fusion. ``Early'' means that comparing to the bilinear fusion mentioned above, it put the multi-modal features into the neural network earlier while there is only one linear layer in bilinear fusion which locates at the end of the entire model. B2T2 \cite{B2T2} compared early fusion and late fusion on the Visual Commonsense Reasoning (VCR) dataset \cite{zellers2019vcr}, and concluded that early fusion usually works better. However, it can be seen from Figure \ref{fig:fusionb2t2} shown below that this comparison can be somewhat unfair, but at least early fusion added more detection information.
 
 \begin{figure}[h!]
 \centering
@@ -212,17 +227,17 @@ There are many improvements to fusion this year, one of the most widely discusse
 
 It should be noted that early fusion is mentioned in many papers, but the structural designs were slightly different, such as RAMEN \cite{ramen}.
 
-Obviously early fusion has contributed a lot to this aspect, and its performance on VQA is also relatively comparable, but we have not seen enough strong evidence that early fusion completely exceeds late fusion represented by bilinear fusion. However, at least some aspects have shaken the dominance of bilinear, and these early fusion methods are slightly coarse and have the potential to be better designed. We can expect some future works to break this paradigm.
+Obviously, early fusion has contributed a lot to this aspect, and its performance on VQA is also relatively comparable, but we have not seen enough reliable evidence that early fusion completely exceeds late fusion represented by bilinear fusion. However, at least some aspects have shaken the dominance of bilinear, and these early fusion methods are slightly coarse and have the potential to be better designed. We can expect some future works to break this paradigm.
 
 Back to image-text matching, if the idea of RAMEN \cite{ramen} early fusion is introduced into the research, considerable progress may be made.
 
 \subsection{Better Representation Learning?}
 
-It seems that the most important factor affecting the matching task is actually the characteristics/feature learnt by the network, and the calculation of similarity is not as important to a certain extent. VSRN \cite{VSRN} also proved this point by introducing a lot of components to learn features, and then used the simplest dot product to achieve the current SOTA performance.
+It seems that the most critical factor affecting the alignment task is the characteristics/feature learnt by the network, and the calculation of similarity is not as crucial to a certain extent. VSRN \cite{VSRN} also proved this point by introducing many components to learn features, and then used the most straightforward dot product to achieve the current SOTA performance.
 
-Representation learning actually embodies its importance in earlier work. The bottom-up and top-down \cite{bottomup} attention mechanism used by our baseline has indirectly accomplished many image-text alignment researches. Afterwards, VQA, image-text matching, and image caption all started to use \cite{bottomup} to extract features, which improved the baseline by a large amount and shows that a better representation learning model is crucial.
+Representation learning embodies its importance in earlier work. The bottom-up and top-down \cite{bottomup} attention mechanism used by our baseline has indirectly accomplished many image-text alignment pieces of research. Afterwards, VQA, image-text matching, and image caption all started to use \cite{bottomup} to extract features, which improved the baseline by a significant amount and shows that a better representation learning model is crucial.
 
-2019 has been a year of rapid development of representation learning. The leader-board of VCR \cite{zellers2019vcr} has many popular large-scale pretrained models such as ViBERT \cite{lu2019vilbert}, VideoBERT \cite{sun2019videobert}, UNITE \cite{chen2019uniter} and MoCo \cite{he2019momentum}. Considering the special category of image data we focus on - artworks, here we put more attention on those specialised in artwork feature extraction. Recently, some works \cite{TranslatingArtworks,parttowhole,Art2Real,tan2017artgan,shen2019discovering} have proposed new methodologies for artwork feature extraction and contributed a lot in the field. 
+2019 has been a year of the rapid development of representation learning. The leader-board of VCR \cite{zellers2019vcr} has many popular large-scale pre-trained models such as ViBERT \cite{lu2019vilbert}, VideoBERT \cite{sun2019videobert}, UNITE \cite{chen2019uniter} and MoCo \cite{he2019momentum}. Considering the special category of image data we focus on - artworks, here we put more attention on those specialised in artwork feature extraction. Recently, some works \cite{TranslatingArtworks,parttowhole,Art2Real,tan2017artgan,shen2019discovering} have proposed new methodologies for artwork feature extraction and contributed a lot in the field. 
 
 
 \begin{figure}[h!]
@@ -243,7 +258,7 @@ Ma el al. \cite{parttowhole} introduced a new methodology for artwork representa
 
 Figure \ref{fig:mtmroverview} illustrates the overall architecture of the MTMR representation framework. The above, middle and bottom represent different levels of feature extraction using SIFT-based fisher vector: local, regional and global, respectively. Inside each level, there are multiclass area coding and multitask learning structures. These obtained features in different levels will be finally passed to the random forest model as an ensemble mechanism to generate a final result.
 
-Figure \ref{fig:mtmrmulti} shows the detailed structure of how multitask learning works in the MTMR framework. The right grey box contains several different tasks which are split to process in parallel. There is a residual network inside the green box which consists of fully connected layers and convolutional layers for artwork image feature extraction.
+Figure \ref{fig:mtmrmulti} shows the detailed structure of how multitask learning works in the MTMR framework. The right grey box contains several different tasks which are split to process in parallel. There is a residual network inside the green box, which consists of fully connected layers and convolutional layers for artwork image feature extraction.
 
 
 \begin{figure}[h!]
@@ -264,14 +279,14 @@ Due to the differences in artistic media (oil paintings, pastel paintings, sketc
 \label{fig:featurelearning}
 \end{figure}
 
-Figure \ref{fig:featurelearning} demonstrates the feature learning process proposed. First candidate correspondences need to be obtained, which come from matching the proposal regions in red boxes with the original complete dataset. Next, these correspondences are checked by comparing features from validation regions (in blue). Finally, only positive results from previous step will be extracted and kept. 
+Figure \ref{fig:featurelearning} demonstrates the feature learning process proposed. First candidate correspondences need to be obtained, which come from matching the proposal regions in red boxes with the original complete dataset. Next, these correspondences are checked by comparing features from validation regions (in blue). Finally, only positive results from the previous step will be extracted and kept. 
 
 The method is evaluated on multiple different datasets and showed significant qualitative findings. In terms of quantitative evaluation, the researchers marked 273 approximately repeating details in the dataset of 1,587 works of art by Lao Jan Bruegel and his studio. In addition to works of art, the researchers also showed improvements in the positioning of the algorithm on the Oxford5K photo dataset \cite{Philbin07} and historical photo positioning on the LTLL (Large Time Lags Location) dataset \cite{Fernando2015CVIU}.
 
-We believe that a multitasking framework focusing on different levels of features like MTMR \cite{parttowhole} along with a fine-grained feature matching strategies mentioned in Shen et al.'s research \cite{shen2019discovering} will significantly help improve the fine-grained cross modal retrieval model.
+We believe that a multitasking framework focusing on different levels of features like MTMR \cite{parttowhole} along with a fine-grained feature matching strategies mentioned in Shen et al.'s research \cite{shen2019discovering} will significantly help improve the fine-grained cross-modal retrieval model.
 
 \section{Conclusion}
-
+In this section we first presented a fine-grained cross-modal retrieval model based on SCAN. It enables image-text retrieval on a fragment level which potentially helped the artwork annotation task. Next, we conducted several experiments under different settings to test the performance of our model on Egyptian and Chinese datasets by comparing their recall rates. To better illustrate and discuss the results, we displayed several successful and unsuccessful retrieval examples from our experiments, which shows our model has the ability to pick common shared features out accurately but sometimes gets stuck on rare and distinctive features. Lack of enough artwork training examples is also suspected as a cause of adequate recalls. We finally pointed future directions on image-text alignment task by analysing recent research works and proposed two major aspects that could possibly benefits our model.
 
 %%% Local Variables: 
 %%% mode: latex
