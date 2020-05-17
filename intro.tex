@@ -75,7 +75,7 @@ In this thesis, we study fine-grained image-text alignment for artworks. Fine-gr
 
 \subsection{Cross Modal Retrieval Framework}
 
-As mentioned above, our primary research task here is to achieve cross-modal retrieval (i.e. between image and text). Figure \ref{fig:framework} illustrates a brief working framework for the tasks.
+As mentioned above, our primary research task here is to achieve cross-modal retrieval (i.e. between image and text) for artworks. Figure \ref{fig:framework} illustrates a brief working framework for the tasks.
 
 \begin{figure}[h!]
 \centering
@@ -84,16 +84,16 @@ As mentioned above, our primary research task here is to achieve cross-modal ret
 \label{fig:framework}
 \end{figure}
 
-We train our multimodal machine learning model on the known image features and corresponding textual attributes; this training process helps us learn the potential relationships between image and text. This trained model will be used to generate textual attributes from known image features and vice versa. We believe this may help with automating the artwork annotation process and significantly save labours on artworks classifications and searches.
+We train our multi-modal machine learning model on the known image features and corresponding textual attributes; this training process helps us learn the potential relationships between image and text. This trained model will be used to generate textual attributes from known image features and vice versa. We believe this may help with automating the artwork annotation process and significantly save labours on artworks classifications and searches.
 
 
 \section{Contributions}
-The main contributions made by this dissertation are:
+The main contributions made by this thesis are:
 
 \begin{enumerate}
-    \item I review work from several disciplines which may be of relevance to the present subject of inquiry and provide commentary on how the findings from these disciplines may be useful. (Section~\ref{cha:relatedworks})
-    \item I adopted SCAN \cite{scan} as the coarse-grained cross-modal retrieval model, analysed its structure and applied it on our proposed Egyptian and Chinese artworks datasets to achieve the image-text alignment. With this baseline model, we are able to have a coarse-grained alignment between artworks image and textual attributes. This lays the foundation of our improved fine-grained model. (Section~\ref{cha:scan})
-    \item By focusing on fragment level image features and textual attributes instead of feeding the whole images and sentences, we are able to perform cross-modal retrieval in a more fine-grained level. This allows the future multimodal retrieval tasks on artworks to achieve more accurate and stable results. (Section~\ref{cha:Method})
+    \item We review work from several disciplines which may be of relevance to the present subject of inquiry and provide commentary on how the findings from these disciplines may be useful. (Section~\ref{cha:relatedworks})
+    \item We adopted SCAN \cite{scan} as the coarse-grained cross-modal retrieval model, analysed its structure and applied it on our proposed Egyptian and Chinese artworks datasets to achieve the image-text alignment. With this baseline model, we are able to have a coarse-grained alignment between artworks image and textual attributes. This lays the foundation of our improved fine-grained model. (Section~\ref{cha:scan})
+    \item By focusing on fragment level image features and textual attributes instead of feeding the whole images and sentences, we are able to perform cross-modal retrieval in a more fine-grained level. This allows the future multi-modal retrieval tasks on artworks to achieve more accurate and stable results. (Section~\ref{cha:Method})
 \end{enumerate}
 
 

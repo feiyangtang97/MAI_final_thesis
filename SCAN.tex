@@ -1,6 +1,6 @@
 \chapter{Coarse-grained Cross Modal Retrieval}
 \label{cha:scan}
-In Chapter \ref{cha:relatedworks}, we discussed several models proposed to solve the image-text alignment task. However, they all have drawbacks in terms of different aspects. In this chapter I will explain the \textbf{S}tacked \textbf{C}ross \textbf{A}ttentio\textbf{n} Model (SCAN) \cite{scan} as our baseline performing coarse-grained cross-modal retrieval. Followed by discussing how it surpasses other models and why we choose to adopt it as our baseline to solve the problem later in the task of fine-grained cross-modal retrieval for artworks.
+In Chapter \ref{cha:relatedworks}, we discussed several models proposed to solve the image-text alignment task. However, they all have drawbacks in terms of different aspects. In this chapter we explain the \textbf{S}tacked \textbf{C}ross \textbf{A}ttentio\textbf{n} Model (SCAN) \cite{scan} as our baseline performing coarse-grained cross-modal retrieval. Followed by discussing how it surpasses other models and why we choose to adopt it as our baseline to solve the problem later in the task of fine-grained cross-modal retrieval for artworks.
 
 The structure of this chapter is as follows. Section 3.1 gives an introduction and motivation of SCAN. Section 3.2 explains the structure and methodologies used in SCAN, also how all its components iterates with each other. Section 3.3 briefly discusses the strengths of the adopted model for coarse-grained cross-modal retrieval. Section 3.4 illustrates the preliminary experimental results on our artwork datasets and the achievement of SCAN. Section 3.5 summarises this section.
 
@@ -18,7 +18,7 @@ Stacked Cross Attention (SCAN) is proposed in a paper published on ECCV by Lee, 
 
 Also, the paper used some of the currently available optimisation methods, such as the use of hard-negative, triplet ranking loss, etc.
 
-We will explain the structure of SCAN model in the next sections.
+We explain the structure of SCAN model in the next sections.
 
 \section{Image Feature Extraction}
 Before we perform any cross-modal retrieval and alignment between image and text, we need to have firstly extract features from images. There are many models we have discussed before in Section \ref{cha:relatedworks}, here we used one of the mentioned models called Faster R-CNN. 

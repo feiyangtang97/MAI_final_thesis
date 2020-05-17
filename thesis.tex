@@ -25,8 +25,13 @@
 
 % Finally the hyperref package is used for pdf files.
 % This can be commented out for printed versions.
-\usepackage[pdfusetitle,colorlinks,plainpages=false]{hyperref}
+%\usepackage[pdfusetitle,colorlinks,plainpages=false]{hyperref}
 \usepackage{caption}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{epstopdf}
 
 %%%%%%%
 % The lipsum package is used to generate random text.
@@ -68,10 +73,11 @@
 
 \usepackage{hyperref}
 \hypersetup{
-    colorlinks=false,
+    colorlinks=true,
     linkcolor=blue,
     filecolor=blue,      
     urlcolor=blue,
+    citecolor=blue,
 }
 %\includeonly{chap-n}
 \begin{document}
@@ -79,7 +85,7 @@
 \begin{preface}
 I would first like to thank my promoter Prof. Marie-Francine Moens for giving me this precious opportunity to conduct this intriguing research under the LIIR laboratory in KU Leuven. Many thanks to my daily advisor Shurong Sheng. The door to her office was always open whenever I ran into a trouble spot or had a question about my research or writing. She consistently allowed this thesis to be my work but steered me in the right direction whenever she thought I needed it.
 
-I would also like to acknowledge Prof.xxx of the xxxx as the assessor of this thesis, and I am truly gratefully indebted to his/her for his/her very valuable comments on this thesis.
+I would also like to acknowledge Prof.assessor as the assessor of this thesis, and I am truly gratefully indebted to his/her for his/her very valuable comments on this thesis.
 
 Finally, I must express my very profound gratitude to my mum and to my friends Lieven, Jinjiu, Nanxu and Shuxian for always making me feel at home here in Belgium, providing me with unfailing support and continuous encouragement throughout this year and through the process of researching and writing this thesis. This accomplishment would not have been possible without them. To rest of my family and friends in New Zealand, thanks for your comfort calls and endless support. Thank you all.
 
@@ -88,7 +94,7 @@ Finally, I must express my very profound gratitude to my mum and to my friends L
 \tableofcontents*
 
 \begin{abstract}
-Most studies on multimodal information retrieval conduct the process on the image or sentence level, often used training set and models based on natural images. However, current research has shown that we need to move beyond the traditional coarse-grained multimodal information retrieval model in order to effectively annotating artworks to describe artwork image or sub-image with its textual attributes automatically. Recently, there is an interest in finding all potential alignments between the image area and the word at the same time using cross attention, thereby calculating the similarity of the text. This work has been proved its ability to excel and surpass other techniques in the task of image-text alignment. Nevertheless, one limitation is that these works do not consider those images which may have different representations and subtle features, e.g. artworks. Achieving image-text alignment in a find-grained level requires us to develop an efficient and effective mechanism to address the subtle and detailed features in artworks image and sentence fragments. In our research, we will concentrate on fragment level image and sentence retrieval. We present a comprehensive framework for aligning fine-grained image-text from artworks. This supports annotating artworks in an automatic mode and provide descriptions between image or sub-image and textual attributes as precise as possible.
+Most studies on multimodal information retrieval conduct the process on the image or sentence level, often used training set and models based on natural images. However, current research has shown that we need to move beyond the traditional coarse-grained multimodal information retrieval model in order to effectively annotating artworks to describe artwork image or sub-image with its textual attributes automatically. Recently, there is an interest in finding all potential alignments between the image area and the word at the same time using cross attention, thereby calculating the similarity of the text. This work has been proved its ability to excel and surpass other techniques in the task of image-text alignment. Nevertheless, one limitation is that these works do not consider those images which may have different representations and subtle features, e.g. artworks. Achieving image-text alignment in a find-grained level requires us to develop an efficient and effective mechanism to address the subtle and detailed features in artworks image and sentence fragments. In our research, we concentrate on fragment level image and sentence retrieval. We present a comprehensive framework for aligning fine-grained image-text from artworks. This supports annotating artworks in an automatic mode and provide descriptions between image or sub-image and textual attributes as precise as possible.
 
 \end{abstract}
 

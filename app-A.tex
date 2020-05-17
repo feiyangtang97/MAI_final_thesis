@@ -1,9 +1,9 @@
-\chapter{Python Implementations}
+\chapter{Implementation Details}
 \label{app:A}
 This appendix provides some \verb|Python| source code for the implementation mentioned in Section \ref{cha:Method}.
 
-\section{Implementation Structure}
-In this section, we will go through the structure of my implementation using structured tables. This will give the audience and future researchers a brief idea on how the process looks like.
+\section{Project Structure}
+In this section, we go through the structure of my implementation using structured tables. This gives the audience and future researchers a brief idea on how the process looks like.
 
 
 \begin{table}[h!]
@@ -50,6 +50,45 @@ In this section, we will go through the structure of my implementation using str
 \label{table:testpython}
 \caption{Python Source Code Files for Testing}
 \end{table}
+
+
+\subsection{Obtain Image Features}
+We used bottom-up attention \cite{bottomup} to extract features from our Egyptian and Chinese artwork images. This methodolgy used a faster R-CNN and a ResNet101 as core architecture. We obtained a pre-trained model from its \href{https://github.com/peteanderson80/bottom-up-attention}{Github} open repository which was trained on \verb|VisualGenome| dataset consisting a large amount of real-world images. A sample image feature extraction command for Egyptian training images is displayed below:
+
+\begin{lstlisting}
+$ python bottom-up-features/extract_features.py 
+--image_dir artworks/train --out_dir artworks/features 
+--cfg bottom-up-features/cfgs/faster_rcnn_resnet101.yml 
+--model bottom-up-features/models/bottomup_pretrained_10_100.pth
+\end{lstlisting}
+
+We save these obtained image features under \verb|/features| directory. These image features of Egyptian and Chinese artworks are available in numpy array format, which can be used for training directly in the future.
+
+\subsection{Obtain Textual Features}
+
+According to captions and corresponding image labels, we can extract the corresponding image names from \verb|xml| and \verb|json| files which contains textual attributes. This extraction process can be done using \verb|egyptian_convert.py|, \verb|python| script then generates captions for each image, make sure that each has a corresponding \verb|.txt| file created. These produced \verb|.txt| files are saved in \verb|/phrase| directory. 
+
+To achieve the retrieval on a fragment level, we then extract noun phrases from these \verb|.txt| files. We use \verb|/preprocess.ipynb| to obtain \verb|vocab.json|. The API adopted here was proposed by Handler et al. \cite{nounphrase} and available on \href{https://github.com/slanglab/phrasemachine}{Github} as well.
+
+\subsection{Training and Testing}
+For training process, we can simply modify the \verb|PrecompDataset| class in \verb|data.py| to change related processing methods. A sample training command for Chinese training images is displayed below (with i-t average pooling formulation):
+
+\begin{lstlisting}
+python train.py --data_name chinese_artworks 
+--logger_name $RUN_PATH/chinese_artworks_scan/log 
+--model_name $RUN_PATH/chinese_artworks_scan/log 
+--max_violation --bi_gru --img_dim 2048
+--agg_func=Mean --cross_attn=i2t --lambda_softmax=4
+\end{lstlisting}
+
+For testing process, we load our saved model then run \verb|evaluation.py| script. A sample evaluation command is shown below:
+
+\begin{lstlisting}[language=python]
+from vocab import Vocabulary
+import evaluation
+evaluation.evalrank("$RUN_PATH/chinese_artworks_scan/model_best.pth.tar", data_path="$DATA_PATH", split="test")
+\end{lstlisting}
+
 
 %%%%%%%%%%%%%%
 

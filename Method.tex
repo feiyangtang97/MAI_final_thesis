@@ -22,13 +22,13 @@ As we mentioned in Section \ref{cha:intro}, the datasets used in this thesis are
 
 Python scripts (see Appendix \ref{app:A}) were written to parse the \verb|xml| files. Instead of using the raw captions, here the textual attributes we use are already processed into phrases. The technique here used is from Handler et al. \cite{nounphrase}, it extracts noun phrases from captions in raw \verb|xml| files which potentially helped us improve the accuracy as in most cases noun phrases contain more relevant information of artworks.  
 
-As one single artwork can often have more than one annotation existed in its corresponding \verb|xml| file, it is essential to extract all related annotations out and also combine them into one record for training and testing purpose, which saves computational power and simplifies the model input. 
+As one single artwork can often have more than one annotation existed in its corresponding \verb|xml| file, it is essential to extract all related annotations out and also combine them into one record for training and testing purpose, which saves computational power and simplifies the model input. We generate a combined \verb|.txt| file for each artwork image which contains all related textual attribution then pass it to the noun phrase extraction process in order to achieve the retrieval in a fragment level; results are saved in \verb|json| format. Details are covered in Appendix \ref{app:A}.
 
-\subsection{Extract Textual Captions for Each Image}
+%\subsection{Extract Textual Captions for Each Image}
 
-According to those textual captions and their image labels in \verb|xml| files, we can extract the corresponding image names. This extraction process is done using \verb|egyptian_convert.py| in Appendix \ref{app:A}, the sentence captions for each image will have a corresponding \verb|txt| file created. These obtained \verb|txt| captions will then be processed to extract noun phrases in order to achieve the retrieval in a fragment level; results are saved in \verb|json| format. 
+%According to those textual captions and their image labels in \verb|xml| files, we can extract the corresponding image names. This extraction process is done using \verb|egyptian_convert.py| in Appendix \ref{app:A}, the sentence captions for each image will have a corresponding \verb|txt| file created. These obtained \verb|txt| captions will then be processed to extract noun phrases in order to achieve the retrieval in a fragment level; results are saved in \verb|json| format. 
 
-Our training tasks will be based on these noun phrases and extracted image fragments. The following section will demonstrate the architecture of our fine-grained cross-modal retrieval model.
+Our training tasks are based on these noun phrases and extracted image fragments. The following section demonstrates the architecture of our fine-grained cross-modal retrieval model.
 
 \section{Overall Architecture}
 
@@ -36,16 +36,26 @@ The architecture of the fine-grained cross-modal retrieval model is depicted in 
 
 The model has two pipelines processing image and text input from start, for image input, we first detect salient regions as bottom-up attention \cite{bottomup} to extract features from images using faster R-CNN \cite{fasterrcnn} and ResNet-101 \cite{resnet} (mentioned in Section \ref{sec:fasterrcnn}). These obtained image fragments and their representations will be passed into a fully-connected layer, in order to transform them into a joint embedding space with the same dimension of text (i.e. the dimension of GRU explanation in next paragraph).
 
-For full sentence captions as text input, as we mentioned in Section \ref{sec:dataprep}, we do not process the whole sentence directly but first, extract noun phrases out to achieve a finer-grained level. These noun phrases features will be passed into a bidirectional GRU to map them into the same dimension joint embedding space as image features. 
-
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1.0\textwidth]{archi.pdf}
+\includegraphics[width=1.0\textwidth]{archinew.pdf}
 \caption{Fine-grained Cross Modal Retrieval Model Architecture}
 \label{fig:mainarch}
 \end{figure}
 
-After we learnt image and text representation in a common space, we can use SCAN to attend image to text and attend text to image, in order to get better alignment in between. After computed mutual attention between image and text, we can start our follow-up part, which is cross-modal retrieval. We can use our learnt common space representation to calculate similarity scores between image and text; meanwhile, calculate ranked precision and recall for testing.
+%\afterpage{
+%\clearpage
+%\begin{sidewaysfigure}[ht!]
+%\centering
+%\includegraphics[width=1.0\textwidth]{archinew.pdf}
+%\caption{Fine-grained Cross Modal Retrieval Model Architecture}
+%\label{fig:mainarch}
+%\end{sidewaysfigure}
+%}
+
+For full sentence captions as text input, as we mentioned in Section \ref{sec:dataprep}, we do not process the whole sentence directly but first, extract noun phrases out to achieve a finer-grained level. These noun phrases features will be passed into a bidirectional GRU to map them into the same dimension joint embedding space as image features. 
+
+After we learnt image and text representation in a common space, we can use SCAN to attend image to text and attend text to image, in order to get better alignment in between. After computed mutual attention between image and text, we start our follow-up part, which is cross-modal retrieval. We use our learnt common space representation to calculate similarity scores between image and text - in this case, cosine similarity; meanwhile, calculate ranked precision and recall for testing.
 
 \section{Experiments}
 
@@ -54,7 +64,7 @@ For experiment settings, we used the same settings and environment as mentioned 
 \subsubsection{Settings for image representation}
 
 \begin{itemize}
-    \item To save intense labour on retraining model for feature extraction task, we kept the weights pre-trained by \textit{Anderson et al.} on \verb|Visual Genomes| dataset like in Chapter \ref{cha:scan}for faster R-CNN model and ResNet-101 model and performed detection of salient regions as bottom-up attention to extract features from images. 
+    \item To save intense labour on retraining model for feature extraction task, we kept the weights pre-trained by Anderson et al. on \verb|Visual Genomes| dataset like in Chapter \ref{cha:scan}for faster R-CNN model and ResNet-101 model and performed detection of salient regions as bottom-up attention to extract features from images. 
     \item We captured 36 Region of Interests (ROIs) for each image after average pooling and extracted 2,048-dimensional features vector.
     \item We used L2 normalisation (Euclidean distance) into 1,024 joint embedding spaces (same for GRU), these will be used as image feature vectors.
 \end{itemize}
@@ -67,7 +77,7 @@ For experiment settings, we used the same settings and environment as mentioned 
 
 \subsection{Ground Truth}
 
-For this specific task, as we mentioned before, we used our manually annotated ground truth datasets. Each artwork has an updated \verb|xml| file which contains handcrafted image features and textural attributes. Here we show an example of ground truth annotation in Figure \ref{fig:sampledata}.
+For this specific testing task, as we mentioned before, we used our manually annotated ground truth datasets. Each artwork has an updated \verb|xml| file which contains handcrafted image features and textural attributes. Here we show an example of ground truth annotation in Figure \ref{fig:sampledata}.
 
 \begin{figure}[h!]
 \centering
@@ -76,11 +86,11 @@ For this specific task, as we mentioned before, we used our manually annotated g
 \label{fig:sampledata}
 \end{figure}
 
-From Figure \ref{fig:sampledata} we are looking at an Egyptian artwork with a cat sculpture. For all object that exist in the artwork, those are, ``\textit{head of a    cat statuette carved in brown, with a pair of standing ears}'' and ``\textit{four dark brown coloured thin shaped legs of a cat sitting in a relaxed posture}'', each of them will have a corresponding detailed location, pose, and truncated information attached. 
+From Figure \ref{fig:sampledata} we are looking at an Egyptian artwork with a cat sculpture. For all object that exist in the artwork, those are, ``\textit{head of a cat statuette carved in brown, with a pair of standing ears}'' and ``\textit{four dark brown coloured thin shaped legs of a cat sitting in a relaxed posture}'', each of them has a corresponding detailed location, pose, and truncated information attached. 
 
 \subsection{Evaluation Metrics}
 
-Recall is one of the most commonly used metrics in the field of information retrieval. Here in this research project, we evaluate the performance of sentence retrieval (image query) and image retrieval (sentence query) by the recall at K (R@K). This is defined as the fraction of queries for which the correct item is retrieved in the closest K points to the query. 
+Recall is one of the most commonly used metrics in the field of information retrieval. Here in this research project, we evaluate the performance of sentence retrieval (image query) and image retrieval (sentence query) by the recall at $K$ (R@$K$). This is defined as the fraction of queries for which the correct item is retrieved in the closest $K$ points to the query. 
 
 \subsection{Results}
 
@@ -113,9 +123,9 @@ One-directional GRU + i-t AVG  & 5.3         & 10.8        & 20.1       & 3.5   
 
 Table \ref{table:resultfragmented} present the quantitative results on Chinese and Egyptian artwork datasets where all formulations of our proposed method outperform recent approaches in all measures. Here we denote t-i as Text-Image formulation by text and i-t as Image-Text formulation, AVG as average pooling and LSE as LogSumExp pooling. Like most of the SCAN based models, we tested four different methods by different combinations of formulations and pooling methods. In addition, to check the necessity of bidirectional GRU, we also include a test under one-directional GRU with i-t AVG.
 
-i-t usually surpasses t-i on both pooling methods, and it is evident that using bidirectional GRU improves image annotation R@1 by 2.9 in Egyptian artworks and 1.1 in Chinese artworks, 1.6 and 1.2 for image search. The best result of the model are 13.5 on sentence retrieval (R@1) and 9.9 on image retrieval (R@5) relatively on Egyptian artwork dataset; 6.4 on sentence retrieval (R@1) and 4.7 on image retrieval (R@1) relatively on Chinese artwork dataset.
+i-t usually surpasses t-i on both pooling methods, and it is evident that using bidirectional GRU improves image annotation R@1 by 2.9 in Egyptian artworks and 1.1 in Chinese artworks, 1.6 and 1.2 for image search. The best result of the model are 13.5 on sentence retrieval (R@1) and 9.9 on image retrieval (R@5) relatively on Egyptian artwork dataset; 6.4 on sentence retrieval (R@1) and 4.7 on image retrieval (R@1) relatively on Chinese artwork dataset. In terms of R@10, our model was able to obtain a 28.6 recall for image annotation task on Egyptian dataset which is gratifying and promising considering the strict and detailed ground truth testing set we used.
 
-We noticed that the recalls for sentence and image retrieval on both Chinese and Egyptian artwork datasets are not satisfactorily high. To better understand and evaluate our model, we will demonstrate several successful and unsuccessful cross-modal retrieval examples in the next section for comparative analysis.
+We noticed that the recalls for sentence and image retrieval on both Chinese and Egyptian artwork datasets are not satisfactorily high. To better understand and evaluate our model, we demonstrate several successful and unsuccessful cross-modal retrieval examples in the next section for comparative analysis.
 
 \subsection{Cross-modal Retrieval Examples}
 Here we illustrate four typically successful and unsuccessful cross-modal retrieval samples of our model: one for each dataset under sentence retrieval and image retrieval. 
@@ -164,20 +174,21 @@ Finally, Figure \ref{fig:badt2i} demonstrates another two unsuccessful example o
 
 \subsection{Discussion}
 
-Generally speaking, Egyptian artworks surpassed Chinese artworks on cross-modal retrieval tasks - extra fine-grained and varied features in Chinese artworks complicates the process of distinguishing features. Furthermore, adequate but not excellent recalls are expected. There are two possible causes:
+Generally speaking, Egyptian artworks surpassed Chinese artworks on cross-modal retrieval tasks - extra fine-grained and varied features in Chinese artworks complicates the process of distinguishing features. Furthermore, adequate but not excellent recalls are expected. There are three possible causes:
 
 \begin{itemize}
     \item Our training dataset cannot guarantee a balance of features. For example, there are only 6,000 training images for Chinese artworks, and many of them contain diverse shapes and details. Insufficient training features may influence the ability of model, therefore, cause inaccurate retrieval results.
+    \item As we adopted new ground truth annotations acting testing purpose, considering these features are mostly handcrafted and being almost 100\% accurate, potentially increased the chance of wrong retrieval results which were generated based on original raw training phrases obtained from museum. If we were able to also manually annotate artworks in the training dataset to retrain the model, we suppose the retrieval result shall improve.
     \item One of the crucial requirements for image-text alignment is accurate and proper feature extraction. However, in our case, we used the bottom-up attention mechanism \cite{bottomup}, which was designed and trained on real-world images (\verb|VisualGenome|). We all know that artworks usually have widely different representations and requires unique and specific treatment on feature extraction.
 \end{itemize}
 
-Nevertheless, we did not have more time to redesign our feature extraction algorithm to make it more adaptable to artwork representations. To improve our model for better fine-grained cross-modal retrieval results, in the next section, we dig into some recent research on the aspect of image-text alignment. 
+Nevertheless, we did not have more time to redesign our feature learning algorithm to make it more adaptable to artwork representations. To improve our model for better fine-grained cross-modal retrieval results, in the next section, we dig into some recent research on the aspect of image-text alignment. 
 
 \section{Future Directions}
 In this section, we point out some cutting-edge researches on the field of image-text alignment that are related to our methodology as future directions for further improvements. We are going to discuss in two main directions: the way to align image and text and the way to extract image features (representations).
 
 \subsection{Similarity or Fusion?}
-Here we investigated recent research in the field of VQA, the problems of VQA and image-text matching have a lot in common. For example, both accept image and text features as input and then encode. If matching is treated as a binary classification problem, the only difference is that the output of VQA is of multiple classes, while matching is of binary classes.
+Here we investigated recent research in the field of VQA, the problems of VQA and image-text matching have a lot in common. For example, both accept image and text features as input and then encode. If image-text alignment task is treated as a binary classification problem, the only difference is that the output of VQA task is of multiple classes.
 
 Generally speaking, the processing of image-text matching problems can be divided into ``similarity'' and ``classification''. ``Similarity'' is to use the traditional methods such as cosine similarity or dot product to calculate the similarity between image and text in the same embedding space to judge whether it matches or not. The representative methods are SCAN \cite{scan} and VSRN \cite{VSRN}. The ``classification'' method is to use the neural network to fit a function that is better than the cosine similarity, to determine whether the input image and text feature are a match or not. This input comes from two modes and the output The neural network design for a particular result is generally called ``fusion'', which is more common in VQA, and the representative method is MTFN \cite{MTFN}.
 
@@ -243,7 +254,7 @@ Representation learning embodies its importance in earlier work. The bottom-up a
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{MTMRoverview.pdf}
-\caption{Overview of MTMR Representation Framework\cite{parttowhole}}
+\caption{Overview of MTMR Representation Framework \cite{parttowhole}}
 \label{fig:mtmroverview}
 \end{figure}
 
