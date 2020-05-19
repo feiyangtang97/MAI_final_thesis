@@ -1,13 +1,13 @@
 \chapter{Fine-grained Cross Modal Retrieval}
 \label{cha:Method}
 
-In Chapter \ref{cha:scan}, we explained in detail on the structure and principle behind our coarse-grained cross-modal retrieval model. As we discussed, there are aspects that we can focus on to make improvements, especially on how to focus on the fine-grained features of artworks. In this chapter, we will present our improved model of fine-grained cross-modal retrieval.
+In Chapter \ref{cha:scan}, we explained in detail on the structure and principle behind our coarse-grained cross-modal retrieval model. As we discussed, there are aspects that we can focus on to make improvements, especially on how to focus on the fine-grained features of artworks. In this chapter, we will present our improved model of fine-grained cross modal retrieval.
 
-The structure of this chapter is as follows. Section 4.1 gives a brief introduction on our plans for modifying the baseline model into a fragment level. Section 4.2 explains the processed artwork datasets and why the pre-processing is necessary for our model. Section 4.3 proposes our improved fine-grained cross-modal retrieval model on fragment level instead of focusing on a whole image or sentence. Section 4.4 shows the results of our presented model running on our annotated artworks datasets. Section 4.5 points out some existing shortcomings of our methodology and potential fields to be focused on in the future. Section 4.6 concludes this section.
+The structure of this chapter is as follows. Section 4.1 gives a brief introduction on our plans for modifying the previous model into a fragment level. Section 4.2 explains the processed artwork datasets and why the pre-processing is necessary for our model. Section 4.3 proposes our improved fine-grained cross modal retrieval model on fragment level instead of focusing on a whole image or sentence. Section 4.4 shows the results of our presented model running on our annotated artworks datasets. Section 4.5 points out some existing shortcomings of our methodology and potential fields to be focused on in the future. Section 4.6 concludes this section.
 
 
 \section{Fragment Retrieval}
-In this chapter, we are trying to solve the cross-modal retrieval task at a fine-grained level, which means we shall not limit our retrieval on the image or sentence level but a fragment level. We performed some changes in the baseline model in Chapter \ref{cha:scan}:
+In this chapter, we are trying to solve the cross modal retrieval task at a fine-grained level, which means we shall not limit our retrieval on the image or sentence level but a fragment level. We applied some changes in the previous model in Chapter \ref{cha:scan}:
 
 \begin{itemize}
     \item Instead of attending between image fragments with each token in sentence captions, here we extract noun phrases from sentence captions to perform mutual attention with image fragments.
@@ -28,11 +28,11 @@ As one single artwork can often have more than one annotation existed in its cor
 
 %According to those textual captions and their image labels in \verb|xml| files, we can extract the corresponding image names. This extraction process is done using \verb|egyptian_convert.py| in Appendix \ref{app:A}, the sentence captions for each image will have a corresponding \verb|txt| file created. These obtained \verb|txt| captions will then be processed to extract noun phrases in order to achieve the retrieval in a fragment level; results are saved in \verb|json| format. 
 
-Our training tasks are based on these noun phrases and extracted image fragments. The following section demonstrates the architecture of our fine-grained cross-modal retrieval model.
+Our training tasks are based on these noun phrases and extracted image fragments. The following section demonstrates the architecture of our fine-grained cross modal retrieval model.
 
 \section{Overall Architecture}
 
-The architecture of the fine-grained cross-modal retrieval model is depicted in Figure \ref{fig:mainarch}. This model takes full artwork images and full sentence captions as input. The full artwork image input is a (224, 224) sized high-resolution colour picture and the full sentence caption comes from the Rijksmuseum dataset \cite{MensinkICMIR2014} which contains several descriptions of artworks.
+The architecture of the fine-grained cross modal retrieval model is depicted in Figure \ref{fig:mainarch}. This model takes full artwork images and full sentence captions as input. The full artwork image input is a (224, 224) sized high-resolution colour picture and the full sentence caption comes from the Rijksmuseum dataset \cite{MensinkICMIR2014} which contains several descriptions of artworks.
 
 The model has two pipelines processing image and text input from start, for image input, we first detect salient regions as bottom-up attention \cite{bottomup} to extract features from images using faster R-CNN \cite{fasterrcnn} and ResNet-101 \cite{resnet} (mentioned in Section \ref{sec:fasterrcnn}). These obtained image fragments and their representations will be passed into a fully-connected layer, in order to transform them into a joint embedding space with the same dimension of text (i.e. the dimension of GRU explanation in next paragraph).
 
@@ -55,7 +55,7 @@ The model has two pipelines processing image and text input from start, for imag
 
 For full sentence captions as text input, as we mentioned in Section \ref{sec:dataprep}, we do not process the whole sentence directly but first, extract noun phrases out to achieve a finer-grained level. These noun phrases features will be passed into a bidirectional GRU to map them into the same dimension joint embedding space as image features. 
 
-After we learnt image and text representation in a common space, we can use SCAN to attend image to text and attend text to image, in order to get better alignment in between. After computed mutual attention between image and text, we start our follow-up part, which is cross-modal retrieval. We use our learnt common space representation to calculate similarity scores between image and text - in this case, cosine similarity; meanwhile, calculate ranked precision and recall for testing.
+After we learnt image and text representation in a common space, we can use SCAN to attend image to text and attend text to image, in order to get better alignment in between. After computed mutual attention between image and text, we start our follow-up part, which is cross modal retrieval. We use our learnt common space representation to calculate similarity scores between image and text - in this case, cosine similarity; meanwhile, calculate ranked precision and recall for testing.
 
 \section{Experiments}
 
@@ -125,10 +125,10 @@ Table \ref{table:resultfragmented} present the quantitative results on Chinese a
 
 i-t usually surpasses t-i on both pooling methods, and it is evident that using bidirectional GRU improves image annotation R@1 by 2.9 in Egyptian artworks and 1.1 in Chinese artworks, 1.6 and 1.2 for image search. The best result of the model are 13.5 on sentence retrieval (R@1) and 9.9 on image retrieval (R@5) relatively on Egyptian artwork dataset; 6.4 on sentence retrieval (R@1) and 4.7 on image retrieval (R@1) relatively on Chinese artwork dataset. In terms of R@10, our model was able to obtain a 28.6 recall for image annotation task on Egyptian dataset which is gratifying and promising considering the strict and detailed ground truth testing set we used.
 
-We noticed that the recalls for sentence and image retrieval on both Chinese and Egyptian artwork datasets are not satisfactorily high. To better understand and evaluate our model, we demonstrate several successful and unsuccessful cross-modal retrieval examples in the next section for comparative analysis.
+We noticed that the recalls for sentence and image retrieval on both Chinese and Egyptian artwork datasets are not satisfactorily high. To better understand and evaluate our model, we demonstrate several successful and unsuccessful cross modal retrieval examples in the next section for comparative analysis.
 
-\subsection{Cross-modal Retrieval Examples}
-Here we illustrate four typically successful and unsuccessful cross-modal retrieval samples of our model: one for each dataset under sentence retrieval and image retrieval. 
+\subsection{Cross Modal Retrieval Examples}
+Here we illustrate four typically successful and unsuccessful cross modal retrieval samples of our model: one for each dataset under sentence retrieval and image retrieval. 
 
 \subsubsection{Successful Examples}
 
@@ -174,7 +174,7 @@ Finally, Figure \ref{fig:badt2i} demonstrates another two unsuccessful example o
 
 \subsection{Discussion}
 
-Generally speaking, Egyptian artworks surpassed Chinese artworks on cross-modal retrieval tasks - extra fine-grained and varied features in Chinese artworks complicates the process of distinguishing features. Furthermore, adequate but not excellent recalls are expected. There are three possible causes:
+Generally speaking, Egyptian artworks surpassed Chinese artworks on cross modal retrieval tasks - extra fine-grained and varied features in Chinese artworks complicates the process of distinguishing features. Furthermore, adequate but not excellent recalls are expected. There are three possible causes:
 
 \begin{itemize}
     \item Our training dataset cannot guarantee a balance of features. For example, there are only 6,000 training images for Chinese artworks, and many of them contain diverse shapes and details. Insufficient training features may influence the ability of model, therefore, cause inaccurate retrieval results.
@@ -182,7 +182,7 @@ Generally speaking, Egyptian artworks surpassed Chinese artworks on cross-modal 
     \item One of the crucial requirements for image-text alignment is accurate and proper feature extraction. However, in our case, we used the bottom-up attention mechanism \cite{bottomup}, which was designed and trained on real-world images (\verb|VisualGenome|). We all know that artworks usually have widely different representations and requires unique and specific treatment on feature extraction.
 \end{itemize}
 
-Nevertheless, we did not have more time to redesign our feature learning algorithm to make it more adaptable to artwork representations. To improve our model for better fine-grained cross-modal retrieval results, in the next section, we dig into some recent research on the aspect of image-text alignment. 
+Nevertheless, we did not have more time to redesign our feature learning algorithm to make it more adaptable to artwork representations. To improve our model for better fine-grained cross modal retrieval results, in the next section, we dig into some recent research on the aspect of image-text alignment. 
 
 \section{Future Directions}
 In this section, we point out some cutting-edge researches on the field of image-text alignment that are related to our methodology as future directions for further improvements. We are going to discuss in two main directions: the way to align image and text and the way to extract image features (representations).
@@ -244,9 +244,9 @@ Back to image-text matching, if the idea of RAMEN \cite{ramen} early fusion is i
 
 \subsection{Better Representation Learning?}
 
-It seems that the most critical factor affecting the alignment task is the characteristics/feature learnt by the network, and the calculation of similarity is not as crucial to a certain extent. VSRN \cite{VSRN} also proved this point by introducing many components to learn features, and then used the most straightforward dot product to achieve the current SOTA performance.
+It seems that the most critical factor affecting the alignment task is the characteristics/feature learnt by the network, and the calculation of similarity is not as crucial to a certain extent. VSRN \cite{VSRN} also proved this point by introducing many components to learn features, and then used the most straightforward dot product to achieve the current State-Of-The-Art performance.
 
-Representation learning embodies its importance in earlier work. The bottom-up and top-down \cite{bottomup} attention mechanism used by our baseline has indirectly accomplished many image-text alignment pieces of research. Afterwards, VQA, image-text matching, and image caption all started to use \cite{bottomup} to extract features, which improved the baseline by a significant amount and shows that a better representation learning model is crucial.
+Representation learning embodies its importance in earlier work. The bottom-up and top-down \cite{bottomup} attention mechanism used by our previous model has indirectly accomplished many image-text alignment pieces of research. Afterwards, VQA, image-text matching, and image caption all started to use \cite{bottomup} to extract features, which improved SCAN \cite{scan} by a significant amount and shows that a better representation learning model is crucial.
 
 2019 has been a year of the rapid development of representation learning. The leader-board of VCR \cite{zellers2019vcr} has many popular large-scale pre-trained models such as ViBERT \cite{lu2019vilbert}, VideoBERT \cite{sun2019videobert}, UNITE \cite{chen2019uniter} and MoCo \cite{he2019momentum}. Considering the special category of image data we focus on - artworks, here we put more attention on those specialised in artwork feature extraction. Recently, some works \cite{TranslatingArtworks,parttowhole,Art2Real,tan2017artgan,shen2019discovering} have proposed new methodologies for artwork feature extraction and contributed a lot in the field. 
 
@@ -294,10 +294,10 @@ Figure \ref{fig:featurelearning} demonstrates the feature learning process propo
 
 The method is evaluated on multiple different datasets and showed significant qualitative findings. In terms of quantitative evaluation, the researchers marked 273 approximately repeating details in the dataset of 1,587 works of art by Lao Jan Bruegel and his studio. In addition to works of art, the researchers also showed improvements in the positioning of the algorithm on the Oxford5K photo dataset \cite{Philbin07} and historical photo positioning on the LTLL (Large Time Lags Location) dataset \cite{Fernando2015CVIU}.
 
-We believe that a multitasking framework focusing on different levels of features like MTMR \cite{parttowhole} along with a fine-grained feature matching strategies mentioned in Shen et al.'s research \cite{shen2019discovering} will significantly help improve the fine-grained cross-modal retrieval model.
+We believe that a multitasking framework focusing on different levels of features like MTMR \cite{parttowhole} along with a fine-grained feature matching strategies mentioned in Shen et al.'s research \cite{shen2019discovering} will significantly help improve the fine-grained cross modal retrieval model.
 
 \section{Conclusion}
-In this section we first presented a fine-grained cross-modal retrieval model based on SCAN. It enables image-text retrieval on a fragment level which potentially helped the artwork annotation task. Next, we conducted several experiments under different settings to test the performance of our model on Egyptian and Chinese datasets by comparing their recall rates. To better illustrate and discuss the results, we displayed several successful and unsuccessful retrieval examples from our experiments, which shows our model has the ability to pick common shared features out accurately but sometimes gets stuck on rare and distinctive features. Lack of enough artwork training examples is also suspected as a cause of adequate recalls. We finally pointed future directions on image-text alignment task by analysing recent research works and proposed two major aspects that could possibly benefits our model.
+In this section we first presented a fine-grained cross modal retrieval model based on SCAN. It enables image-text retrieval on a fragment level which potentially helped the artwork annotation task. Next, we conducted several experiments under different settings to test the performance of our model on Egyptian and Chinese datasets by comparing their recall rates. To better illustrate and discuss the results, we displayed several successful and unsuccessful retrieval examples from our experiments, which shows our model has the ability to pick common shared features out accurately but sometimes gets stuck on rare and distinctive features. Lack of enough artwork training examples is also suspected as a cause of adequate recalls. We finally pointed future directions on image-text alignment task by analysing recent research works and proposed two major aspects that could possibly benefits our model.
 
 %%% Local Variables: 
 %%% mode: latex
