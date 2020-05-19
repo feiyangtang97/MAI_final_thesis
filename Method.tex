@@ -1,7 +1,7 @@
 \chapter{Fine-grained Cross Modal Retrieval}
 \label{cha:Method}
 
-In Chapter \ref{cha:scan}, we explained in detail on the structure and principle behind our coarse-grained cross-modal retrieval model. As we discussed, there are aspects that we can focus on to make improvements, especially on how to focus on the fine-grained features of artworks. In this chapter, we will present our improved model of fine-grained cross modal retrieval.
+In Chapter \ref{cha:scan}, we explained in detail on the structure and principle behind our coarse-grained cross modal retrieval model. As we discussed, there are aspects that we can focus on to make improvements, especially on how to focus on the fine-grained features of artworks. In this chapter, we will present our improved model of fine-grained cross modal retrieval.
 
 The structure of this chapter is as follows. Section 4.1 gives a brief introduction on our plans for modifying the previous model into a fragment level. Section 4.2 explains the processed artwork datasets and why the pre-processing is necessary for our model. Section 4.3 proposes our improved fine-grained cross modal retrieval model on fragment level instead of focusing on a whole image or sentence. Section 4.4 shows the results of our presented model running on our annotated artworks datasets. Section 4.5 points out some existing shortcomings of our methodology and potential fields to be focused on in the future. Section 4.6 concludes this section.
 
@@ -18,9 +18,9 @@ Next, we present our datasets used in this chapter.
 
 \section{Dataset Preparation}
 \label{sec:dataprep}
-As we mentioned in Section \ref{cha:intro}, the datasets used in this thesis are from the Rijksmuseum Challenge by Mensink et al. \cite{MensinkICMIR2014}. The raw datasets were downloaded from the webpage dedicated to the Rijksmuseum Challenge. For each artwork, two files were available: a high-resolution \verb|jpeg| image file and an accompanying \verb|xml| file including the metadata.
+As we mentioned in Section \ref{cha:intro}, the datasets used in this thesis are from the multiple major museum online collection sites. \cite{themet,thebritishmuseum,brooklynmuseum}. The raw datasets were downloaded from the webpage. For each artwork, two files were available: a high-resolution \verb|jpeg| image file and an accompanying \verb|xml| and \verb|json| file including the metadata.
 
-Python scripts (see Appendix \ref{app:A}) were written to parse the \verb|xml| files. Instead of using the raw captions, here the textual attributes we use are already processed into phrases. The technique here used is from Handler et al. \cite{nounphrase}, it extracts noun phrases from captions in raw \verb|xml| files which potentially helped us improve the accuracy as in most cases noun phrases contain more relevant information of artworks.  
+Python scripts (see Appendix \ref{app:A}) were written to parse the \verb|xml| and \verb|json| files. Instead of using the raw captions, here the textual attributes we use are already processed into phrases. The technique here used is from Handler et al. \cite{nounphrase}, it extracts noun phrases from captions in raw \verb|xml| and \verb|json| files which potentially helped us improve the accuracy as in most cases noun phrases contain more relevant information of artworks.  
 
 As one single artwork can often have more than one annotation existed in its corresponding \verb|xml| file, it is essential to extract all related annotations out and also combine them into one record for training and testing purpose, which saves computational power and simplifies the model input. We generate a combined \verb|.txt| file for each artwork image which contains all related textual attribution then pass it to the noun phrase extraction process in order to achieve the retrieval in a fragment level; results are saved in \verb|json| format. Details are covered in Appendix \ref{app:A}.
 
@@ -32,7 +32,7 @@ Our training tasks are based on these noun phrases and extracted image fragments
 
 \section{Overall Architecture}
 
-The architecture of the fine-grained cross modal retrieval model is depicted in Figure \ref{fig:mainarch}. This model takes full artwork images and full sentence captions as input. The full artwork image input is a (224, 224) sized high-resolution colour picture and the full sentence caption comes from the Rijksmuseum dataset \cite{MensinkICMIR2014} which contains several descriptions of artworks.
+The architecture of the fine-grained cross modal retrieval model is depicted in Figure \ref{fig:mainarch}. This model takes full artwork images and full sentence captions as input. The full artwork image input is a (224, 224) sized high-resolution colour picture and the full sentence caption comes from our dataset which contains several descriptions of artworks.
 
 The model has two pipelines processing image and text input from start, for image input, we first detect salient regions as bottom-up attention \cite{bottomup} to extract features from images using faster R-CNN \cite{fasterrcnn} and ResNet-101 \cite{resnet} (mentioned in Section \ref{sec:fasterrcnn}). These obtained image fragments and their representations will be passed into a fully-connected layer, in order to transform them into a joint embedding space with the same dimension of text (i.e. the dimension of GRU explanation in next paragraph).
 
@@ -59,7 +59,7 @@ After we learnt image and text representation in a common space, we can use SCAN
 
 \section{Experiments}
 
-For experiment settings, we used the same settings and environment as mentioned in Chapter \ref{cha:scan}: Ubuntu machine with Intel Xeon Processor E5-1620 (10M Cache, 3.60 GHz) CPU and a GeForce GTX TITAN X GPU. 
+For experiment settings, we used the same settings and environment as mentioned in Chapter \ref{cha:scan} : Ubuntu machine with Intel Xeon Processor E5-1620 (10M Cache, 3.60 GHz) CPU and a GeForce GTX TITAN X GPU. 
 
 \subsubsection{Settings for image representation}
 
@@ -292,7 +292,7 @@ Due to the differences in artistic media (oil paintings, pastel paintings, sketc
 
 Figure \ref{fig:featurelearning} demonstrates the feature learning process proposed. First candidate correspondences need to be obtained, which come from matching the proposal regions in red boxes with the original complete dataset. Next, these correspondences are checked by comparing features from validation regions (in blue). Finally, only positive results from the previous step will be extracted and kept. 
 
-The method is evaluated on multiple different datasets and showed significant qualitative findings. In terms of quantitative evaluation, the researchers marked 273 approximately repeating details in the dataset of 1,587 works of art by Lao Jan Bruegel and his studio. In addition to works of art, the researchers also showed improvements in the positioning of the algorithm on the Oxford5K photo dataset \cite{Philbin07} and historical photo positioning on the LTLL (Large Time Lags Location) dataset \cite{Fernando2015CVIU}.
+The method is evaluated on multiple different datasets and showed significant qualitative findings. In terms of quantitative evaluation, the researchers marked 273 approximately repeating details in the dataset of 1,587 works of art by Lao Jan Bruegel and his studio. In addition to works of art, the researchers also showed improvements in the positioning of the algorithm on the \verb|Oxford5K| photo dataset \cite{Philbin07} and historical photo positioning on the LTLL (Large Time Lags Location) dataset \cite{Fernando2015CVIU}.
 
 We believe that a multitasking framework focusing on different levels of features like MTMR \cite{parttowhole} along with a fine-grained feature matching strategies mentioned in Shen et al.'s research \cite{shen2019discovering} will significantly help improve the fine-grained cross modal retrieval model.
 

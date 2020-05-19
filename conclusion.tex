@@ -1,9 +1,38 @@
 \chapter{Conclusion}
 \label{cha:conclusion}
-The final chapter contains the overall conclusion. It also contains
-suggestions for future work and industrial applications.
 
-\lipsum[1-7]
+In this thesis, we first comprehensively reviewed the mainstream proposed image-text alignment frameworks for cross modal retrieval task and investigated SCAN over artwork datasets. Then, we highlighted the deficiencies of the current methods on artworks. Against the shortage of current methods, we proposed a fine-grained cross modal retrieval model which can perform the task on a fragment level. This model adopted the idea of bottom-up attention \cite{bottomup} to capture image regions, stacked across attention \cite{scan} for image-text alignment and noun-phrase extraction for more fragmented textual retrieval along with a manually handcrafted ground truth testing set for better evaluations. Experiments demonstrated that this modal could obtain some subtle features from artworks and does not lose significant features in the meantime. 
+
+In this final chapter, we summarise our findings and results presented in the thesis and discuss future directions for our research.
+
+\section{Achievements}
+The following list highlights the major achievements of this project:
+
+\begin{itemize}
+    \item We employed SCAN to achieve coarse-grained cross modal retrieval on artwork data, helped accelerate the artwork annotation task.
+    \item We modified our coarse-grained cross modal retrieval model and improved it on a fragment level. This enables the cross modal retrieval task from a more fine-grained level focusing on some subtle characteristics in artworks.
+    \item Through our evaluation, we showed that our design is feasible and improved the cross modal retrieval on a fragment level.
+\end{itemize}
+
+
+\section{Limitations}
+This thesis has presented algorithms and approaches that contribute to solving problems in cross model retrieval for the artworks. Despite the contributions, there are some limitations to the proposed algorithms and approaches.
+
+The first limitation is related to our image representation learning. By adopting research from a real-world dataset training based such as bottom-up attention, it is highly likely to miss peculiar patterns in artworks. It has been proved that feature learning plays a crucial role in the field of image-text alignment; a novel method targeting artwork feature learning may significantly help the task.
+
+The second limitation is related to our dataset settings. We noticed some unbalance in our dataset that some specific types of artwork do not frequently appear as others, which may influence the training and testing result. As we know that a good computer vision model often requires training on a massive amount of data such as ImageNet \cite{imagenet}, a better-structured dataset may help with this research.
+
+\section{Future Works}
+There are several future directions for the work this thesis presents. We summarise the discussion of future works for each of the specific topics mentioned in Chapter \ref{cha:Method} and propose future directions we wish to pursue.
+
+\subsection{Image-text Matching}
+There are already much research has been devoted to this area. Some used simple similarity calculations with attention mechanism; some introduced fusion structure such as bilinear fusion. However, this newly proposed method ``early fusion'' may be an interesting algorithm to employ for the task of image-text matching.
+
+\subsection{Representation Learning}
+Considering the significant differences between the representations of real-world image and artworks, it worths our efforts to develop a novel representation learning mechanism targeting artworks. We believe this should significantly improve the accuracy of cross modal retrieval on artworks.
+
+
+
 
 %%% Local Variables: 
 %%% mode: latex
