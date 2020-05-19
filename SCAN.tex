@@ -171,7 +171,7 @@ For experiment settings, we tested on a Ubuntu machine with Intel Xeon Processor
     \item We obtained 300 dimensional word embedding as input to GRU then use embedding matrix to map it into 1,024 joint embedding spaces.
 \end{itemize}
 
-\subsubsection{Results}
+\subsection{Results}
 
 The following Table \ref{table:resultscan} illustrates the results of running SCAN model on our ancient Egyptian and Chinese art alignment datasets.
 
@@ -189,7 +189,31 @@ SCAN i-t AVG & 3.3         & 20.4        & 36.1       & 8.0        & 22.9       
 \label{table:resultscan}
 \end{table}
 
-The results are beyond satisfactory as shown; however, as in this stage, we only used the features obtained using bottom-up attention \cite{bottomup} to train and test, the result may be misleading. As bottom-up attention model was trained on natural images, which means the features we obtained for training and testing set may be irrelevant to those contained in artworks. Noted using entire artwork image and sentence caption to feed SCAN may also lose detailed information in artworks, which will be further discussed in the next chapter.
+The results are beyond satisfactory as shown; however, as in this stage, we only used the features obtained using bottom-up attention \cite{bottomup} to train and test, the result may be misleading. As bottom-up attention model was trained on natural images, which means the features we obtained for training and testing set may be irrelevant to those contained in artworks. Noted using entire artwork image and sentence caption to feed SCAN may also lose detailed information in artworks, which will be further discussed in Chapter \ref{cha:Method}.
+
+\subsection{Examples}
+Below we display a few examples from our coarse-grained cross modal retrieval model: one for each dataset under sentence retrieval and image retrieval.
+
+\subsubsection{Sentence Retrieval}
+Figure \ref{fig:scani2t} illustrates two examples which obtained textual attributes from image queries. There are several characteristics were successfully obtained from the left Egyptian anthropoid statue and the right Chinese vase including the shape and colour but not in a fragment level. That is, for example, our textual retrieval results captured ``dark brown mummy'', ``white porcelain vase'' and even a little bit detail: ``dark inscription on neck'', however, more details need to be furnished such as ``long thin beard'' and ``red flowers''. These cannot be accomplished well under the current settings we used which is coarse - based on image and sentence level.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1\textwidth]{scani2t.pdf}
+\caption{Text Retrieval Example for Given Image Queries (coarse-grained)}
+\label{fig:scani2t}
+\end{figure}
+
+\subsubsection{Image Retrieval}
+Similar results appeared in image retrieval examples shown as Figure \ref{fig:scant2i}. The model was able to pick out major shapes and overall structure but detailed information cannot be well aligned between image and text thus cause inaccurate retrieval on a more fine-grained level.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1\textwidth]{scant2i.pdf}
+\caption{Image Retrieval Example for Given Text Queries (coarse-grained)}
+\label{fig:scant2i}
+\end{figure}
+
 
 \section{Conclusion}
 Automated image-text mutual annotation would benefit transforming traditional library artwork collection to digital. In this section, we adopted a well-known cross modal retrieval model Stacked Attention as our baseline and evaluated our Egyptian and Chinese artwork datasets on it. Considering the unique representation of artworks, in the next chapter, we will modify SCAN to achieve the cross modal retrieval in a fine-grained level.

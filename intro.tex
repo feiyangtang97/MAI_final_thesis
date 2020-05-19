@@ -40,26 +40,40 @@ Figure \ref{fig:artwork1} shows a small blue container with black inked motifs o
 
 \section{Dataset}
 
-This thesis research is based on the dataset provided by \textit{The Rijksmuseum Challenge} \cite{MensinkICMIR2014}, which is posed from a museum-centric point of view offering a wide range of object types including paintings, photographs, ceramics, furniture, etc. The freely available dataset consists of 112,039 photographic reproductions of the artworks exhibited in the Rijksmuseum in Amsterdam, the Netherlands. 
 
-The dataset has 112,039 high-quality artwork images recorded
-in a controlled setting. Images are stored at 300 dpi and the
-compressed \verb|jpeg| image file size ranges between 2-5 MB. There is a \verb|xml| file containing metadata corresponding to each image. However, in our research, instead of using the original captions in the \verb|xml| files, we extracted noun phrases from them and performed our alignment tasks between these noun phrases and images.
+The datasets involved in this thesis research are collected from the following online sources: the Brooklyn Museum \cite{brooklynmuseum}, the Metropolitan Museum \cite{themet}, and the British Museum \cite{thebritishmuseum}. Based on these sources, we have created two artwork datasets: the ancient Egyptian art image dataset and the ancient Chinese art image dataset. The two datasets are collected based on the geographical location of the origin of the artworks because caption words may differ much depending on the cultural background of the location. Detailed statistics of the two datasets are shown in Table \ref{fig:datasetstats}. 
 
-Here we focus on ancient Egyptian and Chinese artworks; we manually construct our datasets; they consist of 16,146 images from Egyptian domain and 6,847 images in Chinese. All metadata and textual
-captions were originally recorded in Dutch, for the convenience of international collaboration, \textit{The Rijksmuseum Challenge} \cite{MensinkICMIR2014} also provided a cleaned and English version of all the textual captions. Figure \ref{fig:sampleEgyptian} and Figure \ref{fig:sampleChinese} show three examples of artworks from the Egyptian and Chinese collection with textual captions.
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Dataset}          & \textbf{Num. of Artworks} & \textbf{Aver. Length} & \textbf{Num. of Tokens} \\ \hline
+\textbf{Egyptian} & 16,146                       & 9                       & 10,694                     \\ \hline
+\textbf{Chinese}  & 6,847                        & 10                      & 4,721                      \\ \hline
+\end{tabular}
+\caption{Statistics of Our Datasets}
+\label{fig:datasetstats}
+\end{table}
+
+The datasets have 22,993 high-quality artwork images recorded
+in a controlled setting. Images are stored at varying dpi and the
+compressed \verb|jpeg| image file size ranges between 20-300 KB. The paragraph-level descriptions are split into multiple sentences and a maximum of five sentences are retained for each artwork to reduce data imbalance. In addition, we removed noisy texts from the captions following a specific pattern, e.g, ``See 13.26.59''. The number is the accession number of an artifact that obviously cannot be derived from the input image or artwork type. We also remove duplicate images in the captioning datasets based on their hash code. Tokens occurring less than two times are removed from the training vocabulary. The datasets are all split into an 80\%, 10\%, and 10\% partition for respectively training, validation, and test.
+
+Each artwork image has a corresponding \verb|json| file containing these processed caption textual data. However, in our research, instead of using the original captions in the \verb|json| files, we extracted noun phrases from them and performed our alignment tasks between these noun phrases and images.
+
+Here we focus on ancient Egyptian and Chinese artworks; we manually construct our datasets; they consist of 16,146 images from Egyptian domain and 6,847 images in Chinese. Figure \ref{fig:sampleEgyptian} and Figure \ref{fig:sampleChinese} show three examples of artworks from the Egyptian and Chinese collection with textual captions.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.6\textwidth]{egyptian.pdf}
-\caption{Examples of artworks (image and textual data) of the Rijksmuseum dataset (Egyptian) \cite{MensinkICMIR2014}}
+\includegraphics[width=0.9\textwidth]{egyptian.pdf}
+\caption{Examples of Artworks of Egyptian Artwork Dataset}
 \label{fig:sampleEgyptian}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.6\textwidth]{chinese.pdf}
-\caption{Examples of artworks (image and textual data) of the Rijksmuseum dataset (Chinese) \cite{MensinkICMIR2014}}
+\includegraphics[width=\textwidth]{chinese.pdf}
+\caption{Examples of Artworks of Chinese Artwork Dataset}
 \label{fig:sampleChinese}
 \end{figure}
 
