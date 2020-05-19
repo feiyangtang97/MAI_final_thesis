@@ -18,7 +18,7 @@ Next, we present our datasets used in this chapter.
 
 \section{Dataset Preparation}
 \label{sec:dataprep}
-As we mentioned in Section \ref{cha:intro}, the datasets used in this thesis are from the multiple major museum online collection sites. \cite{themet,thebritishmuseum,brooklynmuseum}. The raw datasets were downloaded from the webpage. For each artwork, two files were available: a high-resolution \verb|jpeg| image file and an accompanying \verb|xml| and \verb|json| file including the metadata.
+As we mentioned in Section \ref{cha:intro}, the datasets used in this thesis are from the multiple major museum online collection sites \cite{themet,thebritishmuseum,brooklynmuseum}. The raw datasets were downloaded from the webpage. For each artwork, two files were available: a high-resolution \verb|jpeg| image file and an accompanying \verb|xml| and \verb|json| file including the metadata.
 
 Python scripts (see Appendix \ref{app:A}) were written to parse the \verb|xml| and \verb|json| files. Instead of using the raw captions, here the textual attributes we use are already processed into phrases. The technique here used is from Handler et al. \cite{nounphrase}, it extracts noun phrases from captions in raw \verb|xml| and \verb|json| files which potentially helped us improve the accuracy as in most cases noun phrases contain more relevant information of artworks.  
 
