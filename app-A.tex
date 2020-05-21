@@ -98,7 +98,9 @@ In this section, we briefly display the preprocessing part of our implementation
 Here we focus on two specific files, one is \verb|egyptian_convert.py| which is able to parse \verb|xml| and \verb|json| files. Another one is \verb|preprocess.ipynb| which combines features and vocabularies for each distinct artwork.
 
 
-\subsection{json/xml parser: egyptian\_convert.py}
+\subsection{Texual Attribute Parser}
+
+Here the code snippet of \verb|egyptian_convert.py| is displayed below. Similarly, \verb|chinese_artwork_convert.py| works for Chinese artwork dataset.
 
 \begin{lstlisting}[language=Python]
 import xml.etree.ElementTree as ET
@@ -154,7 +156,9 @@ def json_parser(path):
                 
 \end{lstlisting}
 
-\subsection{Feature and vocabulary combination: preprocess.ipynb}
+\subsection{Feature Combination}
+Here the code snippet of \verb|preprocess.ipynb| is displayed below.
+
 \begin{lstlisting}[language=Python]
 import torchvision
 import torch
