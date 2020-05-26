@@ -3,7 +3,7 @@
 
 \epigraph{\textit{``If we want machines to think, we need to teach them to see.''}}{\textit{- Li Fei-Fei}}
 
-
+%% shurong: replace this part (til the end of 1.1) by some introductions on image-text alignment and cross modal retrieval
 As the most basic and influential part of human's sensory nervous system, vision plays a vital part in all kinds of recognition tasks. A glance at an image is sufficient for a human to point out and describe an immense amount of details about the visual scene. Traditionally, object recognition and description were performed manually. As time passed, the number of images in many systems grew to more substantial than terabyte size, and could no longer be maintained manually, which brought the idea of machine learning and computer vision also formed a part of artificial intelligence. 
 
 The process of ``teaching machines to see'' has been widely discussed since the late 20$^{th}$ century and focused on modelling the 3D shape of objects. The latter focus emphasises the identification of objects, and this was achieved by adopting the AdaBoost \cite{adaboost} algorithm. Recently, since neural network-based algorithm AlexNet \cite{alexnet} won the object recognition ImageNet \cite{imagenet} competition in 2012, the field of computer vision began to make breakthroughs. At present, the top technology in the field of computer vision has been continuously approaching human performance. Besides, the learning mechanism, performance and security of neural networks are discussed in more depth.
@@ -17,6 +17,7 @@ A real understanding of our environment is not achievable only by visual represe
 In this respect, the visual process is only the process of transmitting images and interpreting them. However, from a computational point of view, the images are closer to thought or cognition and involve many functions of the brain. Therefore, due to the remarkable cross-domain characteristics, many people think that computer vision is a real understanding of the visual environment and its context, and will lead us to achieve reliable artificial intelligence.
 
 \section{Motivation}
+%% shurong: extend the motivation in the abstract and emphasize that image-text alignment in the cultural heritage domain has not been a lot exploit yet, they are quite popular for natural images. you can also merge this part with the above part if the content is too less
 Image-text alignment is a fundamental research topic in the inter-field of computer vision and natural language processing. It will save the intense labour from annotating the artworks for online
 digital artwork archives if we can automatically describe an artwork image or sub-image with its textual attributes. Furthermore, this topic can help to boost the multi-modal question answering performance in the cultural heritage domain by providing fine-grained image-text correspondence information \cite{mqa}. Therefore, it is interesting to explore the methods that can figure out the artwork image or sub-image and text correspondence.
 
@@ -38,6 +39,8 @@ Figure \ref{fig:artwork1} shows a small blue container with black inked motifs o
 \label{fig:artwork2}
 \end{figure}
 
+
+%% shurong: move the examples in 1.2 to the dataset part. There are also redundant info in this section. double check and remove repeated content
 \section{Dataset}
 
 The datasets \cite{artworkcaption} involved in this thesis research are collected from the following online sources: the Brooklyn Museum \cite{brooklynmuseum}, the Metropolitan Museum \cite{themet}, and the British Museum \cite{thebritishmuseum}. Based on these sources, we have created two artwork datasets: the ancient Egyptian art image dataset and the ancient Chinese art image dataset. The two datasets are collected based on the geographical location of the origin of the artworks because caption words may differ much depending on the cultural background of the location. Detailed statistics of the two datasets are shown in Table \ref{fig:datasetstats}. 
@@ -80,6 +83,7 @@ Here we focus on ancient Egyptian and Chinese artworks; we manually construct ou
 
 In this thesis, we study fine-grained image-text alignment for artworks. Fine-grained image-text alignment refers to the fragment level cross modal (between image and text) retrieval. The prior sections list the background and motivations, the specific research questions that we look at are:
 
+%% two research questions: 1. is the alignment model experimented on natural images effective for artwork items 2. can coarse-grained cross-modal retrieval modal be adapted to fine-grained retrieval and how?
 \begin{itemize}
     \item Why mainstream coarse-grained image-text alignment techniques does not suit artwork domains well?
     \item Can we propose a practical approach that facilitates the textual attributes annotation of artwork images accurately and efficiently?
@@ -90,6 +94,7 @@ In this thesis, we study fine-grained image-text alignment for artworks. Fine-gr
 
 As mentioned above, our primary research task here is to achieve cross modal retrieval (i.e. between image and text) for artworks. Figure \ref{fig:framework} illustrates a brief working framework for the tasks.
 
+%% shurong: the training data is a bit confusing. an image should be composed of a certain number of image fragments and the text is noun-phrase composed sentence .Or the picture can be kept here but you explain the two levels of retrieval clearly or even give examples.
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{framework.pdf}

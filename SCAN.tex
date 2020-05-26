@@ -4,6 +4,8 @@ In Chapter \ref{cha:relatedworks}, we discussed several models proposed to solve
 
 The structure of this chapter is as follows. Section 3.1 gives an introduction and motivation of SCAN. Section 3.2 explains the structure and methodologies used in SCAN, also how all its components iterates with each other. Section 3.3 briefly discusses the strengths of the adopted model for coarse-grained cross-modal retrieval. Section 3.4 illustrates the preliminary experimental results on our artwork datasets and the achievement of SCAN. Section 3.5 summarises this section.
 
+
+%% Shurong: remove the motivation part or a brief sentence saying that SCAN is prove very effective in image-text alignment. In this part, it's better the images from the original paper can be replaced by your own. (Move the evaluation metrics in chapter 4 introduction to this chapter.) Give some insights into the bad examples about why the model does not work for them
 \section{Motivation}
 
 There are several models proposed recently to solve the problem of cross-modal retrieval, and many have achieved excellent accomplishments. However, Lee, et al. \cite{scan} mentioned some current existing drawbacks of mainstream image-text alignment models, such as:
@@ -170,6 +172,10 @@ For experiment settings, we tested on a Ubuntu machine with Intel Xeon Processor
 \begin{itemize}
     \item We obtained 300 dimensional word embedding as input to GRU then use embedding matrix to map it into 1,024 joint embedding spaces.
 \end{itemize}
+
+\subsection{Evaluation Metrics}
+
+Recall is one of the most commonly used metrics in the field of information retrieval. Here in this research project, we evaluate the performance of sentence retrieval (image query) and image retrieval (sentence query) by the recall at $K$ (R@$K$). This is defined as the fraction of queries for which the correct item is retrieved in the closest $K$ points to the query. 
 
 \subsection{Results}
 
