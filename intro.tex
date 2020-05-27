@@ -39,7 +39,7 @@ Image-text alignment is a fundamental research topic in the inter-field of compu
 While a large number of papers discussed aligning image-text and coarse-grained modal information retrieval, the fragment level image-text alignment problem has not been as widely dealt within the multi-modal question-answering research domain. Coarse-grained modal information retrieval can retrieve information between image and text. However, it usually does not work well on artwork datasets which normally contain some fine-grained patterns and objects in one artwork image, therefore reduce the effectiveness of the retrieval model. We provide demonstrations on the difference between these two levels of cross modal retrieval in the following section.
 
 
-%% shurong: move the examples in 1.2 to the dataset part. There are also redundant info in this section. double check and remove repeated content
+%% shurong: move the examples in 1.2 to the dataset part.[done] There are also redundant info in this section. double check and remove repeated content
 \section{Dataset}
 
 The datasets \cite{artworkcaption} involved in this thesis research are collected from the following online sources: the Brooklyn Museum \cite{brooklynmuseum}, the Metropolitan Museum \cite{themet}, and the British Museum \cite{thebritishmuseum}. Based on these sources, we have created two artwork datasets: the ancient Egyptian art image dataset and the ancient Chinese art image dataset. The two datasets are collected based on the geographical location of the origin of the artworks because caption words may differ much depending on the cultural background of the location. Detailed statistics of the two datasets are shown in Table \ref{fig:datasetstats}. 
@@ -60,7 +60,7 @@ The datasets have 22,993 high-quality artwork images recorded
 in a controlled setting. Images are stored at varying dpi and the
 compressed \verb|jpeg| image file size ranges between 20-300 KB. The paragraph-level descriptions are split into multiple sentences and a maximum of five sentences are retained for each artwork to reduce data imbalance. In addition, we removed noisy texts from the captions following a specific pattern, e.g, ``See 13.26.59'' \cite{artworkcaption}. The number is the accession number of an artifact that obviously cannot be derived from the input image or artwork type. We also remove duplicate images in the captioning datasets based on their hash code. Tokens occurring less than two times are removed from the training vocabulary. The datasets are all split into an 80\%, 10\%, and 10\% partition for respectively training, validation, and test.
 
-Each artwork image has a corresponding record saved in a \verb|json| file containing their processed caption textual data. However, in our research, instead of using the original captions in the \verb|json| file, we extracted noun phrases from them and performed our alignment tasks between these noun phrases and images.
+%Each artwork image has a corresponding record saved in a \verb|json| file containing their processed caption textual data. However, in our research, instead of using the original captions in the \verb|json| file, we extracted noun phrases from them and performed our alignment tasks between these noun phrases and images.
 
 Here we focus on ancient Egyptian and Chinese artworks; we manually construct our datasets; they consist of 16,146 images from Egyptian domain and 6,847 images in Chinese. Figure \ref{fig:sampleEgyptian} and Figure \ref{fig:sampleChinese} show three examples of artworks from the Egyptian and Chinese collection with textual captions.
 
@@ -99,24 +99,23 @@ Figure \ref{fig:artwork1} shows a small blue container with black inked motifs o
 
 \section{Research Questions}
 
-In this thesis, we study fine-grained image-text alignment for artworks. Fine-grained image-text alignment refers to the fragment level cross modal (between image and text) retrieval. The prior sections list the background and motivations, the specific research questions that we look at are:
+In this thesis, we study image-text alignment for artworks in coarse and fine-grained levels. Fine-grained image-text alignment refers to the fragment level cross modal (between image and text) retrieval. The prior sections list the background and motivations, the specific research questions that we look at are:
 
-%% two research questions: 1. is the alignment model experimented on natural images effective for artwork items 2. can coarse-grained cross-modal retrieval modal be adapted to fine-grained retrieval and how?
+%% [edited]two research questions: 1. is the alignment model experimented on natural images effective for artwork items 2. can coarse-grained cross-modal retrieval modal be adapted to fine-grained retrieval and how?
 \begin{itemize}
-    \item Why mainstream coarse-grained image-text alignment techniques does not suit artwork domains well?
-    \item Can we propose a practical approach that facilitates the textual attributes annotation of artwork images accurately and efficiently?
-    \item Can we develop a fine-grained image-text alignment technique that can retrieve text from images and vice versa on fragment level?
+    \item Is the image-text alignment model experimented on natural images effective for artwork datasets?
+    \item Can coarse-grained cross modal retrieval model be adapted to fine-grained retrieval and how?
 \end{itemize}
 
 \subsection{Cross Modal Retrieval Framework}
 
-As mentioned above, our primary research task here is to achieve cross modal retrieval (i.e. between image and text) for artworks. Figure \ref{fig:framework} illustrates a brief working framework for the tasks.
+As mentioned above, our primary research task here is to achieve cross modal retrieval (i.e. between image and text) for artworks. Figure \ref{fig:framework} illustrates a brief working framework for the tasks in a fine-grained level.
 
 %% [solved]shurong: the training data is a bit confusing. an image should be composed of a certain number of image fragments and the text is noun-phrase composed sentence .Or the picture can be kept here but you explain the two levels of retrieval clearly or even give examples.
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{framework.pdf}
-\caption{Cross Modal Retrieval Process}
+\caption{Cross Modal Retrieval Process (fine-grained)}
 \label{fig:framework}
 \end{figure}
 
