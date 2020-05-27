@@ -5,20 +5,13 @@ In Chapter \ref{cha:relatedworks}, we discussed several models proposed to solve
 The structure of this chapter is as follows. Section 3.1 gives an introduction and motivation of SCAN. Section 3.2 explains the structure and methodologies used in SCAN, also how all its components iterates with each other. Section 3.3 briefly discusses the strengths of the adopted model for coarse-grained cross-modal retrieval. Section 3.4 illustrates the preliminary experimental results on our artwork datasets and the achievement of SCAN. Section 3.5 summarises this section.
 
 
-%% Shurong: remove the motivation part or a brief sentence saying that SCAN is prove very effective in image-text alignment. In this part, it's better the images from the original paper can be replaced by your own. (Move the evaluation metrics in chapter 4 introduction to this chapter.) Give some insights into the bad examples about why the model does not work for them
-\section{Motivation}
+%% [done]Shurong: remove the motivation part or a brief sentence saying that SCAN is prove very effective in image-text alignment. 
+%%[solved]In this part, it's better the images from the original paper can be replaced by your own. (Move the evaluation metrics in chapter 4 introduction to this chapter.) 
+%%Give some insights into the bad examples about why the model does not work for them
 
-There are several models proposed recently to solve the problem of cross-modal retrieval, and many have achieved excellent accomplishments. However, Lee, et al. \cite{scan} mentioned some current existing drawbacks of mainstream image-text alignment models, such as:
+There are several models proposed recently to solve the problem of cross-modal retrieval, and many have achieved excellent accomplishments. Stacked Cross Attention (SCAN) is proposed in a paper published on ECCV by Lee, et al. \cite{scan} in 2018. The paper aimed to combine the above aspects (attention mechanism and using pairs), first extracting the features of the image and sentence, then using attention for each region and word, and finally calculating similarity so that attention is used for finer-grained alignment.
 
-\begin{itemize}
-    \item Attention mechanism is not considered at all, and the entire image and sentence pair are aggregated together, e.g. VSE++ \cite{vse}.
-    \item A bit more refined: calculate the similarity between each region-word, take maximum and add them together as the similarity of the entire pair, e.g. Deep-VS \cite{neuraltalk2}.
-    \item With attention used, but a predetermined step-process is used to capture limited semantic alignment, and because the entire feature is sent in, it lacks interpretability, e.g. Dual Attention Networks (DANs) \cite{dan}.
-\end{itemize}
-
-Stacked Cross Attention (SCAN) is proposed in a paper published on ECCV by Lee, et al. \cite{scan} in 2018. The paper aimed to combine the above aspects (attention mechanism and using pairs), first extracting the features of the image and sentence, then using attention for each region and word, and finally calculating similarity so that attention is used for finer-grained alignment.
-
-Also, the paper used some of the currently available optimisation methods, such as the use of hard-negative, triplet ranking loss, etc.
+Also, the paper used some of the currently available optimisation methods, such as the use of hard-negative, triplet ranking loss, etc. SCAN is proved to be very effective in image-text alignment task.
 
 We explain the structure of SCAN model in the next sections.
 
@@ -72,7 +65,7 @@ The process is shown below in Figure \ref{fig:scan1}.
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1\textwidth]{scan1.pdf}
-\caption{Image-Text Stacked Cross Attention \cite{scan}}
+\caption{Image-Text Stacked Cross Attention}
 \label{fig:scan1}
 \end{figure}
 
@@ -114,7 +107,7 @@ $$
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1\textwidth]{scan2.pdf}
-\caption{Text-Image Stacked Cross Attention \cite{scan}}
+\caption{Text-Image Stacked Cross Attention}
 \label{fig:scan2}
 \end{figure}
 
@@ -201,11 +194,11 @@ The results are beyond satisfactory as shown; however, as in this stage, we only
 Below we display a few examples from our coarse-grained cross modal retrieval model: one for each dataset under sentence retrieval and image retrieval.
 
 \subsubsection{Sentence Retrieval}
-Figure \ref{fig:scani2t} illustrates two examples which obtained textual attributes from image queries. There are several characteristics were successfully obtained from the left Egyptian anthropoid statue and the right Chinese vase including the shape and colour but not in a fragment level. That is, for example, our textual retrieval results captured ``dark brown mummy'', ``white porcelain vase'' and even a little bit detail: ``dark inscription on neck'', however, more details need to be furnished such as ``long thin beard'' and ``red flowers''. These cannot be accomplished well under the current settings we used which is coarse - based on image and sentence level.
+Figure \ref{fig:scani2t} illustrates two examples which obtained textual attributes from image queries. There are several characteristics were successfully obtained from the left Egyptian anthropoid statue and the right Chinese vase including the shape and colour but not in a fragment level. That is, for example, our textual retrieval results captured ``dark brown mummy'', ``white porcelain vase'' and even a little bit detail: ``dark inscription on neck'', however, more details need to be furnished such as ``long thin beard'' and ``red flowers''. These cannot be accomplished well under the current settings we used which is coarse-based on image and sentence level.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1\textwidth]{scani2t.pdf}
+\includegraphics[width=\textwidth]{scani2t.pdf}
 \caption{Text Retrieval Example for Given Image Queries (coarse-grained)}
 \label{fig:scani2t}
 \end{figure}
@@ -215,10 +208,12 @@ Similar results appeared in image retrieval examples shown as Figure \ref{fig:sc
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1\textwidth]{scant2i.pdf}
+\includegraphics[width=\textwidth]{scant2i.pdf}
 \caption{Image Retrieval Example for Given Text Queries (coarse-grained)}
 \label{fig:scant2i}
 \end{figure}
+
+There is a significant issue in under the current model: too many irrelevant textual attributes in our training data - especially our Egyptian dataset. These adjuncts, preposition and conjunctions are often noises comparing to the noun phrases, which generally contain essential information of artwork descriptions. For instance, in the process of text-image stacked cross attention, we first attend words to image fragments and then attend to words given attended image vector. These produced attended image vectors may lose some degree of accuracy when these noisy words took part in the attention steps. Therefore, some subtle, detailed features may not be correctly captured by SCAN while mixing with noises. To solve this drawback, we make some changes to SCAN in the next Section.
 
 
 \section{Conclusion}
