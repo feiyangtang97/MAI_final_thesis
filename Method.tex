@@ -173,8 +173,8 @@ Here Figure \ref{fig:badi2t} displays unsuccessful example text retrieval result
 Finally, Figure \ref{fig:badt2i} demonstrates another two unsuccessful example of image retrieval results from text queries. Similar to the text retrieval case we discussed above, the two samples here also have considerably infrequent features. The model usually can pick up the features such as shape and colour, also frequently appeared local characteristics, however, for rare and specific local features such as ``depression'', ``tubular neck'' and ``wide lipped mouth'', the model may get puzzled, which lead to inaccurate and unsatisfactory results.
 
 \subsection{Discussion}
-
-Generally speaking, Egyptian artworks surpassed Chinese artworks on cross modal retrieval tasks - extra fine-grained and varied features in Chinese artworks complicates the process of distinguishing features. Furthermore, adequate but not excellent recalls are expected. There are three possible causes:
+%%
+Generally speaking, Chinese artworks surpassed Egyptian artworks on cross modal retrieval tasks - extra detailed descriptive textual attributes provided for fine-grained and varied features in Chinese artworks. There are still a large amount of irrelevant noisy textual attributes in Egyptian artwork dataset even after noun phrase extraction, which significantly complicates the process of distinguishing features. Furthermore, adequate but not excellent recalls are expected. There are three possible causes:
 
 \begin{itemize}
     \item Our training dataset cannot guarantee a balance of features. For example, there are only 6,000 training images for Chinese artworks, and many of them contain diverse shapes and details. Insufficient training features may influence the ability of model, therefore, cause inaccurate retrieval results.
