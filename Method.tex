@@ -102,14 +102,14 @@ From Figure \ref{fig:sampledata} we are looking at an Egyptian artwork with a ca
 \hline
 \hline
 \multicolumn{1}{c}{} & \multicolumn{3}{c}{Sentence Retrieval} & \multicolumn{3}{c}{Image Retrieval} \\ \hline\hline
-\multicolumn{7}{r}{Egyptian Artwork Alignment Dataset}                                              \\ \hline
+\multicolumn{7}{r}{Chinese Artwork Alignment Dataset}                                              \\ \hline
 Method               & R@1         & R@5         & R@10       & R@1        & R@5        & R@10      \\ \hline
 t-i LSE              & 9.5        & 14.2        & 20.1       & 6.3       & 9.1       & 15.2      \\ \hline
 t-i AVG              & 9.7        & 14.6        & 20.3       & 6.8       & 9.5       & 15.8      \\ \hline
 i-t LSE              & \textbf{13.5}        & \textbf{20.9}        & 28.4       & \textbf{9.9}       & 15.6       & 22.0      \\ \hline
 i-t AVG              & 13.4        & 20.5        & \textbf{28.6}       & 9.7       & \textbf{15.8}       & \textbf{22.8}      \\ \hline
 One-directional GRU + i-t AVG  & 16.3        & 18.7        & 24.5       & 8.1       & 13.9       & 19.4      \\ \hline\hline
-\multicolumn{7}{r}{Chinese Artwork Alignment Dataset}                                               \\ \hline
+\multicolumn{7}{r}{Egyptian Artwork Alignment Dataset}                                               \\ \hline
 Method               & R@1         & R@5         & R@10       & R@1        & R@5        & R@10      \\ \hline
 t-i LSE              & 4.7         & 9.2        & 17.5       & 1.9        & 8.6       & 14.9      \\ \hline
 t-i AVG              & 5.1         & 9.4        & 17.9       & 2.2        & 8.9       & 15.2      \\ \hline
@@ -123,7 +123,7 @@ One-directional GRU + i-t AVG  & 5.3         & 10.8        & 20.1       & 3.5   
 
 Table \ref{table:resultfragmented} present the quantitative results on Chinese and Egyptian artwork datasets where all formulations of our proposed method outperform recent approaches in all measures. Here we denote t-i as Text-Image formulation by text and i-t as Image-Text formulation, AVG as average pooling and LSE as LogSumExp pooling. Like most of the SCAN based models, we tested four different methods by different combinations of formulations and pooling methods. In addition, to check the necessity of bidirectional GRU, we also include a test under one-directional GRU with i-t AVG.
 
-i-t usually surpasses t-i on both pooling methods, and it is evident that using bidirectional GRU improves image annotation R@1 by 2.9 in Egyptian artworks and 1.1 in Chinese artworks, 1.6 and 1.2 for image search. The best result of the model are 13.5 on sentence retrieval (R@1) and 9.9 on image retrieval (R@5) relatively on Egyptian artwork dataset; 6.4 on sentence retrieval (R@1) and 4.7 on image retrieval (R@1) relatively on Chinese artwork dataset. In terms of R@10, our model was able to obtain a 28.6 recall for image annotation task on Egyptian dataset which is gratifying and promising considering the strict and detailed ground truth testing set we used.
+i-t usually surpasses t-i on both pooling methods, and it is evident that using bidirectional GRU improves image annotation R@1 by 2.9 in Chinese artworks and 1.1 in Egyptian artworks, 1.6 and 1.2 for image search. The best result of the model are 13.5 on sentence retrieval (R@1) and 9.9 on image retrieval (R@5) relatively on Chinese artwork dataset; 6.4 on sentence retrieval (R@1) and 4.7 on image retrieval (R@1) relatively on Egyptian artwork dataset. In terms of R@10, our model was able to obtain a 28.6 recall for image annotation task on Chinese dataset which is gratifying and promising considering the strict and detailed ground truth testing set we used.
 
 We noticed that the recalls for sentence and image retrieval on both Chinese and Egyptian artwork datasets are not satisfactorily high. To better understand and evaluate our model, we demonstrate several successful and unsuccessful cross modal retrieval examples in the next section for comparative analysis.
 
@@ -139,7 +139,7 @@ Here we illustrate four typically successful and unsuccessful cross modal retrie
 \label{fig:i2t}
 \end{figure}
 
-Figure \ref{fig:i2t} shows two good text retrieval examples from given image queries. The left Egyptian sculpture achieved great captions, the significant features such as standing and walking pose, dark brown colour and the man himself were accurately captured. Comparing to those personification figures in Egyptian artworks, our Chinese artwork dataset has more abstract presentations, and some tiny details can be extremely subtle and hard to distinguish from the background. For instance, this blue vase on the right has a distinctive shape - fat belly, narrow neck and a foot ring. Our model was able to catch a few features such as the colour, category and even the golden patterns. However, when it comes to more fine-grained characteristics such as foot ring and flower patterns, in this case, the process becomes more challenging.
+Figure \ref{fig:i2t} shows two good text retrieval examples from given image queries. The left Egyptian sculpture achieved great captions, the significant features such as standing and walking pose, dark brown colour and the man himself were accurately captured. Although our Egyptian dataset has much more noisy textual attributes, however, after obtained noun-phrase based sentences, we noticed the result was much improved. Comparing to those personification figures in Egyptian artworks, our Chinese artwork dataset has more abstract presentations, and some tiny details can be extremely subtle and hard to distinguish from the background. For instance, this blue vase on the right has a distinctive shape - fat belly, narrow neck and a foot ring. Our model was able to catch a few features such as the colour, category and even the golden patterns. Thanks to the detailed and structured textual descriptions in the training dataset, our model was able to capture most details in the Chinese artworks dataset. However, when it comes to more fine-grained characteristics such as foot ring and flower patterns, in this case, the process becomes more challenging. 
 
 \begin{figure}[h!]
 \centering
@@ -149,7 +149,7 @@ Figure \ref{fig:i2t} shows two good text retrieval examples from given image que
 \label{fig:t2i}
 \end{figure}
 
-Next, Figure \ref{fig:t2i} illustrates example image retrieval results from given text queries. The top Chinese art text query is fairly descriptive and detailed, features like ``bridge'' and ``six cross-patterned circles'' helped our model to pick the right image from other similar ones. The bottom Egyptian art text queries are fairly easier than the Chinese one as most of the similar artworks differ in shapes and major gestures such as obvious feature ``broken arms raised to the sky''. This potentially helped the model to achieve better results on Egyptian artwork dataset than the Chinese one.
+Next, Figure \ref{fig:t2i} illustrates example image retrieval results from given text queries. The top Chinese art text query is very descriptive and detailed, features like ``bridge'' and ``six cross-patterned circles'' helped our model to distinguish the right image from other similar ones. The bottom Egyptian art text queries are fairly easier than the Chinese one as most of the similar artworks differ in shapes and major gestures such as obvious feature ``broken arms raised to the sky''. However, considering the irrelevant texts existing noun phrases in the Egyptian artwork dataset such as information on Kingdoms and Pharaoh, it is easier for the model to achieve better results on Chinese artwork dataset than the Egyptian one.
 
 
 \subsubsection{Unsuccessful Examples}
