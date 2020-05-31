@@ -1,7 +1,9 @@
 \chapter{Fine-grained Cross Modal Retrieval}
 \label{cha:Method}
 
-In Chapter \ref{cha:scan}, we explained in detail on the structure and principle behind our coarse-grained cross modal retrieval model. As we discussed, there are aspects that we can focus on to make improvements, especially on how to focus on the fine-grained features of artworks. In this chapter, we will present our improved model of fine-grained cross modal retrieval.
+In Chapter \ref{cha:scan}, we explained in detail on the structure and principle behind our coarse-grained cross modal retrieval model. As we discussed, there are aspects that we can focus on to
+%% SHURONG: change the 'improvements here' as stated in several places in previous chapters. 这个model并不novel， 但是我们把针对artworks的fine-grained retrieval 定位为一个novel task
+make improvements, especially on how to focus on the fine-grained features of artworks. In this chapter, we will present our improved model of fine-grained cross modal retrieval.
 
 The structure of this chapter is as follows. Section 4.1 gives a brief introduction on our plans for modifying the previous model into a fragment level. Section 4.2 explains the processed artwork datasets and why the pre-processing is necessary for our model. Section 4.3 proposes our improved fine-grained cross modal retrieval model on fragment level instead of focusing on a whole image or sentence. Section 4.4 shows the results of our presented model running on our annotated artworks datasets. Section 4.5 points out some existing shortcomings of our methodology and potential fields to be focused on in the future. Section 4.6 concludes this section.
 
@@ -10,7 +12,7 @@ The structure of this chapter is as follows. Section 4.1 gives a brief introduct
 In this chapter, we are trying to solve the cross modal retrieval task at a fine-grained level, which means we shall not limit our retrieval on the image or sentence level but a fragment level. We applied some changes in the previous model in Chapter \ref{cha:scan}:
 
 \begin{itemize}
-    \item Instead of attending between image fragments with each token in sentence captions, here we extract noun phrases from sentence captions to perform mutual attention with image fragments.
+    \item Instead of attending between image fragments with each token in sentence captions, here we extract noun phrases from sentence captions to perform mutual attention with image fragments. %% SHURONG：add the purpose of doing this: in order to find fragment-level correspondance between the two modalities.
     \item During the testing process, we replace the original annotations of artworks but adopt manually handcrafted annotations as ground truth, which shall give us a more accurate experiment result.
 \end{itemize}
 
@@ -149,7 +151,7 @@ Figure \ref{fig:i2t} shows two good text retrieval examples from given image que
 \label{fig:t2i}
 \end{figure}
 
-Next, Figure \ref{fig:t2i} illustrates example image retrieval results from given text queries. The top Chinese art text query is very descriptive and detailed, features like ``bridge'' and ``six cross-patterned circles'' helped our model to distinguish the right image from other similar ones. The bottom Egyptian art text queries are fairly easier than the Chinese one as most of the similar artworks differ in shapes and major gestures such as obvious feature ``broken arms raised to the sky''. However, considering the irrelevant texts existing noun phrases in the Egyptian artwork dataset such as information on Kingdoms and Pharaoh, it is easier for the model to achieve better results on Chinese artwork dataset than the Egyptian one.
+Next, Figure \ref{fig:t2i} illustrates example image retrieval results from given text queries. The top Chinese art text query is very descriptive and detailed, features like ``bridge'' and ``six cross-patterned circles'' helped our model to distinguish the right image from other similar ones. The bottom Egyptian art text queries are fairly easier than the Chinese one as most of the similar artworks differ in shapes and major gestures such as obvious feature ``broken arms raised to the sky''. However, considering the existing irrelevant noun phrases in the Egyptian artwork dataset such as information on Kingdoms and Pharaoh, it is easier for the model to achieve better results on Chinese artwork dataset than the Egyptian one.
 
 
 \subsubsection{Unsuccessful Examples}

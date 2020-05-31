@@ -1,6 +1,8 @@
 \chapter{Coarse-grained Cross Modal Retrieval}
 \label{cha:scan}
-In Chapter \ref{cha:relatedworks}, we discussed several models proposed to solve the image-text alignment task. However, they all have drawbacks in terms of different aspects. In this chapter we explain the \textbf{S}tacked \textbf{C}ross \textbf{A}ttentio\textbf{n} Model (SCAN) \cite{scan} and applied it on performing coarse-grained cross-modal retrieval task. Followed by discussing how it surpasses other models and why we choose to investigate it to solve the problem later in the task of fine-grained cross-modal retrieval for artworks.
+In Chapter \ref{cha:relatedworks}, we discussed several models proposed to solve the image-text alignment task. However, they all have drawbacks in terms of different aspects. In this chapter we explain the \textbf{S}tacked \textbf{C}ross \textbf{A}ttentio\textbf{n} Model (SCAN) \cite{scan} and applied it on performing coarse-grained cross-modal retrieval task. 
+%% SHURONG: we didn't compare this method with others on our datasets, no?
+Followed by discussing how it surpasses other models and why we choose to investigate it to solve the problem later in the task of fine-grained cross-modal retrieval for artworks.
 
 The structure of this chapter is as follows. Section 3.1 gives an introduction and motivation of SCAN. Section 3.2 explains the structure and methodologies used in SCAN, also how all its components iterates with each other. Section 3.3 briefly discusses the strengths of the adopted model for coarse-grained cross-modal retrieval. Section 3.4 illustrates the preliminary experimental results on our artwork datasets and the achievement of SCAN. Section 3.5 summarises this section.
 
@@ -19,8 +21,10 @@ We explain the structure of SCAN model in the next sections.
 \section{Image Feature Extraction}
 Before we perform any cross-modal retrieval and alignment between image and text, we need to have firstly extract features from images. There are many models we have discussed before in Section \ref{cha:relatedworks}, here we used one of the mentioned models called Faster R-CNN. 
 
+%% SHURONG: give an overall introduction like this? for example, we use faster-rcnn introduced in chapter 2 to both extract the top-k image regions from an image and represent the image regions as a continous vector as in \cite{bottom up}. and then introduce how bottom up use faster-rcnn differently with the classical one (it adds instance attributes in visual genome if I remember correctly, double check this:))
 Anderson, et al. \cite{bottomup} proposes a top-down and bottom-up attention model method, which is applied to the related issues of visual scene understanding and prominent question answering system. This is based on the bottom-up attention model (usually Faster R-CNN) is used to extract the region of interest in the image. 
 
+%% SHURONG; This paragraph seems not related?
 Although this work \cite{bottomup} does not mention the Encoder-Decoder framework, which is the most widely used in the current research, the task of the bottom-up attention model is to obtain the image interest area. Extracting image features is similar to feature encoding the image to achieve the encoding stage Task; and the top-down attention model is used to learn to adjust the feature weights, realise the ``timely attention'' of image content, and generate descriptions word by word, equivalent to the decoding stage.
 
 
@@ -136,6 +140,7 @@ For computational efficiency, rather than summing over all the negative samples,
     $$l_{h a r d}(I, T)=\left[\alpha-S(I, T)+S\left(I, \hat{T}_{h}\right)\right]_{+}+\left[\alpha-S(I, T)+S\left(\hat{I}_{h}, T\right)\right]_{+}$$
 \end{itemize}
 
+%% SHURONG: MOVE THIS PART ABOVE THE ALIGNMENT OBJECTIVE. REPRESENT THE SENTENCE AND IMAGES WITH CORRECT mathematical symbols (these symbols should be consistent both in the representation part and alignment objective part)
 \subsection{Image and Text Feature Representation}
 
 \subsubsection{Image}Bottom-up attention technique \cite{bottomup}, which is a method of target detection, is obtained based on faster-RCNN. Faster R-CNN first obtains the area of interest for the image, and then applies a target detector to each area of interest, so that the image features can be accurately obtained.
@@ -145,9 +150,11 @@ In this paper, the flow for image feature representation is: faster-RCNN, Residu
 \subsubsection{Text}A RNN (recurrent neural networks) is used. In this paper, the flow for text feature representation is: word $\Rightarrow$ one-hot vector showing an index of the word in vocab $\Rightarrow$ embed to 300-dimensional vector $\Rightarrow$ bidirectional GRU map to $h$ dimensions word feature.
 
 \section{Contribution}
+
+%% ShURONG：This can be the motivation why you use this model and can be put in the beginning? It's not proper to put it here because we actually didn't really compare it with other methods on our own dataset, thus this advantage is only attested on natural images and also a reason why we use this model 
 Lee, et al. \cite{scan} uses the proposed \textbf{S}tacked \textbf{C}ross \textbf{A}ttentio\textbf{n} (SCAN) to find all potential alignments between the image area and the words, thereby calculating the similarity between the graphics and the text. Existing methods perform fixed-step attention inference so that only a limited semantic alignment can be found at a time, and SCAN can find all possible semantic alignments at the same time. Since the number of semantic alignments varies with different images and sentences, the corresponding relationship inferred by the Stacked Cross Attention method is more comprehensive, thereby making the image-text matching more interpretable.
 
-
+%% SHURONG: Replace the results and examples with full image-sentence related stuff because text here is fine-grained 
 \section{Preliminary Results}
 Here we ran SCAN on two artwork datasets: one ancient Egyptian artworks and one Chinese artworks. For ancient Egyptian artworks dataset, it has 14,353 images in the training set, 1,793 images in the testing/validation set. The other Chinese artworks dataset, there are 6,086 images in the training set, 761 images in the testing/validation set.
 

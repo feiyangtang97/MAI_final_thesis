@@ -6,6 +6,8 @@
 %% shurong: replace this part (til the end of 1.1) by some introductions on image-text alignment and cross modal retrieval[done]
 
 \section{Cross Modal Retrieval}
+
+
 As a part of the millions of internet users who often surf on the internet, we always ``Google'': enter the keywords to be searched to retrieve our desired text information, which is to retrieve text with text in this case. Sometimes we also upload images on Google to find similar ones, which refers to using an image to retrieve images. However, considering the situation when we use textual information to retrieve images on Google, at this time the type of information we enter and the type of information obtained is different, known as ``cross modal''.
 
 Cross modal retrieval can be understood as finding the relationship between different modal samples and using a particular modal sample to search for other modal samples with approximate semantics. For example: use the image to retrieve the corresponding text, or use the text to retrieve the desired image. Of course, modals are not limited to images and text, such as voice, physiological signals, and video can be used as components of cross modal retrieval.
@@ -34,15 +36,20 @@ The ``semantic gap'' problem is a core challenge faced by cross-modal retrieval:
 
 \section{Motivation}
 %% shurong: extend the motivation in the abstract and emphasize that image-text alignment in the cultural heritage domain has not been a lot exploit yet, they are quite popular for natural images. you can also merge this part with the above part if the content is too less[done]
-Image-text alignment is a fundamental research topic in the inter-field of computer vision and natural language processing. It includes two sub-tasks: image annotation and image search. The topic of image-text alignment and cross modal retrieval has been widely discussed in the field of natural images. However, image-text alignment in the cultural heritage domain has not been a lot exploit yet. It can save the intense labour from annotating the artworks for online digital artwork archives if we can automatically describe an artwork image or sub-image with its textual attributes. Furthermore, this topic can help to boost the multi-modal question answering performance in the cultural heritage domain by providing fine-grained image-text correspondence information \cite{mqa}. Therefore, it is interesting to explore the methods that can figure out the artwork image or sub-image and text correspondence.
+Image-text alignment is a fundamental research topic in the inter-field of computer vision and natural language processing. 
+%% SHURONG:change this sentence to: this alignment can be evaluated by to tasks: image annotation and image search. Or you can change it to: this alignment can be used to two downstream tasks:..[done]
+This alignment can be used to two downstream tasks: image annotation and image search. The topic of image-text alignment and cross modal retrieval has been widely discussed in the field of natural images. However, image-text alignment in the cultural heritage domain has not been a lot exploit yet. It can save the intense labour from annotating the artworks for online digital artwork archives if we can automatically describe an artwork image or sub-image with its textual attributes. Furthermore, this topic can help to boost the multi-modal question answering performance in the cultural heritage domain by providing fine-grained image-text correspondence information \cite{mqa}. Therefore, it is interesting to explore the methods that can figure out the artwork image or sub-image and text correspondence.
 
 While a large number of papers discussed aligning image-text and coarse-grained modal information retrieval, the fragment level image-text alignment problem has not been as widely dealt within the multi-modal question-answering research domain. Coarse-grained modal information retrieval can retrieve information between image and text. However, it usually does not work well on artwork datasets which normally contain some fine-grained patterns and objects in one artwork image, therefore reduce the effectiveness of the retrieval model. We provide demonstrations on the difference between these two levels of cross modal retrieval in the following section.
 
 
 %% shurong: move the examples in 1.2 to the dataset part.[done] There are also redundant info in this section. double check and remove repeated content
+
+%%SHURONG: Reprhase the contributions to the datasets? Because Sien knows well about the datasets, so it's a bit sensitive if you say that you create the datasets from where...or the processing steps already done in the 'generating captions' paper (I don't mind of course, it is sth alresdy published)). For example you can say we use the dataset introduced in \cite[publication], the datasets are originall collected from ....(some more introduction about the statistics) and what you introduced here. Then in chapter 3, you can say you use the dataset introduced in the Introduction and in Chapter 4 you can say that you have adapted the datasets in chapter 3 and retains only the noun phrases from the captions and introduce the method you adopt to do noun phrase extract and to represent these noun phrases.  
+
 \section{Dataset}
 
-The datasets \cite{artworkcaption} involved in this thesis research are collected from the following online sources: the Brooklyn Museum \cite{brooklynmuseum}, the Metropolitan Museum \cite{themet}, and the British Museum \cite{thebritishmuseum}. Based on these sources, we have created two artwork datasets: the ancient Egyptian art image dataset and the ancient Chinese art image dataset. The two datasets are collected based on the geographical location of the origin of the artworks because caption words may differ much depending on the cultural background of the location. Detailed statistics of the two datasets are shown in Table \ref{fig:datasetstats}. 
+The datasets involved in this thesis research are from Sheng et al.'s work \cite{artworkcaption} which were originally collected from the following online sources: the Brooklyn Museum \cite{brooklynmuseum}, the Metropolitan Museum \cite{themet}, and the British Museum \cite{thebritishmuseum}. Based on these sources, there are two artwork datasets that we used here: the ancient Egyptian art image dataset and the ancient Chinese art image dataset. The two datasets from \cite{artworkcaption} were collected based on the geographical location of the origin of the artworks because caption words may differ much depending on the cultural background of the location. Detailed statistics of the two datasets are shown in Table \ref{fig:datasetstats}. 
 
 \begin{table}[h!]
 \centering
@@ -58,11 +65,15 @@ The datasets \cite{artworkcaption} involved in this thesis research are collecte
 
 The datasets have 22,993 high-quality artwork images recorded
 in a controlled setting. Images are stored at varying dpi and the
-compressed \verb|jpeg| image file size ranges between 20-300 KB. The paragraph-level descriptions are split into multiple sentences and a maximum of five sentences are retained for each artwork to reduce data imbalance. In addition, we removed noisy texts from the captions following a specific pattern, e.g, ``See 13.26.59'' \cite{artworkcaption}. The number is the accession number of an artifact that obviously cannot be derived from the input image or artwork type. We also remove duplicate images in the captioning datasets based on their hash code. Tokens occurring less than two times are removed from the training vocabulary. The datasets are all split into an 80\%, 10\%, and 10\% partition for respectively training, validation, and test.
+compressed \verb|jpeg| image file size ranges between 20-300 KB. The paragraph-level descriptions are split into multiple sentences and a maximum of five sentences are retained for each artwork to reduce data imbalance. The number is the accession number of an artifact that obviously cannot be derived from the input image or artwork type. We also remove duplicate images in the captioning datasets based on their hash code. Tokens occurring less than two times are removed from the training vocabulary.
+%%SHURONG: IS THIS THE SETTING UP FOR YOUR EXPERIMENT[checked]
+The datasets are all split into an 80\%, 10\%, and 10\% partition for respectively training, validation, and test.
 
 %Each artwork image has a corresponding record saved in a \verb|json| file containing their processed caption textual data. However, in our research, instead of using the original captions in the \verb|json| file, we extracted noun phrases from them and performed our alignment tasks between these noun phrases and images.
 
-Here we focus on ancient Egyptian and Chinese artworks; we manually construct our datasets; they consist of 16,146 images from Egyptian domain and 6,847 images in Chinese. Figure \ref{fig:sampleEgyptian} and Figure \ref{fig:sampleChinese} show three examples of artworks from the Egyptian and Chinese collection with textual captions.
+Here we focus on ancient Egyptian and Chinese artworks; 
+%% SHURONG: remove this sentence about manually construst the datasets?[done]
+they consist of 16,146 images from Egyptian domain and 6,847 images in Chinese. Figure \ref{fig:sampleEgyptian} and Figure \ref{fig:sampleChinese} show three examples of artworks from the Egyptian and Chinese collection with textual captions.
 
 \begin{figure}[h!]
 \centering
@@ -79,6 +90,7 @@ Here we focus on ancient Egyptian and Chinese artworks; we manually construct ou
 \end{figure}
 
 \subsection{Examples of Cross Modal Retrieval under Different Levels}
+%% SHURONG: replace the word 'generate' with 'retrieve'. Otherwise it's a bit confusing about what you have done, image captioning or cross modal retrieval. Also replace 'caption' into noun phrases, because the dataset you use are not textual captions any more, they are noun phrase attributes in the images.
 In this section, we look at two simple examples of ancient Egyptian artworks and how textual description can be generated to match its image.
 
 \begin{figure}[h!]
@@ -88,6 +100,7 @@ In this section, we look at two simple examples of ancient Egyptian artworks and
 \label{fig:artwork1}
 \end{figure}
 
+%% SHURONG: The examples here are a bit confusing. coarse-grained task target full-image/sentence level retrieval while fine-grained task target fragment-level retrieval (image regions and textual attributes) So according to this defination, the example given in Figure 1.3 is also fine-grained retrieval because the text describes the image content marked by the bounding box. Maybe you can also explain this when you mention these two tasks. Sorry if I didn't explain this clear
 Figure \ref{fig:artwork1} shows a small blue container with black inked motifs on it. Using a coarse-grained multi-modal retrieval model, we can generate the textual description ``\textit{painted black inscriptions on a bright blue background}'', which is sufficient enough for this artwork. However, in the real-world scenarios, there is much more likely for us to encounter an artwork showing in Figure \ref{fig:artwork2}. Our traditional coarse-grained multi-modal retrieval model generates ``\textit{a red and a white pot}'' for this artwork but it is not detailed and did not cover sufficient information in the artwork image. Therefore, this motivated us to propose a fine-grained multi-modal retrieval model which can focus on the fragment level image/sentence retrieval. The description on the image was generated by our fine-grained multi-modal retrieval model, which has significantly more detailed information.
 
 \begin{figure}[h!]
@@ -119,7 +132,9 @@ As mentioned above, our primary research task here is to achieve cross modal ret
 \label{fig:framework}
 \end{figure}
 
-We train our multi-modal machine learning model on the known image features and corresponding textual attributes; this training process helps us learn the potential relationships between image and text. This trained model will be used to generate textual attributes from known image features and vice versa. We believe this may help with automating the artwork annotation process and significantly save labours on artworks classifications and searches.
+We train our multi-modal machine learning model on the known image features and corresponding textual attributes; this training process helps us learn the potential relationships between image and text. This trained model will be used to generate textual attributes from known image features and vice versa. We believe this may help with automating the artwork annotation process and significantly save labours on on manually annotate artwork information.
+%% SHURONG: on manually annotate artwork information[done]
+%artworks classifications and searches.
 
 
 \section{Contributions}
@@ -127,8 +142,12 @@ The main contributions made by this thesis are:
 
 \begin{enumerate}
     \item We review work from several disciplines which may be of relevance to the present subject of inquiry and provide commentary on how the findings from these disciplines may be useful. (Section~\ref{cha:relatedworks})
-    \item We adopted SCAN \cite{scan} as the coarse-grained cross modal retrieval model, analysed its structure and applied it on our proposed Egyptian and Chinese artworks datasets to achieve the image-text alignment. By employing this model, we are able to have a coarse-grained alignment between artworks image and textual attributes. This lays the foundation of our improved fine-grained model. (Section~\ref{cha:scan})
-    \item By focusing on fragment level image features and textual attributes instead of feeding the whole images and sentences, we are able to perform cross modal retrieval in a more fine-grained level. This allows the future multi-modal retrieval tasks on artworks to achieve more accurate and stable results. (Section~\ref{cha:Method})
+    \item We adopted SCAN \cite{scan} as the coarse-grained cross modal retrieval model, analysed its structure and applied it on our proposed Egyptian and Chinese artworks datasets to achieve the image-text alignment. 
+    %%SHURONG: The fine-grained model is not an improved task compared with the coarse-grained task. It's better to say that 'this lays the foundation our novel task of fine-grained cross modal retrieval for artwork items'[hearhear]
+    By employing this model, we are able to have a coarse-grained alignment between artworks image and textual attributes. This lays the foundation our novel task of fine-grained cross modal retrieval for artwork items. (Section~\ref{cha:scan})
+    \item By focusing on fragment level image features and textual attributes instead of feeding the whole images and sentences, we are able to perform cross modal retrieval in a more fine-grained level. This allows the future multi-modal retrieval tasks on artworks to achieve more
+    %% SHURONG: I guess you mean more detailed results? Because fine-grained retrieval intends to perform worse than coarse-grained level?[done]
+    detailed results. (Section~\ref{cha:Method})
 \end{enumerate}
 
 
@@ -148,7 +167,9 @@ This thesis is structured into the following chapters:
     We introduce our coarse-grained cross-modal retrieval modal - SCAN, discuss how its components interact with each other and explain how SCAN uses cross attention to improve image-text alignment. We also show the preliminary result running SCAN on our ancient Egyptian and Chinese artwork datasets.
     
     \item \textit{Section~\ref{cha:Method} Fine-grained Cross Modal Retrieval}\newline
-    We proposed our improved fine-grained cross modal retrieval model, which now focus more on the fragment level image-text alignment. We then perform several experiments on evaluating the effectiveness of our image generation from text and vice versa by the recall. We also point out the direction of possible future improvements by discussing several recent related publications.
+    %% SHURONG: likewise, not improve model but a novel task.[done]
+    We proposed our novel fine-grained cross modal retrieval model, which now focus more on the fragment level image-text alignment. We then perform several experiments on evaluating the effectiveness of our image generation from text and vice versa by the recall. We also point out the direction of
+    possible future improvements by discussing several recent related publications.
     
     \item \textit{Section~\ref{cha:conclusion} Conclusion}\newline
     We conclude the work and add some final reflections and remarks.
