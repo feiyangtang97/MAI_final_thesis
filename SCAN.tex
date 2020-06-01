@@ -19,20 +19,21 @@ Also, this method used some of the currently available optimisation methods, suc
 We explain the structure of SCAN model in the next sections.
 
 \section{Image Feature Extraction}
-Before we perform any cross-modal retrieval and alignment between image and text, we need to have firstly extract features from images. There are many models we have discussed before in Section \ref{cha:relatedworks}, here we used one of the mentioned models called Faster R-CNN. 
+Before we perform any cross modal retrieval and alignment between image and text, we need to firstly extract features from images. There are many models we have discussed before in Section \ref{cha:relatedworks}, here we use one of the most widely used model called faster R-CNN to both extract the top-$k$ image regions from an image and represent the image regions of interest as a continuous vector as in the work done by Anderson, et al. \cite{bottomup}. It proposes a top-down and bottom-up attention model method, which is applied to the related issues of visual scene understanding and prominent question answering system.  
+
+The article mentions the use of faster R-CNN to employ a bottom-up attention model - that we adopted. Different from the traditional faster R-CNN, \cite{bottomup} uses not only the object detector but also the attribute classifier for each region of interest, so that a binary description of the object (attribute, object) can be obtained. This description is more suitable for practical applications. Bottom-up attention model also allows the overlap of interest frames through the preset threshold, which can understand the image content more effectively.
+
 
 %% SHURONG: give an overall introduction like this? for example, we use faster-rcnn introduced in chapter 2 to both extract the top-k image regions from an image and represent the image regions as a continous vector as in \cite{bottom up}. and then introduce how bottom up use faster-rcnn differently with the classical one (it adds instance attributes in visual genome if I remember correctly, double check this:))
-Anderson, et al. \cite{bottomup} proposes a top-down and bottom-up attention model method, which is applied to the related issues of visual scene understanding and prominent question answering system. This is based on the bottom-up attention model (usually Faster R-CNN) is used to extract the region of interest in the image. 
 
-%% SHURONG; This paragraph seems not related?
-Although this work \cite{bottomup} does not mention the Encoder-Decoder framework, which is the most widely used in the current research, the task of the bottom-up attention model is to obtain the image interest area. Extracting image features is similar to feature encoding the image to achieve the encoding stage Task; and the top-down attention model is used to learn to adjust the feature weights, realise the ``timely attention'' of image content, and generate descriptions word by word, equivalent to the decoding stage.
-
+%% SHURONG; This paragraph seems not related?[deleted]
+%Although this work \cite{bottomup} does not mention the Encoder-Decoder framework, which is the most widely used in the current research, the task of the bottom-up attention model is to obtain the image interest area. Extracting image features is similar to feature encoding the image to achieve the encoding stage Task; and the top-down attention model is used to learn to adjust the feature weights, realise the ``timely attention'' of image content, and generate descriptions word by word, equivalent to the decoding stage.
 
 \subsection{Why Adopt Faster R-CNN?}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=.4\textwidth]{whyfasterrcnn.pdf}
+\includegraphics[width=.5\textwidth]{whyfasterrcnn.pdf}
 \caption{Faster R-CNN with attention comparing to CNN \cite{bottomup}}
 \label{fig:fasterrcnnbottomup}
 \end{figure}
@@ -45,7 +46,7 @@ From Figure \ref{fig:bottomup} below, it can be seen that the difference from th
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=.35\textwidth]{bottomup.pdf}
+\includegraphics[width=.5\textwidth]{bottomup.pdf}
 \caption{What bottom-up attention model captures? \cite{bottomup}}
 \label{fig:bottomup}
 \end{figure}
@@ -118,6 +119,14 @@ $$
 
 The overall steps correspond exactly to the above, except that each word is used to calculate the similarity with the attention of a picture, which is not repeated here. The process is illustrated in Figure \ref{fig:scan2}.
 
+\subsection{Image and Text Feature Representation}
+
+\subsubsection{Image}Bottom-up attention technique \cite{bottomup}, which is a method of target detection, is obtained based on faster-RCNN. Faster R-CNN first obtains the area of interest for the image, and then applies a target detector to each area of interest, so that the image features can be accurately obtained.
+
+Here the flow for image feature representation is: faster-RCNN, Residual NN (Resnet)101 $\Rightarrow$ 2,048 dimensional features $\Rightarrow$ fully-connected layer transform to $h$-dimensional $\Rightarrow$ get image feature set.
+
+\subsubsection{Text}A RNN (recurrent neural networks) is used. Here the flow for text feature representation is: word $\Rightarrow$ one-hot vector showing an index of the word in vocab $\Rightarrow$ embed to 300-dimensional vector $\Rightarrow$ bidirectional GRU map to $h$ dimensions word feature.
+
 \subsection{Target Alignment}
 Target alignment is essentially the setting of the loss function. In this case, SCAN employs a hinge-based triplet ranking loss with margin $\alpha$.
 
@@ -141,13 +150,6 @@ For computational efficiency, rather than summing over all the negative samples,
 \end{itemize}
 
 %% SHURONG: MOVE THIS PART ABOVE THE ALIGNMENT OBJECTIVE. REPRESENT THE SENTENCE AND IMAGES WITH CORRECT mathematical symbols (these symbols should be consistent both in the representation part and alignment objective part)
-\subsection{Image and Text Feature Representation}
-
-\subsubsection{Image}Bottom-up attention technique \cite{bottomup}, which is a method of target detection, is obtained based on faster-RCNN. Faster R-CNN first obtains the area of interest for the image, and then applies a target detector to each area of interest, so that the image features can be accurately obtained.
-
-In this paper, the flow for image feature representation is: faster-RCNN, Residual NN (Resnet)101 $\Rightarrow$ 2,048 dimensional features $\Rightarrow$ fully-connected layer transform to $h$-dimensional $\Rightarrow$ get feature set $v$.
-
-\subsubsection{Text}A RNN (recurrent neural networks) is used. In this paper, the flow for text feature representation is: word $\Rightarrow$ one-hot vector showing an index of the word in vocab $\Rightarrow$ embed to 300-dimensional vector $\Rightarrow$ bidirectional GRU map to $h$ dimensions word feature.
 
 \section{Contribution}
 
@@ -207,7 +209,7 @@ Figure \ref{fig:scani2t} illustrates two examples which obtained textual attribu
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{scani2t.pdf}
-\caption{Text Retrieval Example for Given Image Queries (coarse-grained)}
+\caption{Sentence Retrieval Example for Given Image Queries (coarse-grained)}
 \label{fig:scani2t}
 \end{figure}
 
@@ -217,7 +219,7 @@ Similar results appeared in image retrieval examples shown as Figure \ref{fig:sc
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{scant2i.pdf}
-\caption{Image Retrieval Example for Given Text Queries (coarse-grained)}
+\caption{Image Retrieval Example for Given Sentence Queries (coarse-grained)}
 \label{fig:scant2i}
 \end{figure}
 

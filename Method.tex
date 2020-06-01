@@ -26,10 +26,6 @@ Python scripts (see Appendix \ref{app:A}) were written to parse the \verb|xml| a
 
 As one single artwork can often have more than one annotation existed in its corresponding \verb|xml| file, it is essential to extract all related annotations out and also combine them into one record for training and testing purpose, which saves computational power and simplifies the model input. We generate a combined \verb|.txt| file for each artwork image which contains all related textual attribution then pass it to the noun phrase extraction process in order to achieve the retrieval in a fragment level; results are saved in \verb|json| format. Details are covered in Appendix \ref{app:A}.
 
-%\subsection{Extract Textual Captions for Each Image}
-
-%According to those textual captions and their image labels in \verb|xml| files, we can extract the corresponding image names. This extraction process is done using \verb|egyptian_convert.py| in Appendix \ref{app:A}, the sentence captions for each image will have a corresponding \verb|txt| file created. These obtained \verb|txt| captions will then be processed to extract noun phrases in order to achieve the retrieval in a fragment level; results are saved in \verb|json| format. 
-
 Our training tasks are based on these noun phrases and extracted image fragments. The following section demonstrates the architecture of our fine-grained cross modal retrieval model.
 
 \section{Overall Architecture}
@@ -44,16 +40,6 @@ The model has two pipelines processing image and text input from start, for imag
 \caption{Fine-grained Cross Modal Retrieval Model Architecture}
 \label{fig:mainarch}
 \end{figure}
-
-%\afterpage{
-%\clearpage
-%\begin{sidewaysfigure}[ht!]
-%\centering
-%\includegraphics[width=1.0\textwidth]{archinew.pdf}
-%\caption{Fine-grained Cross Modal Retrieval Model Architecture}
-%\label{fig:mainarch}
-%\end{sidewaysfigure}
-%}
 
 For full sentence captions as text input, as we mentioned in Section \ref{sec:dataprep}, we do not process the whole sentence directly but first, extract noun phrases out to achieve a finer-grained level. These noun phrases features will be passed into a bidirectional GRU to map them into the same dimension joint embedding space as image features. 
 
@@ -89,10 +75,6 @@ For this specific testing task, as we mentioned before, we used our manually ann
 \end{figure}
 
 From Figure \ref{fig:sampledata} we are looking at an Egyptian artwork with a cat sculpture. For all object that exist in the artwork, those are, ``\textit{head of a cat statuette carved in brown, with a pair of standing ears}'' and ``\textit{four dark brown coloured thin shaped legs of a cat sitting in a relaxed posture}'', each of them has a corresponding detailed location, pose, and truncated information attached. 
-
-%\subsection{Evaluation Metrics}
-
-%Recall is one of the most commonly used metrics in the field of information retrieval. Here in this research project, we evaluate the performance of sentence retrieval (image query) and image retrieval (sentence query) by the recall at $K$ (R@$K$). This is defined as the fraction of queries for which the correct item is retrieved in the closest $K$ points to the query. 
 
 \subsection{Results}
 
@@ -137,7 +119,7 @@ Here we illustrate four typically successful and unsuccessful cross modal retrie
 \begin{figure}[h!]
 \centering
 \includegraphics[width=\textwidth]{i2t.pdf}
-\caption{Successful Example of Text Retrieval for Given Image Queries}
+\caption{Successful Example of Text Phrase Retrieval for Given Image Fragment Queries (fine-grained)}
 \label{fig:i2t}
 \end{figure}
 
@@ -145,9 +127,8 @@ Figure \ref{fig:i2t} shows two good text retrieval examples from given image que
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=\textwidth]{t2i.pdf}
-\caption{Successful Example of Image Retrieval for Given Text Queries
-}
+\includegraphics[width=.9\textwidth]{t2i.png}
+\caption{Successful Example of Image Fragment Retrieval for Given Text Phrase Queries (fine-grained)}
 \label{fig:t2i}
 \end{figure}
 
@@ -158,8 +139,8 @@ Next, Figure \ref{fig:t2i} illustrates example image retrieval results from give
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=\textwidth]{badi2t.pdf}
-\caption{Unsuccessful Example of Text Retrieval for Given Image Queries}
+\includegraphics[width=.8\textwidth]{badi2t.pdf}
+\caption{Unsuccessful Example of Text Phrase Retrieval for Given Image Fragment Queries (fine-grained)}
 \label{fig:badi2t}
 \end{figure}
 
@@ -167,8 +148,8 @@ Here Figure \ref{fig:badi2t} displays unsuccessful example text retrieval result
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=\textwidth]{badt2i.pdf}
-\caption{Unsuccessful of Image Retrieval for Given Text Queries}
+\includegraphics[width=\textwidth]{badt2i.png}
+\caption{Unsuccessful of Image Fragment Retrieval for Given Text Phrase Queries (fine-grained)}
 \label{fig:badt2i}
 \end{figure}
 

@@ -172,10 +172,9 @@ The outstanding feature of \verb|VGG16| is simplicity, which is reflected in:
 
 \begin{itemize}
     \item The convolutional layers all use the same convolution kernel parameters: 
-    \item [] The convolution layers are all represented as \verb|conv3-XXX|, where \verb|conv3| indicates that the size of the convolution kernel is 3, that is, the width and height are both 3. And $3\times3$ is very small kernel size, combined with other parameters: \verb|stride = 1|, \verb|padding = same|, so that each convolutional layer (tensor) can maintain the same width and high. \verb|XXX| represents the number of channels of the convolutional layer.
-    \item The pooling layer uses the same pooling kernel parameters: 
-    \item [] The parameters of the pooling layer are 2 ×
-    \item The model is composed of several convolutional layers and pooling layers stacked, which is relatively easy to form a deeper network structure (in 2014, 16 layers have been considered very deep).
+    \item The convolution layers are all represented as \verb|conv3-XXX|, where \verb|conv3| indicates that the size of the convolution kernel is 3, that is, the width and height are both 3. And $3\times3$ is very small kernel size, combined with other parameters: \verb|stride = 1|, \verb|padding = same|, so that each convolutional layer (tensor) can maintain the same width and high. \verb|XXX| represents the number of channels of the convolutional layer.
+    \item The pooling layer uses the same pooling kernel parameters. 
+    \item The model is composed of several convolutional layers and pooling layers stacked, which is relatively easy to form a deeper network structure (considering that back to 2014, 16 layers have been considered very deep).
     
 \end{itemize}
 
@@ -470,7 +469,7 @@ $$
 \alpha_{\mathbf{v}, n}^{(k)} =\operatorname{softmax}\left(\mathbf{W}_{\mathbf{v}, \mathbf{h}}^{(k)} \mathbf{h}_{\mathbf{v}, n}^{(k)}\right)
 $$
 $$
-\mathbf{v}^{(k)} &=\tanh \left(\mathbf{P}^{(k)} \sum_{n=1}^{N} \alpha_{\mathbf{v}, n}^{(k)} \mathbf{v}_{n}\right)
+\mathbf{v}^{(k)} =\tanh \left(\mathbf{P}^{(k)} \sum_{n=1}^{N} \alpha_{\mathbf{v}, n}^{(k)} \mathbf{v}_{n}\right)
 $$
 
 
