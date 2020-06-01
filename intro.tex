@@ -101,7 +101,7 @@ In this section, we look at two simple examples of ancient Egyptian artworks and
 \end{figure}
 
 %% SHURONG: The examples here are a bit confusing. coarse-grained task target full-image/sentence level retrieval while fine-grained task target fragment-level retrieval (image regions and textual attributes) So according to this defination, the example given in Figure 1.3 is also fine-grained retrieval because the text describes the image content marked by the bounding box. Maybe you can also explain this when you mention these two tasks. Sorry if I didn't explain this clear[done!thx!]
-Figure \ref{fig:artwork1} shows a porcelain cup with green pattern on it. Using a coarse-grained multi-modal retrieval model, we can retrieve the textual description ``\textit{Porcelain stem cup with polychrome overglaze enamels}'', which is sufficient for recognising this artwork. However, this retrieved result does not contain more detailed information such as ``there are two men in independent scenes contemplating the moon in a landscape setting with inverted plantain leaves around the stem and a further figure inside the cup in a red double ring medallion which is much worn''. 
+Figure \ref{fig:artwork1} shows a porcelain cup with green pattern on it. Using a coarse-grained multi-modal retrieval model, we can retrieve the textual description sentences ``\textit{Porcelain stem cup with polychrome overglaze enamels}'', which is sufficient for recognising this artwork. However, this retrieved result does not contain more detailed information such as ``there are two men in independent scenes contemplating the moon in a landscape setting with inverted plantain leaves around the stem and a further figure inside the cup in a red double ring medallion which is much worn''. 
 
 In the real-world scenarios, there is much more likely for us to encounter an artwork showing in Figure \ref{fig:artwork2}. Our traditional coarse-grained multi-modal retrieval model retrieves ``\textit{a red and a white pot}'' for this artwork but it is not detailed and did not cover sufficient information in the artwork image. Therefore, this motivated us to propose a fine-grained multi-modal retrieval model which can focus on the fragment level image/sentence retrieval. The description on the image was retrieved by our fine-grained multi-modal retrieval model, which has significantly more detailed information.
 
@@ -159,21 +159,21 @@ This thesis is structured into the following chapters:
 
 \begin{itemize}
     
-    \item \textit{Section~\ref{cha:intro} Introduction}\newline
+    \item \textit{Chapter~\ref{cha:intro} Introduction}\newline
     We provide the reader with a relevant background to understand this thesis.
 
-    \item \textit{Section~\ref{cha:relatedworks} Related Works}\newline
+    \item \textit{Chapter~\ref{cha:relatedworks} Related Works}\newline
     We introduce relevant research in image recognition, deep learning, object detection, natural language processing and image-text alignment. In particular, we detail seminal research and review the overall state of the current research. We also review the difference in the works pertaining to the traditional visual-semantic alignment technique versus the more recent cross attention image-text alignment framework.
     
-    \item \textit{Section~\ref{cha:scan} Coarse-grained Cross Modal Retrieval}\newline
+    \item \textit{Chapter~\ref{cha:scan} Coarse-grained Cross Modal Retrieval}\newline
     We introduce our coarse-grained cross-modal retrieval modal - SCAN, discuss how its components interact with each other and explain how SCAN uses cross attention to improve image-text alignment. We also show the preliminary result running SCAN on our ancient Egyptian and Chinese artwork datasets.
     
-    \item \textit{Section~\ref{cha:Method} Fine-grained Cross Modal Retrieval}\newline
+    \item \textit{Chapter~\ref{cha:Method} Fine-grained Cross Modal Retrieval}\newline
     %% SHURONG: likewise, not improve model but a novel task.[done]
     We proposed our novel fine-grained cross modal retrieval model, which now focus more on the fragment level image-text alignment. We then perform several experiments on evaluating the effectiveness of our image generation from text and vice versa by the recall. We also point out the direction of
     possible future improvements by discussing several recent related publications.
     
-    \item \textit{Section~\ref{cha:conclusion} Conclusion}\newline
+    \item \textit{Chapter~\ref{cha:conclusion} Conclusion}\newline
     We conclude the work and add some final reflections and remarks.
 \end{itemize}
 %%% Local Variables: 
