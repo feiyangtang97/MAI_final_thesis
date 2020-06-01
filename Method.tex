@@ -20,7 +20,7 @@ Next, we present our datasets used in this chapter.
 
 \section{Dataset Preparation}
 \label{sec:dataprep}
-As we mentioned in Section \ref{cha:intro}, the datasets used in this thesis are from the multiple major museum online collection sites \cite{themet,thebritishmuseum,brooklynmuseum}. The raw datasets were downloaded from the webpage. For each artwork, two files were available: a high-resolution \verb|jpeg| image file and an accompanying \verb|xml| and \verb|json| file including the metadata.
+As we mentioned in Chapter \ref{cha:intro}, the same datasets used in this Chapter and Chapter \ref{cha:scan} are from the image caption paper by Sheng et al. \cite{artworkcaption}. For each artwork, two files were available: a high-resolution \verb|jpeg| image file and an accompanying \verb|xml| and \verb|json| file including the metadata.
 
 Python scripts (see Appendix \ref{app:A}) were written to parse the \verb|xml| and \verb|json| files. Instead of using the raw captions, here the textual attributes we use are already processed into phrases. The technique here used is from Handler et al. \cite{nounphrase}, it extracts noun phrases from captions in raw \verb|xml| and \verb|json| files which potentially helped us improve the accuracy as in most cases noun phrases contain more relevant information of artworks.  
 
@@ -123,7 +123,7 @@ Here we illustrate four typically successful and unsuccessful cross modal retrie
 \label{fig:i2t}
 \end{figure}
 
-Figure \ref{fig:i2t} shows two good text retrieval examples from given image queries. The left Egyptian sculpture achieved great captions, the significant features such as standing and walking pose, dark brown colour and the man himself were accurately captured. Although our Egyptian dataset has much more noisy textual attributes, however, after obtained noun-phrase based sentences, we noticed the result was much improved. Comparing to those personification figures in Egyptian artworks, our Chinese artwork dataset has more abstract presentations, and some tiny details can be extremely subtle and hard to distinguish from the background. For instance, this blue vase on the right has a distinctive shape - fat belly, narrow neck and a foot ring. Our model was able to catch a few features such as the colour, category and even the golden patterns. Thanks to the detailed and structured textual descriptions in the training dataset, our model was able to capture most details in the Chinese artworks dataset. However, when it comes to more fine-grained characteristics such as foot ring and flower patterns, in this case, the process becomes more challenging. 
+Figure \ref{fig:i2t} shows two good text retrieval examples from given image queries. The left Egyptian sculpture achieved great noun phrases, the significant features such as standing and walking pose, dark brown colour and the man himself were accurately captured. Although our Egyptian dataset has much more noisy textual attributes, however, after obtained noun-phrase based sentences, we noticed the result was much improved. Comparing to those personification figures in Egyptian artworks, our Chinese artwork dataset has more abstract presentations, and some tiny details can be extremely subtle and hard to distinguish from the background. For instance, this blue vase on the right has a distinctive shape - fat belly, narrow neck and a foot ring. Our model was able to catch a few features such as the colour, category and even the golden patterns. Thanks to the detailed and structured textual descriptions in the training dataset, our model was able to capture most details in the Chinese artworks dataset. However, when it comes to more fine-grained characteristics such as foot ring and flower patterns, in this case, the process becomes more challenging. 
 
 \begin{figure}[h!]
 \centering
@@ -161,7 +161,7 @@ Generally speaking, Chinese artworks surpassed Egyptian artworks on cross modal 
 
 \begin{itemize}
     \item Our training dataset cannot guarantee a balance of features. For example, there are only 6,000 training images for Chinese artworks, and many of them contain diverse shapes and details. Insufficient training features may influence the ability of model, therefore, cause inaccurate retrieval results.
-    \item As we adopted new ground truth annotations acting testing purpose, considering these features are mostly handcrafted and being almost 100\% accurate, potentially increased the chance of wrong retrieval results which were generated based on original raw training phrases obtained from museum. If we were able to also manually annotate artworks in the training dataset to retrain the model, we suppose the retrieval result shall improve.
+    \item As we adopted new ground truth annotations acting testing purpose, considering these features are mostly handcrafted and being almost 100\% accurate, potentially increased the chance of wrong retrieval results which were retrieved based on original raw training phrases obtained from museum. If we were able to also manually annotate artworks in the training dataset to retrain the model, we suppose the retrieval result shall improve.
     \item One of the crucial requirements for image-text alignment is accurate and proper feature extraction. However, in our case, we used the bottom-up attention mechanism \cite{bottomup}, which was designed and trained on real-world images (\verb|VisualGenome|). We all know that artworks usually have widely different representations and requires unique and specific treatment on feature extraction.
 \end{itemize}
 
@@ -250,7 +250,7 @@ Ma el al. \cite{parttowhole} introduced a new methodology for artwork representa
     \item Multitask learning framework
 \end{itemize}
 
-Figure \ref{fig:mtmroverview} illustrates the overall architecture of the MTMR representation framework. The above, middle and bottom represent different levels of feature extraction using SIFT-based fisher vector: local, regional and global, respectively. Inside each level, there are multiclass area coding and multitask learning structures. These obtained features in different levels will be finally passed to the random forest model as an ensemble mechanism to generate a final result.
+Figure \ref{fig:mtmroverview} illustrates the overall architecture of the MTMR representation framework. The above, middle and bottom represent different levels of feature extraction using SIFT-based fisher vector: local, regional and global, respectively. Inside each level, there are multiclass area coding and multitask learning structures. These obtained features in different levels will be finally passed to the random forest model as an ensemble mechanism to retrieve a final result.
 
 Figure \ref{fig:mtmrmulti} shows the detailed structure of how multitask learning works in the MTMR framework. The right grey box contains several different tasks which are split to process in parallel. There is a residual network inside the green box, which consists of fully connected layers and convolutional layers for artwork image feature extraction.
 
