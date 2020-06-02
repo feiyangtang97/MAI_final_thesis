@@ -2,17 +2,18 @@
 \label{cha:Method}
 
 In Chapter \ref{cha:scan}, we explained in detail on the structure and principle behind our coarse-grained cross modal retrieval model. As we discussed, there are aspects that we can focus on to
-%% SHURONG: change the 'improvements here' as stated in several places in previous chapters. 这个model并不novel， 但是我们把针对artworks的fine-grained retrieval 定位为一个novel task
-make improvements, especially on how to focus on the fine-grained features of artworks. In this chapter, we will present our improved model of fine-grained cross modal retrieval.
+%% SHURONG: change the 'improvements here' as stated in several places in previous chapters. 这个model并不novel， 但是我们把针对artworks的fine-grained retrieval 定位为一个novel task[done!]
+achieve cross modal retrieval on another level: fine-grained. In this chapter, we present our model for the novel task of fine-grained cross modal retrieval.
 
-The structure of this chapter is as follows. Section 4.1 gives a brief introduction on our plans for modifying the previous model into a fragment level. Section 4.2 explains the processed artwork datasets and why the pre-processing is necessary for our model. Section 4.3 proposes our improved fine-grained cross modal retrieval model on fragment level instead of focusing on a whole image or sentence. Section 4.4 shows the results of our presented model running on our annotated artworks datasets. Section 4.5 points out some existing shortcomings of our methodology and potential fields to be focused on in the future. Section 4.6 concludes this section.
+The structure of this chapter is as follows. Section 4.1 gives a brief introduction on our plans for modifying the previous model into a fragment level. Section 4.2 explains the processed artwork datasets and why the pre-processing is necessary for our model. Section 4.3 proposes our fine-grained cross modal retrieval model on a fragment level instead of focusing on whole images or sentences. Section 4.4 shows the results of our presented model running on our annotated artworks datasets. Section 4.5 points out some existing shortcomings of our methodology and potential fields to be focused on in the future. Section 4.6 concludes this section.
 
 
 \section{Fragment Retrieval}
 In this chapter, we are trying to solve the cross modal retrieval task at a fine-grained level, which means we shall not limit our retrieval on the image or sentence level but a fragment level. We applied some changes in the previous model in Chapter \ref{cha:scan}:
 
 \begin{itemize}
-    \item Instead of attending between image fragments with each token in sentence captions, here we extract noun phrases from sentence captions to perform mutual attention with image fragments. %% SHURONG：add the purpose of doing this: in order to find fragment-level correspondance between the two modalities.
+    \item Instead of attending between image fragments with each token in sentence captions, here we extract noun phrases from sentence captions to perform mutual attention with image fragments in order to find correspondence between the two modalities on fragment level. 
+    %% SHURONG：add the purpose of doing this: in order to find fragment-level correspondance between the two modalities.[done]
     \item During the testing process, we replace the original annotations of artworks but adopt manually handcrafted annotations as ground truth, which shall give us a more accurate experiment result.
 \end{itemize}
 
@@ -53,7 +54,7 @@ For experiment settings, we used the same settings and environment as mentioned 
 
 \begin{itemize}
     \item To save intense labour on retraining model for feature extraction task, we kept the weights pre-trained by Anderson et al. on \verb|Visual Genomes| dataset like in Chapter \ref{cha:scan}for faster R-CNN model and ResNet-101 model and performed detection of salient regions as bottom-up attention to extract features from images. 
-    \item We captured 36 Region of Interests (ROIs) for each image after average pooling and extracted 2,048-dimensional features vector.
+    \item We captured $k=36$ Region of Interests (ROIs) for each image after average pooling and extracted 2,048-dimensional features vector.
     \item We used L2 normalisation (Euclidean distance) into 1,024 joint embedding spaces (same for GRU), these will be used as image feature vectors.
 \end{itemize}
 

@@ -163,7 +163,7 @@ For experiment settings, we tested on a Ubuntu machine with Intel Xeon Processor
 
 \begin{itemize}
     \item We used faster R-CNN model and ResNet-101 model pre-trained by \textit{Anderson et al.} on \verb|Visual Genomes| dataset, performs detection of salient regions as bottom-up attention to extract features from images. 
-    \item We captured 36 Region of Interests (ROIs) for each image after average pooling and extracted 2,048-dimensional features vector.
+    \item To perform retrieval on a coarse-grained level, we use whole images as input. Instead of capturing $k$ Region of Interests (ROIs) for each image, here we set $k=1$ which captures all full images after average pooling and extracted 2,048-dimensional features vector.
     \item We used L2 normalisation (Euclidean distance) into 1,024 joint embedding spaces (same for GRU), these will be used as image feature vectors.
 \end{itemize}
 
@@ -201,7 +201,7 @@ The results are beyond satisfactory as shown; however, as in this stage, we only
 Below we display a few examples from our coarse-grained cross modal retrieval model: one for each dataset under sentence retrieval and image retrieval.
 
 \subsubsection{Sentence Retrieval}
-Figure \ref{fig:scani2t} illustrates two examples which obtained sentences from full image queries. There are several characteristics were successfully obtained from the left Egyptian anthropoid statue and the right Chinese vase including the shape and colour but not in a more detailed level. That is, for example, our textual retrieval results captured ``human-headed'', ``white glassy porcelain vase'' and even a little bit detail: ``colourful patterns on the body'', however, more details need to be furnished such as ``long thin beard'' and ``flowering begonia, iris, and butterfly''. These cannot be accomplished well under the current settings we used which is coarse-grained based on image and sentence level.
+Figure \ref{fig:scani2t} illustrates two examples which obtained sentences from full image queries. There are several characteristics were successfully obtained from the left Egyptian anthropoid statue and the right Chinese vase including the shape and colour but not in a more detailed level. That is, for example, our textual retrieval results captured ``\textit{human-headed}human-headed'', ``\textit{white glassy porcelain vase}'' and even a little bit detail: ``\textit{colourful patterns on the body}'', however, more details need to be furnished such as ``\textit{long thin beard}'' and ``\textit{flowering begonia, iris, and butterfly}''. These cannot be accomplished well under the current settings we used which is coarse-grained based on image and sentence level.
 
 \begin{figure}[h!]
 \centering
@@ -211,7 +211,7 @@ Figure \ref{fig:scani2t} illustrates two examples which obtained sentences from 
 \end{figure}
 
 \subsubsection{Image Retrieval}
-Similar results appeared in image retrieval examples shown as Figure \ref{fig:scant2i}. The model was able to pick out major shapes and overall structure but detailed information cannot be well aligned between image and text thus cause inaccurate retrieval on a more fine-grained level.
+Similar results appeared in image retrieval examples shown as Figure \ref{fig:scant2i}. The model was able to pick out major shapes and overall structure but detailed information cannot be well aligned between full images and sentences thus cause inaccurate retrieval on a more fine-grained level.
 
 \begin{figure}[h!]
 \centering
@@ -224,7 +224,7 @@ There is a significant issue in under the current model: too many irrelevant tex
 
 
 \section{Conclusion}
-Automated image-text mutual annotation would benefit transforming traditional library artwork collection to digital. In this section, we employed a well-known cross modal retrieval model: Stacked Attention and evaluated our Egyptian and Chinese artwork datasets on it. Considering the unique representation of artworks, in the next chapter, we modify this current model to achieve the cross modal retrieval in a fine-grained level.
+Automated image-text mutual annotation would benefit transforming traditional library artwork collection to digital. In this section, we employed a well-known cross modal retrieval model: Stacked Attention and evaluated our Egyptian and Chinese artwork datasets on it. Considering the unique representation of artworks and the rich information they usually contain, in the next chapter, we modify this current model to perform the cross modal retrieval task in a fine-grained level.
 
 
 %%% Local Variables: 
