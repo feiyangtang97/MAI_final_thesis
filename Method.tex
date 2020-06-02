@@ -53,7 +53,7 @@ For experiment settings, we used the same settings and environment as mentioned 
 \subsubsection{Settings for image representation}
 
 \begin{itemize}
-    \item To save intense labour on retraining model for feature extraction task, we kept the weights pre-trained by Anderson et al. on \verb|Visual Genomes| dataset like in Chapter \ref{cha:scan}for faster R-CNN model and ResNet-101 model and performed detection of salient regions as bottom-up attention to extract features from images. 
+    \item To save intense labour on retraining model for feature extraction task, we kept the weights pre-trained by Anderson et al. on \verb|Visual Genomes| dataset like in Chapter \ref{cha:scan} for faster R-CNN model and ResNet-101 model and performed detection of salient regions as bottom-up attention to extract features from images. 
     \item We captured $k=36$ Region of Interests (ROIs) for each image after average pooling and extracted 2,048-dimensional features vector.
     \item We used L2 normalisation (Euclidean distance) into 1,024 joint embedding spaces (same for GRU), these will be used as image feature vectors.
 \end{itemize}
@@ -123,8 +123,11 @@ Here we illustrate four typically successful and unsuccessful cross modal retrie
 \caption{Successful Example of Text Phrase Retrieval for Given Image Fragment Queries (fine-grained)}
 \label{fig:i2t}
 \end{figure}
+%%%
+Figure \ref{fig:i2t} shows two good text retrieval examples from given image fragment queries. The bottom two Egyptian image fragments achieved excellent retrieval results, the significant features such as colour and shape: ``\textit{grey human face}'', ``\textit{light brown cat head}'' were accurately captured. Although our Egyptian dataset has much more noisy textual information, however, after obtained noun phrases as input, we noticed the result was much more detailed; tiny features like ``\textit{big eyes}'', ``\textit{broken nose}'' and ``\textit{standing ears}'' were successfully distinguished out. 
 
-Figure \ref{fig:i2t} shows two good text retrieval examples from given image queries. The left Egyptian sculpture achieved great noun phrases, the significant features such as standing and walking pose, dark brown colour and the man himself were accurately captured. Although our Egyptian dataset has much more noisy textual attributes, however, after obtained noun-phrase based sentences, we noticed the result was much improved. Comparing to those personification figures in Egyptian artworks, our Chinese artwork dataset has more abstract presentations, and some tiny details can be extremely subtle and hard to distinguish from the background. For instance, this blue vase on the right has a distinctive shape - fat belly, narrow neck and a foot ring. Our model was able to catch a few features such as the colour, category and even the golden patterns. Thanks to the detailed and structured textual descriptions in the training dataset, our model was able to capture most details in the Chinese artworks dataset. However, when it comes to more fine-grained characteristics such as foot ring and flower patterns, in this case, the process becomes more challenging. 
+Comparing to those personification figures in Egyptian artworks, our Chinese artwork dataset has more abstract presentations, and some tiny details can be extremely subtle and hard to distinguish from the background. For instance, the top fragment from a traditional Chinese drawing has plentiful features such as those red houses surrounded by trees. Our model was able to pick up almost all of them in a detailed descriptive manner: ``\textit{small houses beside trees}'', ``\textit{black inked inscriptions}''. However, when it comes to infrequently appear features such as the pattern in the second Chinese artwork fragment, subtle details such as ``\textit{symmetrical flower}'' may be lost although the model still extracted major features like ``\textit{central flower}'' and colours.
+
 
 \begin{figure}[h!]
 \centering
