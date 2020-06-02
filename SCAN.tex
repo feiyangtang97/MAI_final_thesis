@@ -16,8 +16,7 @@ There are several models proposed recently to solve the problem of cross-modal r
 
 Also, this method used some of the currently available optimisation methods, such as the use of hard-negative, triplet ranking loss, etc. SCAN is proved to be very effective in image-text alignment task, thus, in this chapter, we employ SCAN on our coarse-grained cross modal retrieval task.
 
-%% ShURONG：This can be the motivation why you use this model and can be put in the beginning? It's not proper to put it here because we actually didn't really compare it with other methods on our own dataset, thus this advantage is only attested on natural images and also a reason why we use this model 
-
+%% ShURONG：This can be the motivation why you use this model and can be put in the beginning? It's not proper to put it here because we actually didn't really compare it with other methods on our own dataset, thus this advantage is only attested on natural images and also a reason why we use this model [done]
 
 We explain the structure of SCAN model in the next sections.
 
@@ -27,7 +26,7 @@ Before we perform any cross modal retrieval and alignment between image and text
 The article mentions the use of faster R-CNN to employ a bottom-up attention model - that we adopted. Different from the traditional faster R-CNN, \cite{bottomup} uses not only the object detector but also the attribute classifier for each region of interest, so that a binary description of the object (attribute, object) can be obtained. This description is more suitable for practical applications. Bottom-up attention model also allows the overlap of interest frames through the preset threshold, which can understand the image content more effectively.
 
 
-%% SHURONG: give an overall introduction like this? for example, we use faster-rcnn introduced in chapter 2 to both extract the top-k image regions from an image and represent the image regions as a continous vector as in \cite{bottom up}. and then introduce how bottom up use faster-rcnn differently with the classical one (it adds instance attributes in visual genome if I remember correctly, double check this:))
+%% SHURONG: give an overall introduction like this? for example, we use faster-rcnn introduced in chapter 2 to both extract the top-k image regions from an image and represent the image regions as a continous vector as in \cite{bottom up}. and then introduce how bottom up use faster-rcnn differently with the classical one (it adds instance attributes in visual genome if I remember correctly, double check this:)) [done]
 
 %% SHURONG; This paragraph seems not related?[deleted]
 %Although this work \cite{bottomup} does not mention the Encoder-Decoder framework, which is the most widely used in the current research, the task of the bottom-up attention model is to obtain the image interest area. Extracting image features is similar to feature encoding the image to achieve the encoding stage Task; and the top-down attention model is used to learn to adjust the feature weights, realise the ``timely attention'' of image content, and generate descriptions word by word, equivalent to the decoding stage.
@@ -73,7 +72,7 @@ The process is shown below in Figure \ref{fig:scan1}.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1\textwidth]{scan1.pdf}
+\includegraphics[width=\textwidth]{scan1.pdf}
 \caption{Image-Text Stacked Cross Attention}
 \label{fig:scan1}
 \end{figure}
@@ -202,7 +201,7 @@ The results are beyond satisfactory as shown; however, as in this stage, we only
 Below we display a few examples from our coarse-grained cross modal retrieval model: one for each dataset under sentence retrieval and image retrieval.
 
 \subsubsection{Sentence Retrieval}
-Figure \ref{fig:scani2t} illustrates two examples which obtained textual attributes from image queries. There are several characteristics were successfully obtained from the left Egyptian anthropoid statue and the right Chinese vase including the shape and colour but not in a fragment level. That is, for example, our textual retrieval results captured ``dark brown mummy'', ``white porcelain vase'' and even a little bit detail: ``dark inscription on neck'', however, more details need to be furnished such as ``long thin beard'' and ``red flowers''. These cannot be accomplished well under the current settings we used which is coarse-based on image and sentence level.
+Figure \ref{fig:scani2t} illustrates two examples which obtained sentences from full image queries. There are several characteristics were successfully obtained from the left Egyptian anthropoid statue and the right Chinese vase including the shape and colour but not in a more detailed level. That is, for example, our textual retrieval results captured ``human-headed'', ``white glassy porcelain vase'' and even a little bit detail: ``colourful patterns on the body'', however, more details need to be furnished such as ``long thin beard'' and ``flowering begonia, iris, and butterfly''. These cannot be accomplished well under the current settings we used which is coarse-grained based on image and sentence level.
 
 \begin{figure}[h!]
 \centering
