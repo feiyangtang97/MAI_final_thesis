@@ -4,7 +4,7 @@ In Chapter \ref{cha:relatedworks}, we discussed several models proposed to solve
 %% SHURONG: we didn't compare this method with others on our datasets, no?[corrected]
 Followed by discussing how it excel the image-text alignment task and why we choose to investigate it to solve the problem later in the task of coarse-grained cross modal retrieval for artworks.
 
-The structure of this chapter is as follows. Section 3.1 gives an introduction and motivation of SCAN. Section 3.2 explains the structure and methodologies used in SCAN, also how all its components iterates with each other. Section 3.3 briefly discusses the strengths of the adopted model for coarse-grained cross-modal retrieval. Section 3.4 illustrates the preliminary experimental results on our artwork datasets and the achievement of SCAN. Section 3.5 summarises this section.
+The structure of this chapter is as follows. Section 3.1 gives an introduction and motivation of SCAN. Section 3.2 explains the structure and methodologies used in SCAN, also how all its components iterates with each other. Section 3.3 briefly discusses the strengths of the adopted model for coarse-grained cross-modal retrieval. Section 3.4 illustrates the preliminary experimental results on our artwork datasets and the achievement of SCAN. Section 3.5 summarises this chapter.
 
 
 %% [done]Shurong: remove the motivation part or a brief sentence saying that SCAN is prove very effective in image-text alignment. 
@@ -163,7 +163,7 @@ For experiment settings, we tested on a Ubuntu machine with Intel Xeon Processor
 
 \begin{itemize}
     \item We used faster R-CNN model and ResNet-101 model pre-trained by \textit{Anderson et al.} on \verb|Visual Genomes| dataset, performs detection of salient regions as bottom-up attention to extract features from images. 
-    \item To perform retrieval on a coarse-grained level, we use whole images as input. Instead of capturing $k$ Region of Interests (ROIs) for each image, here we set $k=1$ which captures all full images after average pooling and extracted 2,048-dimensional features vector.
+    \item To perform retrieval on a coarse-grained level, we use whole images as input. Instead of capturing multiple ($k>1$) Region of Interests (ROIs) for each image, here we set $k=1$ which captures all full images after average pooling and extracted 2,048-dimensional features vector.
     \item We used L2 normalisation (Euclidean distance) into 1,024 joint embedding spaces (same for GRU), these will be used as image feature vectors.
 \end{itemize}
 
@@ -224,7 +224,7 @@ There is a significant issue in under the current model: too many irrelevant tex
 
 
 \section{Conclusion}
-Automated image-text mutual annotation would benefit transforming traditional library artwork collection to digital. In this section, we employed a well-known cross modal retrieval model: Stacked Attention and evaluated our Egyptian and Chinese artwork datasets on it. Considering the unique representation of artworks and the rich information they usually contain, in the next chapter, we modify this current model to perform the cross modal retrieval task in a fine-grained level.
+Automated image-text mutual annotation would help to transform traditional library artwork collection to digital. In this chapter, we employed a well-known cross modal retrieval model: Stacked Attention and evaluated our Egyptian and Chinese artwork datasets on it. Considering the unique representation of artworks and the rich information they usually contain, in the next chapter, we modify this current model to perform the cross modal retrieval task at a fine-grained level.
 
 
 %%% Local Variables: 
