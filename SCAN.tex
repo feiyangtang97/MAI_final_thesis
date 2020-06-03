@@ -12,7 +12,7 @@ The structure of this chapter is as follows. Section 3.1 gives an introduction a
 %%Give some insights into the bad examples about why the model does not work for them
 \section{Introduction}
 
-There are several models proposed recently to solve the problem of cross-modal retrieval, and many have achieved excellent accomplishments. Lee, et al. \cite{scan} uses the proposed \textbf{S}tacked \textbf{C}ross \textbf{A}ttentio\textbf{n} (SCAN) to find all potential alignments between the image area and the words, thereby calculating the similarity between the graphics and the text. Existing methods perform fixed-step attention inference so that only a limited semantic alignment can be found at a time, and SCAN can find all possible semantic alignments at the same time. Since the number of semantic alignments varies with different images and sentences, the corresponding relationship inferred by the Stacked Cross Attention method is more comprehensive, thereby making the image-text matching more interpretable.
+There are several models proposed recently to solve the task of cross modal retrieval, and many have achieved excellent accomplishments. Lee, et al. \cite{scan} uses the proposed \textbf{S}tacked \textbf{C}ross \textbf{A}ttentio\textbf{n} (SCAN) to find all potential alignments between the image area and the words, thereby calculating the similarity between the graphics and the text. Existing methods perform fixed-step attention inference so that only a limited semantic alignment can be found at a time, and SCAN can find all possible semantic alignments at the same time. Since the number of semantic alignments varies among different images and sentences, the corresponding relationship inferred by the Stacked Cross Attention method is more comprehensive, thereby making the image-text matching more interpretable.
 
 Also, this method used some of the currently available optimisation methods, such as the use of hard-negative, triplet ranking loss, etc. SCAN is proved to be very effective in image-text alignment task, thus, in this chapter, we employ SCAN on our coarse-grained cross modal retrieval task.
 
@@ -40,11 +40,11 @@ The article mentions the use of faster R-CNN to employ a bottom-up attention mod
 \label{fig:fasterrcnnbottomup}
 \end{figure}
 
-It can be seen from the Figure \ref{fig:fasterrcnnbottomup} that using CNN requires more features than R-CNN, and many features are often useless. The target detection method of R-CNN first obtains the interest area for the image, and then applies the target detector to each interest area, so that the image category can be accurately obtained; the CNN method requires the input of the entire image and is used for broad sample classification Of networks are often complex and computationally intensive. In addition, Faster R-CNN improves on previous generations of R-CNN methods and realises the ability to recognise all objects with only one input, which significantly improves processing efficiency.
+It can be seen from the Figure \ref{fig:fasterrcnnbottomup} that using CNN demands more features than R-CNN, and many features are often worthless. The object detection method of R-CNN first captures the interest region for an image, then applies an object detector to each interest region, so that the image category can be accurately obtained; the CNN method expects the input of an entire image and is used for broad sample classification, which are often complicated and computationally intensive. Besides, faster R-CNN improves on previous generations of R-CNN methods and earns the ability to recognise almost all objects with only one input, which significantly improves the processing efficiency.
 
 \subsection{Bottom-Up Attention Model}
 
-From Figure \ref{fig:bottomup} below, it can be seen that the difference from the prior works is that the set of thresholds allows overlapping of interest frames, which can more effectively understand the image content. In this paper, not only the object detector but also the attribute classifier is used for each region of interest, so that a binary description of the object \verb|(attribute, object)| can be obtained. This description is more suitable for practical applications.
+From Figure \ref{fig:bottomup} below, it can be seen that the difference from the prior works is that the set of thresholds allows overlapping of interest frames, which can more effectively understand the image content. In this model, not only the object detector but also the attribute classifier is used for each region of interest, so that a binary description of the object \verb|(attribute, object)| can be obtained. This description is proved more suitable for real-world applications.
 
 \begin{figure}[h!]
 \centering
@@ -137,12 +137,12 @@ l(I, T)=\sum_{\hat{T}}[\alpha-S(I, T)+S(I, \hat{T})]_{+}+\sum_{\hat{I}}[\alpha-S
 $$
 
 \begin{itemize}
-    \item where $[x]_{+} \equiv \max (x, 0)$ and $S$ is similarity score function (e.g. $S_{L S E}$)
-    \item The first sum is taken over all negative sentences $\hat{T}$ given an image $I$; the second sum considers all negative images $\hat{I}$ given a sentence $T$.
-    \item If $I$ and $T$ are closer to one another in the joint embedding space than any negatives pairs, by the margin $\alpha$, the hinge loss is zero.
+    \item where $[x]_{+} \equiv \max (x, 0)$ and $S$ represents the similarity score calculation function (i.e. $S_{L S E}$)
+    \item The first sum calculates all negative sentences retrieval result $\hat{T}$ given an image $I$ input and the second sum takes over all negative images retrieval result $\hat{I}$ given a sentence $T$ input.
+    \item If an image $I$ and a sentence $T$ are closer to one another in the joint common space than any negative pairs, the hinge loss is zero by the margin $\alpha$,.
 \end{itemize}
 
-For computational efficiency, rather than summing over all the negative samples, it usually considers only the hard negatives in a mini-batch of stochastic gradient descent.
+Here we only consider the hard negatives in a mini-batch of stochastic gradient descent instead of summing over all the negative samples to make the calculations more computational efficient.
 
 \begin{itemize}
     \item for a pair $(I, T)$, the formula is shown below. e.g. the hard negative of one image is the image that has the highest similarity with the text besides this original pair. (vice versa for text)
@@ -164,7 +164,7 @@ For experiment settings, we tested on a Ubuntu machine with Intel Xeon Processor
 \begin{itemize}
     \item We used faster R-CNN model and ResNet-101 model pre-trained by \textit{Anderson et al.} on \verb|Visual Genomes| dataset, performs detection of salient regions as bottom-up attention to extract features from images. 
     \item To perform retrieval on a coarse-grained level, we use whole images as input. Instead of capturing multiple ($k>1$) Region of Interests (ROIs) for each image, here we set $k=1$ which captures all full images after average pooling and extracted 2,048-dimensional features vector.
-    \item We used L2 normalisation (Euclidean distance) into 1,024 joint embedding spaces (same for GRU), these will be used as image feature vectors.
+    \item We used L2 normalisation (Euclidean distance) into 1,024 joint common spaces (same for GRU), these will be used as image feature vectors.
 \end{itemize}
 
 \subsubsection{Settings for text representation}

@@ -74,7 +74,7 @@ But how to understand an image? There are three main levels according to the nee
 Classification is the first task, is to structure an image into information of a certain category then describe it by a predetermined category (string) or instance ID. Classification task is the simplest and most basic image understanding task, and it is also the first task for deep learning models to achieve breakthroughs and achieve large-scale applications. In the application field, face recognition and scene recognition can be classified as classification tasks.
 
 \subsubsection{Detection}
-The classification task gives the content description of the entire picture, while the detection focuses on the specific object target, which requires the category information and position information of the target to be obtained at the same time. Comparing to the classification task, detection gives an understanding of both foreground and background of the image. To perform detection, we need to separate the interesting targets from the background and determine the description, i.e. category and location of this target. Therefore, the output of this detection model is a list, each item of the list uses a data set to give the category and position of the detected target, which is commonly represented by the coordinates of a rectangular detection frame.
+The classification task provides a description of the content of an entire image, while the detection process concentrates on a specific targeting object, which requires the categorical and position information of the target to be obtained together. Comparing to the classification task, detection task illustrates an idea of both foreground and background of the image. To perform detection task, we need to distinguish the desired targets from the general background and identify its description, i.e. type and location of this target. Therefore, the output of this detection model should be a list, each item of this list provides the type and location of this detected target, which is commonly represented by the coordinates of a rectangular detection frame.
 
 \subsubsection{Segmentation}
 Segmentation includes semantic segmentation and instance segmentation. The former is an extension of the previous background separation and requires the separation of image parts with different semantics, while the latter is an extension of the detection task and requires the outline of the target which is finer than the detection frame. Segmentation is a pixel-level description of an image. It gives meaning to each pixel category, i.e. instance and is suitable for understanding demanding scenes, such as the segmentation of roads and non-roads in driver-less technology.
@@ -159,22 +159,22 @@ According to the different sizes of the convolution kernel and the numbers of co
 
 \verb|VGG16| contains the following components:
 \begin{itemize}
-    \item 13 Convolutional Layers, each represented by \verb|conv3-XXX|
-    \item 3 Fully connected Layers, each represented by \verb|FC-XXXX|
-    \item 5 Pool layers, each represented by \verb|maxpool|
+    \item 13 convolutional layers (\verb|conv3-XXX|)
+    \item 3 fully connected layers(\verb|FC-XXXX|)
+    \item 5 max-pooling layers (\verb|maxpool|)
 \end{itemize}
 
-Among them, the convolutional layer and the fully connected layer have weight coefficients, so they are also called weight layers. The total number is $13+3=16$, which is the source of 16 in \verb|VGG16|. (The pooling layer does not involve weights, so it does not belong to the weighting layer and is not counted).
+Among these different layers, the convolutional layer and the fully connected layer have weight coefficients, so they are often named weighted layers. The total number of weighted layers is $13+3=16$, which represents the digit ``16'' in the name of \verb|VGG16| model. (The pooling layer does not involve weights, which means pooling layers were excluded for counting).
 
 %features
 \paragraph{Structure and Features}
 The outstanding feature of \verb|VGG16| is simplicity, which is reflected in:
 
 \begin{itemize}
-    \item The convolutional layers all use the same convolution kernel parameters.
-    \item The convolution layers are all represented as \verb|conv3-XXX|, where \verb|conv3| indicates that the size of the convolution kernel is 3, that is, the width and height are both 3. And $3\times3$ is very small kernel size, combined with other parameters: \verb|stride = 1|, \verb|padding = same|, so that each convolutional layer (tensor) can maintain the same width and high. \verb|XXX| represents the number of channels of the convolutional layer.
+    \item All the convolutional layers use the identical convolution kernel parameters.
+    \item \verb|conv3-XXX| represents convolution layers, where \verb|conv3| indicates that the size of the convolution kernel is 3, that is, the width and height are both 3. And $3\times3$ is very small kernel size, combined with other parameters: \verb|stride = 1|, \verb|padding = same|, so that each convolutional layer (tensor) can maintain the same width and high. \verb|XXX| represents the number of channels of the convolutional layer.
     \item The pooling layer uses the same pooling kernel parameters. 
-    \item The model is composed of several convolutional layers and pooling layers stacked, which is relatively easy to form a deeper network structure (considering that back to 2014, 16 layers have been considered very deep).
+    \item The model is constructed with several stacked convolutional layers and pooling layers, which makes it fairly easy to build a deep network structure (considering that back to 2014, sixteen layers were considered very deep).
     
 \end{itemize}
 
@@ -191,7 +191,7 @@ Figure \ref{fig:vgg16strucure} illustrates the overall structure of \verb|VGG16|
 
 %block structure
 \paragraph{Block Structure}
-We note that on the right side of Figure \ref{fig:vgg16strucure}, the convolutional layer and pooling layer of \verb|VGG16| can be divided into different blocks, which are numbered \verb|Block1| to \verb|block5| from front to back. Each block contains several convolutional layers and a pooling layer. For example: \verb|Block4| contains:
+We note that on the right side of Figure \ref{fig:vgg16strucure}, the convolutional layer and pooling layer of \verb|VGG16| are divided into different blocks, these blocks are numbered \verb|Block1| to \verb|block5| from front to back. Each block includes a few convolutional layers and a pooling layer. For example: \verb|Block4| contains:
 \begin{itemize}
     \item 3 convolutional layers: \verb|conv3-512|
     \item 1 pooling layer: \verb|maxpool|
@@ -254,7 +254,7 @@ This structure of Fast R-CNN is exactly the prototype of the meta-structure adop
 
 \subsubsection{Faster R-CNN}
 \label{sec:fasterrcnn}
-Faster R-CNN \cite{fasterrcnn} is the foundation work of the 2-stage method. The proposed RPN network replaces the Selective Search algorithm so that the detection task can be completed end-to-end by the neural network. Roughly speaking, Faster R-CNN is a combination of RPN plus Fast R-CNN, sharing the characteristics of convolution calculation with RCNN makes the calculation brought by RPN relatively small, so Faster R-CNN can run at 5fps on a single GPU and reaches SOTA in terms of accuracy.
+Faster R-CNN \cite{fasterrcnn} lays the foundation of the two-stage method. The proposed RPN network replaces the Selective Search algorithm so that the detection task can be completed end-to-end by the neural network. Roughly speaking, Faster R-CNN is a combination of RPN plus Fast R-CNN, sharing the characteristics of convolution calculation with RCNN makes the calculation brought by RPN relatively small, so Faster R-CNN can run at 5fps on a single GPU and reaches SOTA in terms of accuracy.
 
 The main contribution of Faster R-CNN \cite{fasterrcnn} is the proposal of Regional Proposal Networks to replace the previous SS algorithm. RPN network models the task of Proposal to the problem of binary classification: whether it is an object. Figure \ref{fig:fasterrcnn} below illustrate the basic structure of Faster R-CNN \cite{fasterrcnn}.
 
