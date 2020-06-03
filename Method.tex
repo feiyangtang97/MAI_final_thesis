@@ -53,7 +53,7 @@ For experiment settings, we used the same settings and environment as mentioned 
 \subsubsection{Settings for image representation}
 
 \begin{itemize}
-    \item To save intense labour on retraining model for feature extraction task, we kept the weights pre-trained by Anderson et al. on \verb|Visual Genomes| dataset like in Chapter \ref{cha:scan} for faster R-CNN model and ResNet-101 model and performed detection of salient regions as bottom-up attention to extract features from images. 
+    \item To save intense labour on retraining model for feature extraction task, we kept the weights pre-trained by Anderson et al. on \verb|Visual Genomes| dataset like in Chapter \ref{cha:scan} for faster R-CNN model and ResNet-101 model and performed detection of interesting regions as bottom-up attention to extract features from images. 
     \item We captured $k=36$ Region of Interests (ROIs) for each image after average pooling and extracted 2,048-dimensional features vector.
     \item We used L2 normalisation (Euclidean distance) into 1,024 joint embedding spaces (same for GRU), these will be used as image feature vectors.
 \end{itemize}
@@ -86,7 +86,7 @@ From Figure \ref{fig:sampledata} we are looking at an Egyptian artwork with a ca
 \begin{tabular}{lcccccc}
 \hline
 \hline
-\multicolumn{1}{c}{} & \multicolumn{3}{c}{Sentence Retrieval} & \multicolumn{3}{c}{Image Retrieval} \\ \hline\hline
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{Image Annotation} & \multicolumn{3}{c}{Image Retrieval} \\ \hline\hline
 \multicolumn{7}{r}{Chinese Artwork Alignment Dataset}                                              \\ \hline
 Method               & R@1         & R@5         & R@10       & R@1        & R@5        & R@10      \\ \hline
 t-i LSE              & 8.7        & 14.1        & 20.3       & 5.7       & 9.2       & 15.6      \\ \hline
@@ -108,7 +108,7 @@ One-directional GRU + i-t AVG  & 5.3         & 10.8        & 20.1       & 3.5   
 
 Table \ref{table:resultfragmented} present the quantitative results on Chinese and Egyptian artwork datasets where all formulations of our proposed method outperform recent approaches in all measures. Here we denote t-i as Text-Image formulation by text and i-t as Image-Text formulation, AVG as average pooling and LSE as LogSumExp pooling. Like most of the SCAN based models, we tested four different methods by different combinations of formulations and pooling methods. In addition, to check the necessity of bidirectional GRU, we also include a test under one-directional GRU with i-t AVG.
 
-i-t usually surpasses t-i on both pooling methods, and it is evident that using bidirectional GRU improves image annotation R@1 by 2.9 in Chinese artworks and 1.1 in Egyptian artworks, 1.6 and 1.2 for image search. The best result of the model are 13.5 on sentence retrieval (R@1) and 9.9 on image retrieval (R@5) relatively on Chinese artwork dataset; 6.4 on sentence retrieval (R@1) and 4.7 on image retrieval (R@1) relatively on Egyptian artwork dataset. In terms of R@10, our model was able to obtain a 28.6 recall for image annotation task on Chinese dataset which is gratifying and promising considering the strict and detailed ground truth testing set we used.
+i-t usually surpasses t-i on both pooling methods, and it is evident that using bidirectional GRU improves image annotation R@1 by 2.9 in Chinese artworks and 1.1 in Egyptian artworks, 1.6 and 1.2 for image search. The best result of the model are 12.8 on image annotation (R@1) and 9.3 on image retrieval (R@5) relatively on Chinese artwork dataset; 6.4 on image annotation (R@1) and 4.7 on image retrieval (R@1) relatively on Egyptian artwork dataset. In terms of R@10, our model was able to obtain a 28.9 recall for image annotation task on Chinese dataset which is gratifying and promising considering the strict and detailed ground truth testing set we used.
 
 We noticed that the recalls for sentence and image retrieval on both Chinese and Egyptian artwork datasets are not satisfactorily high. To better understand and evaluate our model, we demonstrate several successful and unsuccessful cross modal retrieval examples in the next section for comparative analysis.
 

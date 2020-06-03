@@ -34,7 +34,7 @@ While a large number of papers discussed aligning image-text and coarse-grained 
 
 \section{Dataset}
 
-The datasets involved in this thesis research are from Sheng et al.'s work \cite{artworkcaption} which were originally collected from the following online sources: the Brooklyn Museum \cite{brooklynmuseum}, the Metropolitan Museum \cite{themet}, and the British Museum \cite{thebritishmuseum}. Based on these sources, there are two artwork datasets that we used here: the ancient Egyptian art image dataset and the ancient Chinese art image dataset. The two datasets from \cite{artworkcaption} were collected based on the geographical location of the origin of the artworks because caption words may differ much depending on the cultural background of the location. Detailed statistics of the two datasets are shown in Table \ref{fig:datasetstats}. 
+The datasets involved in this thesis research are from Sheng et al.'s work \cite{artworkcaption} which were originally collected from the following online sources: the Brooklyn Museum \cite{brooklynmuseum}, the Metropolitan Museum \cite{themet}, and the British Museum \cite{thebritishmuseum}. Based on these sources, there are two artwork datasets that we used here: the ancient Egyptian art image dataset and the ancient Chinese art image dataset. According to \cite{artworkcaption}, ``the two datasets from Sheng et al.'s work were collected based on the geographical location of the origin of the artworks because caption words may differ much depending on the cultural background of the location''. More details of these two datasets are displayed below in Table \ref{fig:datasetstats}. 
 
 \begin{table}[h!]
 \centering
@@ -49,9 +49,9 @@ The datasets involved in this thesis research are from Sheng et al.'s work \cite
 \end{table}
 
 The datasets have 22,993 ancient artwork images. Images are stored at varying dpi and the
-compressed \verb|jpeg| image file size ranges between 20 to 300 KB. The paragraph-level descriptions were split into multiple sentences and a maximum of five sentences are retained for each artwork to reduce data imbalance. Duplicate images were removed by \cite{artworkcaption} in the datasets based on their hash code. Tokens occurring less than two times were removed by the authors from the training vocabulary.
+compressed \verb|jpeg| image file size ranges between 20 to 300 KB. As stated in \cite{artworkcaption}: ``the paragraph-level descriptions were split into multiple sentences and a maximum of five sentences are retained for each artwork to reduce data imbalance. Duplicate images were removed by \cite{artworkcaption} in the datasets based on their hash code. Tokens occurring less than two times were removed by the authors from the training vocabulary.''
 %%SHURONG: IS THIS THE SETTING UP FOR YOUR EXPERIMENT[checked]
-The datasets are all split into an 80\%, 10\%, and 10\% partition for respectively training, validation, and test.
+The datasets were separated into partitions of 80\%, 10\%, and 10\% for respectively training, validation, and test uses.
 
 %Each artwork image has a corresponding record saved in a \verb|json| file containing their processed caption textual data. However, in our research, instead of using the original captions in the \verb|json| file, we extracted noun phrases from them and performed our alignment tasks between these noun phrases and images.
 

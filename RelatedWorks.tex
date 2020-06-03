@@ -77,7 +77,7 @@ Classification is the first task, is to structure an image into information of a
 The classification task provides a description of the content of an entire image, while the detection process concentrates on a specific targeting object, which requires the categorical and position information of the target to be obtained together. Comparing to the classification task, detection task illustrates an idea of both foreground and background of the image. To perform detection task, we need to distinguish the desired targets from the general background and identify its description, i.e. type and location of this target. Therefore, the output of this detection model should be a list, each item of this list provides the type and location of this detected target, which is commonly represented by the coordinates of a rectangular detection frame.
 
 \subsubsection{Segmentation}
-Segmentation includes semantic segmentation and instance segmentation. The former is an extension of the previous background separation and requires the separation of image parts with different semantics, while the latter is an extension of the detection task and requires the outline of the target which is finer than the detection frame. Segmentation is a pixel-level description of an image. It gives meaning to each pixel category, i.e. instance and is suitable for understanding demanding scenes, such as the segmentation of roads and non-roads in driver-less technology.
+Segmentation includes semantic segmentation and instance segmentation. The former is an extension of the previous background separation and requires the separation of image parts with different semantics, while the latter is an extension of the detection task and requires the outline of the target which is finer than the detection frame. Segmentation is a pixel-level description of an image. It provides meaning behind each pixel type, such as the segmentation of roads and non-roads in driver-less driving technology.
 
 \subsection{Object Detection}
 
@@ -108,7 +108,7 @@ The convolution operation is equivalent to feature extraction, and the convoluti
 \paragraph{Padding}
 After the convolution operation, the dimensions become smaller, and the resulting matrix is smaller than the original matrix, which is difficult to calculate and hard to perform convolution, thus, we need padding. 
 
-Before each convolution operation, we need to wrap a layer of 0 outside the original matrix. It is possible to only fill in horizontally, or only vertically, or 0 on all sides, so that after convolution, the size of output image will be consistent with input image. Figure \ref{fig:padding} below gives an example of padding zeros to an image.
+Before each convolution operation, we need to wrap a layer of 0 outside the original matrix. It is possible to only fill in horizontally, or only vertically, or 0 on all sides, so that after convolution, the size of output image will be consistent with input image. Figure \ref{fig:padding} below illustrates an example of padding zeros to an image.
 
 \begin{figure}[h!]
 \centering
@@ -121,7 +121,7 @@ Before each convolution operation, we need to wrap a layer of 0 outside the orig
 \paragraph{Pooling}
 After the convolution operation, we extracted a lot of feature information. Adjacent areas have similar feature information and can be replaced with each other. If all these feature information are retained, there will be information redundancy, which increases the computational difficulty. At this time, pooling is equivalent to a dimension reducing operation. 
 
-Pooling happens in a small matrix area. The maximum or average value of the area will be used to replace the area. The size of the small matrix can be set when the network is built. This small matrix is scanning from the upper left corner to the lower right corner when perform pooling.
+Pooling happens in a small matrix area. The maximum or average value of the area will be used to replace the area. The size of the small matrix can be set when the network is built. This small matrix scans from the upper left corner to the lower right corner to perform pooling.
 
 \begin{figure}[h!]
 \centering
@@ -148,7 +148,7 @@ For layers $n-1$ and $n$, any node in layer $n-1$ is connected to all nodes in l
 \paragraph{Configuration}
 \verb|VGG| has a relatively simple structure, and its generalisation performance of migrating to other image also achieves well. \verb|VGG| is still often used to extract image features.
 
-According to the different sizes of the convolution kernel and the numbers of convolution layers in VGG, it can be divided into 6 ConvNet configuration: \verb|A|, \verb|A-LRN|, \verb|B|, \verb|C|, \verb|D|, \verb|E|, of which \verb|D| and \verb|E| are more commonly used, which are called \verb|VGG16| and \verb|VGG19| respectively. The following Figure \ref{fig:vgg16config} shows the six structural configurations of VGG. In Figure \ref{fig:vgg16config}, each column corresponds to a structural configuration. For example, section \verb|D| in the figure indicates the structure adopted by \verb|VGG16|.
+Conforming to the different sizes of the convolution kernel and numbers of convolution layers in a VGG model, there are six different \verb|ConvNet| configurations: \verb|A|, \verb|A-LRN|, \verb|B|, \verb|C|, \verb|D|, and \verb|E|, where \verb|D| and \verb|E| are more commonly discussed, named \verb|VGG16| and \verb|VGG19| respectively. Figure \ref{fig:vgg16config} displays the six different structural configurations of VGG. In Figure \ref{fig:vgg16config}, each column corresponds to a structural configuration. For example, section \verb|D| in the figure indicates the structure adopted by \verb|VGG16|.
 
 \begin{figure}[h!]
 \centering
@@ -174,11 +174,11 @@ The outstanding feature of \verb|VGG16| is simplicity, which is reflected in:
     \item All the convolutional layers use the identical convolution kernel parameters.
     \item \verb|conv3-XXX| represents convolution layers, where \verb|conv3| indicates that the size of the convolution kernel is 3, that is, the width and height are both 3. And $3\times3$ is very small kernel size, combined with other parameters: \verb|stride = 1|, \verb|padding = same|, so that each convolutional layer (tensor) can maintain the same width and high. \verb|XXX| represents the number of channels of the convolutional layer.
     \item The pooling layer uses the same pooling kernel parameters. 
-    \item The model is constructed with several stacked convolutional layers and pooling layers, which makes it fairly easy to build a deep network structure (considering that back to 2014, sixteen layers were considered very deep).
+    \item \verb|VGG16| is constructed with several stacked convolutional layers and pooling layers, which makes it fairly easy to build a deep network structure (considering that back to 2014, sixteen layers were considered very deep).
     
 \end{itemize}
 
-Based on the above analysis, the advantages of \verb|VGG16| can be summarised as: small filters and deeper networks.
+Based on the above explanations, \verb|VGG16| becomes popular and surpasses many other models because of its small filters and deeper network architecture.
 
 Figure \ref{fig:vgg16strucure} illustrates the overall structure of \verb|VGG16|. From left to right, a coloured picture is the input to the network. The white box is the convolution layer, the red is the pooling, the blue is the fully connected layer, and the brown box is the prediction layer. The role of the prediction layer is to convert the information output from the fully connected layer into the corresponding class probability, and play a classification role.
 
@@ -191,7 +191,7 @@ Figure \ref{fig:vgg16strucure} illustrates the overall structure of \verb|VGG16|
 
 %block structure
 \paragraph{Block Structure}
-We note that on the right side of Figure \ref{fig:vgg16strucure}, the convolutional layer and pooling layer of \verb|VGG16| are divided into different blocks, these blocks are numbered \verb|Block1| to \verb|block5| from front to back. Each block includes a few convolutional layers and a pooling layer. For example: \verb|Block4| contains:
+The convolutional layer and pooling layer of \verb|VGG16| are divided into different blocks on the right side of Figure \ref{fig:vgg16strucure}. These blocks are labelled \verb|Block1| to \verb|block5| from front to back. Each block includes a few convolutional layers and a pooling layer. For example: \verb|Block4| contains:
 \begin{itemize}
     \item 3 convolutional layers: \verb|conv3-512|
     \item 1 pooling layer: \verb|maxpool|
@@ -225,7 +225,7 @@ The 2-stage model is named for its 2-stage processing of pictures, also known as
 \subsubsection{R-CNN}
 Traditional computer vision methods often use well-designed manual features, such as SIFT and HOG to describe images, while deep learning methods advocate the acquisition of features. From the experience of image classification tasks, the effects obtained by the CNN network automatically acquired features has exceeded the characteristics of manual design. Girshick et al. \cite{rcnn} applied convolutional networks in local areas to give convolutional networks ability to learn high-quality features.
 
-R-CNN abstracts detection into two processes. One is to propose some regions that may contain objects based on the picture, that is, the local cropping of the picture, called the ``Region Proposal''. The paper \cite{rcnn} used the Selective Search algorithm then run the best performing classification network, i.e. AlexNet on the areas, and then obtained the categories of objects in each area. A basic structure of R-CNN is illustrated below as Figure \ref{fig:rcnn}.
+R-CNN achieves object detection in two stages. The first is to propose a few regions of interest which may have potential objects, that is, the local cropping of the image, named the step of ``Region Proposal'' \cite{rcnn}. The paper \cite{rcnn} used selective search algorithm to run the SOTA performing classification network, i.e. AlexNet in many cases, and then obtained the types of objects in each region. A basic structure of R-CNN is illustrated below as Figure \ref{fig:rcnn}.
 
 \begin{figure}[h!]
 \centering
@@ -234,9 +234,9 @@ R-CNN abstracts detection into two processes. One is to propose some regions tha
 \label{fig:rcnn}
 \end{figure}
 
-The proposal of R-CNN has two significant contributions: first, CNN can be used for region-based localisation and segmentation of objects; second, when the number of supervised training samples is scarce, pre-trained models on additional data can achieve excellent results after fine-tuning. The first contribution motivated almost all 2-stage methods, and the second contribution used the model trained in the classification task (Imagenet \cite{imagenet}) as the base network. The fine-tuning method for detecting problems has also been used widely in the subsequent works.
+The proposal of R-CNN has two significant contributions: first, CNN can be used for region-based localisation and segmentation of objects; second, when the number of supervised training samples is scarce, pre-trained models on additional data are able to obtain excellent results after fine-tuning. The first contribution motivated almost all 2-stage methods, and the second contribution used the model trained in the classification task (Imagenet \cite{imagenet}) as the base network. The fine-tuning method for detecting problems has also been used widely in the subsequent works.
 
-The idea of R-CNN is straightforward, the detection task is transformed into a classification task on the region, which is a test of the deep learning method on the detection task. There are also many issues with the model itself, such as the need to train three different models: proposal, classification, regression and performance problems caused by repeated calculations, etc. But R-CNN can still be considered as the pioneer ``the first paper'' in the field.
+The idea of R-CNN is straightforward, the original detection task is transformed into a classification task based on the region, which is a test of the deep learning method on the detection task. There are also many issues with the model itself, for example there are three different models needs to be trained: proposal, classification, regression and also performance drawbacks triggered by redundant calculations. But generally R-CNN can be considered as the pioneer in the field.
 
 \subsubsection{Fast R-CNN}
 In 2015 Girshick \cite{fastrcnn} pointed out the reason why R-CNN is time-consuming is that CNN is performed separately on each Proposal. Without sharing calculations, it is proposed that after the basic network is run on the entire picture, it is introduced into the R-CNN sub-network, sharing the large Partially calculated, hence the name ``Fast''.
@@ -248,15 +248,15 @@ In 2015 Girshick \cite{fastrcnn} pointed out the reason why R-CNN is time-consum
 \label{fig:fastrcnn}
 \end{figure}
 
-Figure \ref{fig:fastrcnn} above shows the architecture of Fast R-CNN. A feature map is obtained from the feature extractor, at the same time, a Selective Search algorithm is run on the original image and the RoI i.e. Region of Interset, a coordinate group that can be mixed with Region Proposal is mapped to the feature map. Then RoI Pooling is performed for each RoI, this operation obtains feature vectors of equal length, then sorts the obtained feature vectors into positive and negative samples when maintains a certain ratio of positive and negative samples. Next Fast R-CNN batches them into the parallel R-CNN sub-network, performs classification and regression at the same time and unify both losses.
+Figure \ref{fig:fastrcnn} above shows the architecture of Fast R-CNN. A feature map is obtained from the feature extractor, at the same time, a Selective Search algorithm is run on the original image and the RoI i.e. Region of Interest, a coordinate group that can be mixed with region proposal is mapped to the feature map. Then RoI Pooling is performed for each RoI, this operation obtains feature vectors of equal length, then sorts the obtained feature vectors into positive and negative samples when maintains a certain ratio of positive and negative samples. Next fast R-CNN batches them into the parallel R-CNN sub-network, performs classification and regression at the same time and unify both losses.
 
-This structure of Fast R-CNN is exactly the prototype of the meta-structure adopted by the mainstream 2-stage method for detection tasks. Fast R-CNN \cite{fastrcnn} unifies Proposal, Feature Extractor, Object Classification and Localisation in a whole structure, and improves the efficiency of feature utilisation through shared convolution calculations, which is the most contributing content.
+This structure of Fast R-CNN is exactly the prototype of the meta-structure adopted by the mainstream two-stage method for detection tasks. According to the original paper, ``fast R-CNN \cite{fastrcnn} unifies proposal, feature extractor, object classification and localisation in a whole structure, and improves the efficiency of feature utilisation through shared convolution calculations'', which acts as the biggest contribution.
 
 \subsubsection{Faster R-CNN}
 \label{sec:fasterrcnn}
-Faster R-CNN \cite{fasterrcnn} lays the foundation of the two-stage method. The proposed RPN network replaces the Selective Search algorithm so that the detection task can be completed end-to-end by the neural network. Roughly speaking, Faster R-CNN is a combination of RPN plus Fast R-CNN, sharing the characteristics of convolution calculation with RCNN makes the calculation brought by RPN relatively small, so Faster R-CNN can run at 5fps on a single GPU and reaches SOTA in terms of accuracy.
+Faster R-CNN \cite{fasterrcnn} lays the foundation of the two-stage method. Its proposed novel RPN network replaces the classic selective search algorithm to achieve the detection task end-to-end based on a neural network. Generally speaking, Faster R-CNN is a combination of RPN plus a Fast R-CNN, sharing most of the characteristics of convolution calculation with RCNN significantly reduced the calculation task brought by RPN, which means ``Faster R-CNN is able to  run at 5fps on a single GPU and reaches SOTA in terms of accuracy'' \cite{fasterrcnn}.
 
-The main contribution of Faster R-CNN \cite{fasterrcnn} is the proposal of Regional Proposal Networks to replace the previous SS algorithm. RPN network models the task of Proposal to the problem of binary classification: whether it is an object. Figure \ref{fig:fasterrcnn} below illustrate the basic structure of Faster R-CNN \cite{fasterrcnn}.
+The main contribution of Faster R-CNN \cite{fasterrcnn} is the creation of Regional Proposal Networks to replace the previous SS algorithm. RPN network models the task of Proposal to the problem of binary classification: whether it is an object. Figure \ref{fig:fasterrcnn} below illustrate the basic structure of Faster R-CNN \cite{fasterrcnn}.
 
 \begin{figure}[h!]
 \centering
