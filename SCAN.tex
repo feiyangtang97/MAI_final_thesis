@@ -23,7 +23,7 @@ We explain the structure of SCAN model in the next sections.
 \section{Image Feature Extraction}
 Before we perform any cross modal retrieval and alignment between image and text, we need to firstly extract features from images. There are many models we have discussed before in Section \ref{cha:relatedworks}, here we use one of the most widely used model called faster R-CNN to both extract the top-$k$ image regions from an image and represent the image regions of interest as a continuous vector as in the work done by Anderson, et al. \cite{bottomup}. It proposes a top-down and bottom-up attention model method, which is applied to the related issues of visual scene understanding and prominent question answering system.  
 
-The article mentions the use of faster R-CNN to employ a bottom-up attention model - that we adopted. Different from the traditional faster R-CNN, \cite{bottomup} uses ``not only the object detector but also the attribute classifier for each region of interest, so that a binary description of the object (attribute, object) can be obtained''. Bottom-up attention model allows the overlap of interest frames through the preset threshold, which can understand the image content more effectively.
+The article mentions the use of faster R-CNN to employ a bottom-up attention model - that we adopted. Different from the traditional faster R-CNN, \cite{bottomup} uses ``\textit{not only the object detector but also the attribute classifier for each region of interest, so that a binary description of the object (attribute, object) can be obtained}''. Bottom-up attention model allows the overlap of interest frames through the preset threshold, which can understand the image content more effectively.
 
 
 %% SHURONG: give an overall introduction like this? for example, we use faster-rcnn introduced in chapter 2 to both extract the top-k image regions from an image and represent the image regions as a continous vector as in \cite{bottom up}. and then introduce how bottom up use faster-rcnn differently with the classical one (it adds instance attributes in visual genome if I remember correctly, double check this:)) [done]
@@ -35,20 +35,20 @@ The article mentions the use of faster R-CNN to employ a bottom-up attention mod
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=.5\textwidth]{whyfasterrcnn.pdf}
+\includegraphics[width=.6\textwidth]{whyfasterrcnn.pdf}
 \caption{Faster R-CNN with attention comparing to CNN \cite{bottomup}}
 \label{fig:fasterrcnnbottomup}
 \end{figure}
 
-It can be seen from the Figure \ref{fig:fasterrcnnbottomup} that using CNN demands more characteristics than R-CNN, and many of them are usually worthless. The object detection method of R-CNN first ``captures the interest region for an image, then applies an object detector to each interest region, so that the image category can be accurately obtained; the CNN method expects the input of an entire image and is used for broad sample classification, which are often complicated and computationally intensive'' \cite{bottomup}. Besides, faster R-CNN improves on previous generations of R-CNN methods and earns the ability to recognise almost all objects with only one input, which significantly improves the processing efficiency.
+It can be seen from the Figure \ref{fig:fasterrcnnbottomup} that using CNN demands more characteristics than R-CNN, and many of them are usually worthless. The object detection method of R-CNN first ``\textit{captures the interest region for an image, then applies an object detector to each interest region, so that the image category can be accurately obtained; the CNN method expects the input of an entire image and is used for broad sample classification, which are often complicated and computationally intensive}'' \cite{bottomup}. Besides, faster R-CNN improves on previous generations of R-CNN methods and earns the ability to recognise almost all objects with only one input, which significantly improves the processing efficiency.
 
 \subsection{Bottom-Up Attention Model}
 
-From Figure \ref{fig:bottomup} below, it can be seen that the difference from the prior works is that the set of thresholds allows overlapping of interest frames, which can more effectively understand the image content. In this model, according to \cite{bottomup}, ``not only the object detector but also the attribute classifier is used for each region of interest, so that a binary description of the object \verb|(attribute, object)| can be obtained''. This description is proved more suitable for real-world applications.
+From Figure \ref{fig:bottomup} below, it can be seen that the difference from the prior works is that the set of thresholds allows overlapping of interest frames, which can more effectively understand the image content. In this model, according to \cite{bottomup}, ``\textit{not only the object detector but also the attribute classifier is used for each region of interest, so that a binary description of the object (attribute, object) can be obtained}''. This description is proved more suitable for real-world applications.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=.5\textwidth]{bottomup.pdf}
+\includegraphics[width=.55\textwidth]{bottomup.pdf}
 \caption{What bottom-up attention model captures? \cite{bottomup}}
 \label{fig:bottomup}
 \end{figure}
@@ -202,7 +202,7 @@ The results are beyond satisfactory as shown; however, as in this stage, we only
 Below we display a few examples from our coarse-grained cross modal retrieval model: one for each dataset under sentence retrieval and image retrieval.
 
 \subsubsection{Sentence Retrieval}
-Figure \ref{fig:scani2t} illustrates two examples which obtained sentences from full image queries. There are several characteristics were successfully obtained from the left Egyptian anthropoid statue and the right Chinese vase including the shape and colour but not in a more detailed level. That is, for example, our textual retrieval results captured ``\textit{human-headed}human-headed'', ``\textit{white glassy porcelain vase}'' and even a little bit detail: ``\textit{colourful patterns on the body}'', however, more details need to be furnished such as ``\textit{long thin beard}'' and ``\textit{flowering begonia, iris, and butterfly}''. These cannot be accomplished well under the current settings we used which is coarse-grained based on image and sentence level.
+Figure \ref{fig:scani2t} illustrates two examples which obtained sentences from full image queries. There are several characteristics were successfully obtained from the left Egyptian anthropoid statue and the right Chinese vase including the shape and colour but not in a more detailed level. That is, for example, our textual retrieval results captured ``\textit{human-headed}'', ``\textit{white glassy porcelain vase}'' and even a little bit detail: ``\textit{colourful patterns on the body}'', however, more details need to be furnished such as ``\textit{long thin beard}'' and ``\textit{flowering begonia, iris, and butterfly}''. These cannot be accomplished well under the current settings we used which is coarse-grained based on image and sentence level.
 
 \begin{figure}[h!]
 \centering
